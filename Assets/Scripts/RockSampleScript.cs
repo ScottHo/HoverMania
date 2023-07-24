@@ -1,4 +1,3 @@
-using PlasticGui.Configuration.CloudEdition.Welcome;
 using UnityEngine;
 
 public class RockSampleScript : MonoBehaviour

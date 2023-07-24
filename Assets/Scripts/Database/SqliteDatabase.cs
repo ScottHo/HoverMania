@@ -15,7 +15,6 @@ public class SqliteDatabase : IDatabaseRepository
     }
     public SqliteDatabase(string connection)
     {
-        //string connection = "URI=file:" + Application.persistentDataPath + "/" + "My_Database";
         dbcon = new SqliteConnection(connection);
         dbcon.Open();
         setupDatabase();
