@@ -1,9 +1,7 @@
-using System.Collections;
-using System.Collections.Generic;
 using NUnit.Framework;
-using UnityEngine;
-using UnityEngine.TestTools;
 using Mono.Data.Sqlite;
+using System.Collections.Generic;
+
 
 public class SqliteTests
 {
@@ -47,5 +45,18 @@ public class SqliteTests
     void throwSwitchUser()
     {
         sqliteDatabase.switchUser(3);
+    }
+
+    [Test]
+    public void TestSamples()
+    {
+        sqliteDatabase.createUser();
+        List<Sample> samples = sqliteDatabase.samples();
+        Assert.AreEqual(0, samples.Count);
+        Sample sample = SampleFactory.createSample(0, 1);
+        sqliteDatabase.addSample(sample);
+        samples = sqliteDatabase.samples();
+        Assert.AreEqual(1, samples.Count);
+        Assert.AreEqual(1, samples[0].quantity);
     }
 }

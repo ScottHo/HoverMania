@@ -1,5 +1,7 @@
 using System;
+using System.Collections.Generic;
 using System.Data;
+using System.Linq;
 using Mono.Data.Sqlite;
 using UnityEngine;
 using static UnityEditor.FilePathAttribute;
@@ -25,15 +27,15 @@ public class SqliteDatabase : IDatabaseRepository
     {
         string q_createTable =
             "CREATE TABLE IF NOT EXISTS user_table(" +
-            "user_id" + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
-            "money" + " INT)";
+            "user_id INTEGER PRIMARY KEY AUTOINCREMENT, " +
+            "money INT)";
         runNonQuery(q_createTable);
 
         q_createTable =
             "CREATE TABLE IF NOT EXISTS sample_table(" +
-            "sample_table_id" + " INTEGER PRIMARY KEY, " +
-            "sample_id" + "INT, " +
-            "user_id" + " INT, " +
+            "sample_id INT, " +
+            "user_id INT, " +
+            "amount INT, " +
             "FOREIGN KEY (user_id) REFERENCES user_table(user_id) )";
         runNonQuery(q_createTable);
     }
@@ -41,7 +43,7 @@ public class SqliteDatabase : IDatabaseRepository
 
     public void createUser()
     {
-        string query = "INSERT INTO user_table (money)" +
+        string query = "INSERT INTO user_table (money) " +
             "VALUES (0)";
         runNonQuery(query);
         query = "SELECT MAX (user_id) " +
@@ -68,6 +70,7 @@ public class SqliteDatabase : IDatabaseRepository
 
     IDataReader runQuery(string query)
     {
+        Debug.Log("Running query: \n" + query);
         IDbCommand dbcmd;
         IDataReader reader;
 
@@ -80,6 +83,7 @@ public class SqliteDatabase : IDatabaseRepository
 
     void runNonQuery(string query)
     {
+        Debug.Log("Running query: \n" + query);
         IDbCommand dbcmd;
         dbcmd = dbcon.CreateCommand();
         dbcmd.CommandText = query;
@@ -111,12 +115,37 @@ public class SqliteDatabase : IDatabaseRepository
 
     public void addSample(Sample sample)
     {
-
-
+        string query = "SELECT * FROM sample_table WHERE (user_id = "
+            + user_id + " AND sample_id = " + sample.id + ")";
+        IDataReader reader = runQuery(query);
+        if (reader.Read())
+        {
+            query = "UPDATE sample_table " +
+                "SET amount = amount + " + sample.quantity + " " +
+                "WHERE(user_id = "
+            + user_id + " AND sample_id = " + sample.id + ")";
+            runNonQuery(query);
+        }
+        else
+        {
+            query = "INSERT INTO sample_table (sample_id, user_id, amount) " +
+            "VALUES ("+ sample.id + ", " + user_id + ", 1)";
+            runNonQuery(query);
+        }
     }
 
-    public Sample[] samples()
+    public List<Sample> samples()
     {
-        return new Sample[0];
+        string query = "SELECT * FROM sample_table WHERE user_id = " + user_id;
+        IDataReader reader = runQuery(query);
+        List<Sample> samples = new List<Sample>();
+        int current = 0;
+        while (reader.Read())
+        {
+            int sample_id = Convert.ToInt32(reader[0]);
+            int quantity = Convert.ToInt32(reader[2]);
+            samples.Add(SampleFactory.createSample(sample_id, quantity));
+        }
+        return samples;
     }
 }

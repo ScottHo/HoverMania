@@ -1,9 +1,11 @@
 
+using System.Collections.Generic;
+
 interface IDatabaseRepository
 {
     void setMoney(int money);
     int money();
 
     void addSample(Sample sample);
-    Sample[] samples();
+    List<Sample> samples();
 }
