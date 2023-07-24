@@ -1,6 +1,4 @@
-﻿using System;
-
-public class SampleFactory
+﻿public class SampleFactory
 {
 	public static Sample createSample(int id, int quantity=0)
 	{
