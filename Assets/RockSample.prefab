@@ -12,7 +12,6 @@ GameObject:
   - component: {fileID: 4543572682343434981}
   - component: {fileID: 5083112188415694915}
   - component: {fileID: 3856665954889780397}
-  - component: {fileID: 4541730546984392906}
   - component: {fileID: 652840746868626216}
   m_Layer: 0
   m_Name: RockSample
@@ -107,33 +106,6 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
---- !u!54 &4541730546984392906
-Rigidbody:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 545082551049749222}
-  serializedVersion: 4
-  m_Mass: 1
-  m_Drag: 0
-  m_AngularDrag: 0.05
-  m_CenterOfMass: {x: 0, y: 0, z: 0}
-  m_InertiaTensor: {x: 1, y: 1, z: 1}
-  m_InertiaRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ImplicitCom: 1
-  m_ImplicitTensor: 1
-  m_UseGravity: 1
-  m_IsKinematic: 0
-  m_Interpolate: 0
-  m_Constraints: 0
-  m_CollisionDetection: 0
 --- !u!114 &652840746868626216
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -146,3 +118,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 23bf0ed90411a534d848f421f8106ad8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  database: {fileID: 0}

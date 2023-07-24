@@ -8,6 +8,11 @@ public class SqliteDatabase : IDatabaseRepository
 {
     IDbConnection dbcon;
     public int user_id;
+
+    public static void CreateDatabase(string path)
+    {
+        SqliteConnection.CreateFile(path);
+    }
     public SqliteDatabase(string connection)
     {
         //string connection = "URI=file:" + Application.persistentDataPath + "/" + "My_Database";
@@ -137,7 +142,6 @@ public class SqliteDatabase : IDatabaseRepository
         string query = "SELECT * FROM sample_table WHERE user_id = " + user_id;
         IDataReader reader = runQuery(query);
         List<Sample> samples = new List<Sample>();
-        int current = 0;
         while (reader.Read())
         {
             int sample_id = Convert.ToInt32(reader[0]);
