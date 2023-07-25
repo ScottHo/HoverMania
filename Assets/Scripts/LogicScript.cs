@@ -1,18 +1,36 @@
 using Mono.Data.Sqlite;
 using UnityEngine;
+using UnityEngine.UI;
 using TMPro;
 using System.Collections.Generic;
 
 
-public class DatabaseScript : MonoBehaviour
+public class LogicScript : MonoBehaviour
 {
     IDatabaseRepository databaseRepository;
     public TextMeshProUGUI sampleText;
+    public TextMeshProUGUI batteryText;
+    public Slider batterySlider;
+    int batteryLife = 5000;
+    bool batteryDraining;
+
 
     void Start()
     {
         SetupDatabase();
-        showSamplesCollected();
+        ShowSamplesCollected();
+    }
+
+    private void FixedUpdate()
+    {
+        if (batteryDraining)
+        {
+            batteryLife -= 1;
+            if (batteryLife % 10 == 0)
+            {
+                UpdateBatteryLifeUI();
+            }
+        }
     }
 
     void SetupDatabase()
@@ -33,7 +51,7 @@ public class DatabaseScript : MonoBehaviour
         }
     }
 
-    private void showSamplesCollected()
+    private void ShowSamplesCollected()
     {
         List<Sample> samples = databaseRepository.samples();
         foreach (Sample sample in samples)
@@ -45,9 +63,21 @@ public class DatabaseScript : MonoBehaviour
         }
     }
 
-    public void sampleCollected(Sample sample)
+    public void SampleCollected(Sample sample)
     {
         databaseRepository.addSample(sample);
-        showSamplesCollected();
+        ShowSamplesCollected();
+    }
+
+    public void UpdateBatteryLifeUI()
+    {
+        int batteryLifePercent = batteryLife / 50;
+        batteryText.text = batteryLifePercent.ToString();
+        batterySlider.value = batteryLifePercent; 
+    }
+
+    public void SetBatteryDraining(bool draining)
+    {
+        batteryDraining = draining;
     }
 }
