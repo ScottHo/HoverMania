@@ -1,18 +1,53 @@
-using System.Collections;
-using System.Collections.Generic;
+using Mono.Data.Sqlite;
 using UnityEngine;
+using TMPro;
+using System.Collections.Generic;
 
-public class LogicScript : MonoBehaviour
+
+public class DatabaseScript : MonoBehaviour
 {
-    // Start is called before the first frame update
+    IDatabaseRepository databaseRepository;
+    public TextMeshProUGUI sampleText;
+
     void Start()
     {
-        
+        SetupDatabase();
+        showSamplesCollected();
     }
 
-    // Update is called once per frame
-    void Update()
+    void SetupDatabase()
     {
-        
+        string databasePath = Application.persistentDataPath + "/main_db.sqlite";
+        if (!System.IO.File.Exists(databasePath))
+        {
+            SqliteDatabase.CreateDatabase(databasePath);
+        }
+        databaseRepository = new SqliteDatabase("URI=file:" + databasePath);
+        try
+        {
+            databaseRepository.switchUser(1);
+        }
+        catch (SqliteException)
+        {
+            databaseRepository.createUser();
+        }
+    }
+
+    private void showSamplesCollected()
+    {
+        List<Sample> samples = databaseRepository.samples();
+        foreach (Sample sample in samples)
+        {
+            if (sample.id == 0)
+            {
+                sampleText.text = sample.quantity.ToString();
+            }
+        }
+    }
+
+    public void sampleCollected(Sample sample)
+    {
+        databaseRepository.addSample(sample);
+        showSamplesCollected();
     }
 }
