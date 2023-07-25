@@ -15,7 +15,7 @@ public class RockSampleScript : MonoBehaviour
         if (collision.gameObject.layer == 3)
         {
             logic.SampleCollected(SampleFactory.createSample(sampleID, 1));
-           Destroy(gameObject);
+            Destroy(gameObject);
         }
     }
 }

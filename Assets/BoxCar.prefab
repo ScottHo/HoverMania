@@ -212,8 +212,9 @@ MonoBehaviour:
     motor: 0
     steering: 0
   rigidBody: {fileID: 6211848519600238579}
-  jumpPower: 100000
+  jumpPower: 300000
   driftPower: 1000
+  maxSpeed: 250
 --- !u!65 &5875343657913987992
 BoxCollider:
   m_ObjectHideFlags: 0

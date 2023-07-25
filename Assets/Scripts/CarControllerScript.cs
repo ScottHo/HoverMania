@@ -9,22 +9,23 @@ public class CarController : MonoBehaviour
     float torque = 1000;
     float angle = 45;
     float brakeTorque = 2000;
-    public float jumpPower = 100000;
-    public float driftPower = 1000;
+    public float jumpPower = 300000;
     public float maxSpeed = 250;
     LogicScript logic;
 
     void Start()
     {
         logic = GameObject.FindGameObjectWithTag("Logic").GetComponent<LogicScript>();
-
     }
 
     void Update()
     {
         Drive();
         ApplyBooster();
-    }
+        // Double the gravity for fun
+        rigidBody.AddForce(Physics.gravity * rigidBody.mass);
+    }   
+
 
     void ApplyBooster()
     {
@@ -36,15 +37,14 @@ public class CarController : MonoBehaviour
         }
         if (grounded)
         {
-            //rigidBody.constraints = RigidbodyConstraints.None;
-            if (Input.GetKey(KeyCode.Space))
+            if (Input.GetKeyDown(KeyCode.Space))
             {
+                logic.DrainBattery(250);
                 rigidBody.AddForce(Vector3.up * jumpPower);
             }
         }
         else
         {
-            //rigidBody.constraints = RigidbodyConstraints.FreezeRotationZ | RigidbodyConstraints.FreezeRotationX;
             float drift = Input.GetAxis("Horizontal");
             Vector3 angularVelocity = rigidBody.angularVelocity;
             angularVelocity.y = drift/3;
