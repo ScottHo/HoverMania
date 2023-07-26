@@ -82,5 +82,6 @@ crashlytics-build.properties
 
 /[Aa]ssets/ImportedAssets
 /Release/
+/Web_Release/
 *.zip
 /[Aa]ssets/Plugins/

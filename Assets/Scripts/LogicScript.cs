@@ -12,7 +12,7 @@ public class LogicScript : MonoBehaviour
     public TextMeshProUGUI currentSampleText;
     public TextMeshProUGUI batteryText;
     public Slider batterySlider;
-    int batteryLife = 5000;
+    int batteryLife = 10000;
     bool batteryDraining;
     int currentSamplesCollected = 0;
 
@@ -55,6 +55,8 @@ public class LogicScript : MonoBehaviour
 
     private void ShowSamplesCollected()
     {
+        currentSampleText.text = currentSamplesCollected.ToString();
+        //totalSampleText.text = "99";
         List<Sample> samples = databaseRepository.samples();
         foreach (Sample sample in samples)
         {
@@ -62,7 +64,6 @@ public class LogicScript : MonoBehaviour
             {
                 // TODO: Maybe just one sample is enough?
                 totalSampleText.text = sample.quantity.ToString();
-                currentSampleText.text = currentSamplesCollected.ToString();
             }
         }
     }
@@ -76,7 +77,7 @@ public class LogicScript : MonoBehaviour
 
     public void UpdateBatteryLifeUI()
     {
-        int batteryLifePercent = batteryLife / 50;
+        int batteryLifePercent = batteryLife / 100;
         if (batteryLifePercent <= 0)
         {
             batteryLifePercent = 0;

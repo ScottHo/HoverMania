@@ -38,7 +38,7 @@ public class CarController : MonoBehaviour
         {
             if (Input.GetKey(KeyCode.Space))
             {
-                logic.DrainBattery(250);
+                logic.DrainBattery(500);
                 rigidBody.AddForce(Vector3.up * jumpPower);
             }
         }
