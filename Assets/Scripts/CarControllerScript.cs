@@ -1,4 +1,3 @@
-using Codice.CM.Common;
 using System;
 using UnityEngine;
 
@@ -6,11 +5,11 @@ public class CarController : MonoBehaviour
 {
     public AxleInfo[] axleInfos;
     public Rigidbody rigidBody;
-    float torque = 1000;
+    float torque = 2000;
     float angle = 45;
     float brakeTorque = 2000;
-    public float jumpPower = 300000;
-    public float maxSpeed = 250;
+    float jumpPower = 150000;
+    float maxSpeed = 250;
     LogicScript logic;
 
     void Start()
@@ -18,7 +17,7 @@ public class CarController : MonoBehaviour
         logic = GameObject.FindGameObjectWithTag("Logic").GetComponent<LogicScript>();
     }
 
-    void Update()
+    void FixedUpdate()
     {
         Drive();
         ApplyBooster();
@@ -37,7 +36,7 @@ public class CarController : MonoBehaviour
         }
         if (grounded)
         {
-            if (Input.GetKeyDown(KeyCode.Space))
+            if (Input.GetKey(KeyCode.Space))
             {
                 logic.DrainBattery(250);
                 rigidBody.AddForce(Vector3.up * jumpPower);
@@ -47,7 +46,7 @@ public class CarController : MonoBehaviour
         {
             float drift = Input.GetAxis("Horizontal");
             Vector3 angularVelocity = rigidBody.angularVelocity;
-            angularVelocity.y = drift/3;
+            angularVelocity.y = drift/2;
             rigidBody.angularVelocity = angularVelocity;
         }
         LimitAngularVelocity();
