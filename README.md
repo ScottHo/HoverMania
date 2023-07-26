@@ -4,4 +4,4 @@ Game using Unity3D
 
 Early Stages of Development.
 
-Demo's available in GitHub Releases
+Demo of most features available here: https://scottho.itch.io/rovermission
