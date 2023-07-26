@@ -37,26 +37,32 @@ public class LogicScript : MonoBehaviour
 
     void SetupDatabase()
     {
-        string databasePath = Application.persistentDataPath + "/main_db.sqlite";
-        if (!System.IO.File.Exists(databasePath))
+        if (Application.platform == RuntimePlatform.WebGLPlayer)
         {
-            SqliteDatabase.CreateDatabase(databasePath);
+            databaseRepository = new DummyDatabase("");
         }
-        databaseRepository = new SqliteDatabase("URI=file:" + databasePath);
-        try
+        else
         {
-            databaseRepository.switchUser(1);
-        }
-        catch (SqliteException)
-        {
-            databaseRepository.createUser();
+            string databasePath = Application.persistentDataPath + "/main_db.sqlite";
+            if (!System.IO.File.Exists(databasePath))
+            {
+                SqliteDatabase.CreateDatabase(databasePath);
+            }
+            databaseRepository = new SqliteDatabase("URI=file:" + databasePath);
+            try
+            {
+                databaseRepository.switchUser(1);
+            }
+            catch (SqliteException)
+            {
+                databaseRepository.createUser();
+            }
         }
     }
 
     private void ShowSamplesCollected()
     {
         currentSampleText.text = currentSamplesCollected.ToString();
-        //totalSampleText.text = "99";
         List<Sample> samples = databaseRepository.samples();
         foreach (Sample sample in samples)
         {
