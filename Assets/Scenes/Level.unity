@@ -211,7 +211,7 @@ MonoBehaviour:
   m_IgnoreTimeScale: 0
   m_WorldUpOverride: {fileID: 0}
   m_UpdateMethod: 2
-  m_BlendUpdateMethod: 1
+  m_BlendUpdateMethod: 0
   m_DefaultBlend:
     m_Style: 1
     m_Time: 2
@@ -1427,7 +1427,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bd6043bde05a7fc4cba197d06915c1e3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Damping: {x: 2, y: 1, z: 0.5}
+  Damping: {x: 3, y: 1, z: 0.5}
   ShoulderOffset: {x: 0.5, y: -0.4, z: 0}
   VerticalArmLength: 2
   CameraSide: 1

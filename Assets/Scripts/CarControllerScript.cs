@@ -10,6 +10,8 @@ public class CarController : MonoBehaviour
     float brakeTorque = 2000;
     float jumpPower = 150000;
     float maxSpeed = 250;
+    bool grounded = true;
+    float currentFloatWheelAngle = 0f;
     LogicScript logic;
 
     void Start()
@@ -19,21 +21,27 @@ public class CarController : MonoBehaviour
 
     void FixedUpdate()
     {
+        CheckGrounded();
         Drive();
         ApplyBooster();
         // Double the gravity for fun
         rigidBody.AddForce(Physics.gravity * rigidBody.mass);
-    }   
+    }
 
-
-    void ApplyBooster()
+    void CheckGrounded()
     {
-        bool grounded = false;
+        grounded = false;
         foreach (AxleInfo axleInfo in axleInfos)
         {
             grounded |= axleInfo.leftWheel.isGrounded;
             grounded |= axleInfo.rightWheel.isGrounded;
         }
+    }
+
+
+    void ApplyBooster()
+    {
+        
         if (grounded)
         {
             if (Input.GetKey(KeyCode.Space))
@@ -67,8 +75,7 @@ public class CarController : MonoBehaviour
         {
             Steer(axleInfo);
             Motor(axleInfo);
-            ApplyLocalPositionToVisuals(axleInfo.leftWheel);
-            ApplyLocalPositionToVisuals(axleInfo.rightWheel);
+            UpdateWheelVisuals(axleInfo);
         }
     }
 
@@ -135,7 +142,14 @@ public class CarController : MonoBehaviour
         }
     }
 
-    public void ApplyLocalPositionToVisuals(WheelCollider collider)
+    public void UpdateWheelVisuals(AxleInfo axleInfo)
+    {
+        ApplyLocalPositionToVisuals(axleInfo.leftWheel, true);
+        ApplyLocalPositionToVisuals(axleInfo.rightWheel, false);
+
+    }
+
+    public void ApplyLocalPositionToVisuals(WheelCollider collider, bool leftWheel)
     {
         if (collider.transform.childCount == 0)
         {
@@ -147,8 +161,42 @@ public class CarController : MonoBehaviour
         Vector3 position;
         Quaternion rotation;
         collider.GetWorldPose(out position, out rotation);
+        if (!grounded)
+        {
+            Vector3 angles = HoverModeAngles(true, leftWheel, rotation.eulerAngles);
+            rotation.eulerAngles = angles;
+        }
+        else
+        {
+            if (currentFloatWheelAngle > 0)
+            {
+                Vector3 angles = HoverModeAngles(false, leftWheel, rotation.eulerAngles);
+                rotation.eulerAngles = angles;
+            }
+        }
         visualWheel.transform.position = position;
         visualWheel.transform.rotation = rotation;
+    }
+
+    Vector3 HoverModeAngles(bool hover, bool leftWheel, Vector3 angles)
+    {
+        if (hover)
+        {
+            currentFloatWheelAngle += 3f;
+        }
+        else
+        {
+            currentFloatWheelAngle -= 3f;
+        }
+        currentFloatWheelAngle = Mathf.Clamp(currentFloatWheelAngle, 0f, 90f);
+        angles.z = -currentFloatWheelAngle;
+        if (leftWheel)
+        {
+            angles.z = currentFloatWheelAngle;
+        }
+        angles.x = 0;
+        angles.y = 0;
+        return angles;
     }
 }
 
