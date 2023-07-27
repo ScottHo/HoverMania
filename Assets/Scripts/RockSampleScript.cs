@@ -4,6 +4,7 @@ public class RockSampleScript : MonoBehaviour
 {
     int sampleID;
     LevelLogicScript logic;
+    bool beingDestroyed = false;
     // Start is called before the first frame update
     void Start()
     {
@@ -14,8 +15,12 @@ public class RockSampleScript : MonoBehaviour
     {
         if (collision.gameObject.layer == 3)
         {
-            logic.SampleCollected(SampleFactory.createSample(sampleID, 1));
-            Destroy(gameObject);
+            if (!beingDestroyed)
+            {
+                beingDestroyed = true;
+                logic.SampleCollected(SampleFactory.createSample(sampleID, 1));
+                Destroy(gameObject);
+            }
         }
     }
 }
