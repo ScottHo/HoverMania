@@ -4,11 +4,13 @@ using UnityEngine.UI;
 using TMPro;
 using System.Collections.Generic;
 using UnityEngine.SceneManagement;
-using PlasticGui.Configuration.CloudEdition.Welcome;
+using System;
 
 public class LevelLogicScript : MonoBehaviour
 {
     IDatabaseRepository databaseRepository;
+    public TextMeshProUGUI levelNameText;
+    public TextMeshProUGUI timerText;
     public TextMeshProUGUI currentSampleText;
     public TextMeshProUGUI batteryText;
     public Slider batterySlider;
@@ -17,7 +19,7 @@ public class LevelLogicScript : MonoBehaviour
     bool batteryDraining;
     int currentSamples = 0;
     int totalSamples = 0;
-
+    float elapsedTime = 0;
 
     void Start()
     {
@@ -28,6 +30,7 @@ public class LevelLogicScript : MonoBehaviour
 
     private void FixedUpdate()
     {
+        elapsedTime += Time.deltaTime;
         if (batteryDraining)
         {
             batteryLife -= 1;
@@ -36,6 +39,7 @@ public class LevelLogicScript : MonoBehaviour
                 UpdateBatteryLifeUI();
             }
         }
+        UpdateTimeUI();
     }
 
     void LoadLevelObjects()
@@ -45,6 +49,7 @@ public class LevelLogicScript : MonoBehaviour
         {
             idToLoad = UILogicScript.Instance.selectedLevelID;
         }
+        levelNameText.text = LevelFactory.GetLevelInfo(idToLoad).levelName;
         Debug.Log("Loading level " + idToLoad);
         foreach (GameObject levelContainer in levelContainers.levels)
         {
@@ -114,6 +119,12 @@ public class LevelLogicScript : MonoBehaviour
     {
         batteryLife = batteryLife - amount;
         UpdateBatteryLifeUI();
+    }
+
+    public void UpdateTimeUI()
+    {
+        TimeSpan time = TimeSpan.FromSeconds(elapsedTime);
+        timerText.text = time.ToString(@"mm\:ss");
     }
 
     public void GameOver()
