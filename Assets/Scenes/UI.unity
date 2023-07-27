@@ -1183,7 +1183,7 @@ GameObject:
   - component: {fileID: 1240056084}
   m_Layer: 0
   m_Name: LogicManager
-  m_TagString: Untagged
+  m_TagString: UILogic
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1206,6 +1206,7 @@ MonoBehaviour:
     - {fileID: 74114098}
     - {fileID: 526871201}
   playButton: {fileID: 1510143605}
+  selectedLevelID: -1
 --- !u!4 &1240056085
 Transform:
   m_ObjectHideFlags: 0

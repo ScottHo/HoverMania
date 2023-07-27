@@ -4,22 +4,24 @@ using UnityEngine.UI;
 using TMPro;
 using System.Collections.Generic;
 using UnityEngine.SceneManagement;
+using PlasticGui.Configuration.CloudEdition.Welcome;
 
 public class LevelLogicScript : MonoBehaviour
 {
     IDatabaseRepository databaseRepository;
-    public TextMeshProUGUI totalSampleText;
     public TextMeshProUGUI currentSampleText;
     public TextMeshProUGUI batteryText;
     public Slider batterySlider;
-    public GameObject mainScreen;
+    public LevelContainers levelContainers;
     int batteryLife = 10000;
     bool batteryDraining;
-    int currentSamplesCollected = 0;
+    int currentSamples = 0;
+    int totalSamples = 0;
 
 
     void Start()
     {
+        LoadLevelObjects();
         SetupDatabase();
         ShowSamplesCollected();
     }
@@ -32,6 +34,25 @@ public class LevelLogicScript : MonoBehaviour
             if (batteryLife % 10 == 0)
             {
                 UpdateBatteryLifeUI();
+            }
+        }
+    }
+
+    void LoadLevelObjects()
+    {
+        int idToLoad = 1;
+        if (UILogicScript.Instance != null)
+        {
+            idToLoad = UILogicScript.Instance.selectedLevelID;
+        }
+        Debug.Log("Loading level " + idToLoad);
+        foreach (GameObject levelContainer in levelContainers.levels)
+        {
+            if (levelContainer.CompareTag(idToLoad.ToString()))
+            {
+                levelContainer.SetActive(true);
+                totalSamples = levelContainer.transform.Find("SampleContainer").childCount;
+                break;
             }
         }
     }
@@ -63,22 +84,13 @@ public class LevelLogicScript : MonoBehaviour
 
     private void ShowSamplesCollected()
     {
-        currentSampleText.text = currentSamplesCollected.ToString();
-        List<Sample> samples = databaseRepository.samples();
-        foreach (Sample sample in samples)
-        {
-            if (sample.id == 0)
-            {
-                // TODO: Maybe just one sample is enough?
-                totalSampleText.text = sample.quantity.ToString();
-            }
-        }
+        currentSampleText.text = currentSamples.ToString() + " / " + totalSamples.ToString();
     }
 
     public void SampleCollected(Sample sample)
     {
         databaseRepository.addSample(sample);
-        currentSamplesCollected++;
+        currentSamples++;
         ShowSamplesCollected();
     }
 
@@ -108,4 +120,10 @@ public class LevelLogicScript : MonoBehaviour
     {
         SceneManager.LoadScene("UI");
     }
+}
+
+[System.Serializable]
+public class LevelContainers
+{
+    public List<GameObject> levels;
 }

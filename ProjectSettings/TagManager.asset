@@ -6,6 +6,11 @@ TagManager:
   tags:
   - UILogic
   - LevelLogic
+  - Database
+  - 1
+  - 2
+  - 3
+  - Sample
   layers:
   - Default
   - TransparentFX

@@ -140,7 +140,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 0}
+  m_Sprite: {fileID: 21300000, guid: 271821b5da1560d478e5ec4f3a216427, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -289,6 +289,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cdadf00327462f74cad84512b935a105, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  difficulty:
+    star1: {fileID: 5283875846712007111}
+    star2: {fileID: 8496998976839668756}
+    star3: {fileID: 2037206348750590043}
+    star4: {fileID: 1387505850086078711}
+  levelName: {fileID: 4968541396393262545}
+  levelImage: {fileID: 441052461375159833}
 --- !u!1 &5938176963101247747
 GameObject:
   m_ObjectHideFlags: 0
@@ -488,7 +495,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 0}
+  m_Sprite: {fileID: 21300000, guid: 271821b5da1560d478e5ec4f3a216427, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -563,7 +570,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 0}
+  m_Sprite: {fileID: 21300000, guid: 271821b5da1560d478e5ec4f3a216427, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -638,7 +645,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 0}
+  m_Sprite: {fileID: 21300000, guid: 271821b5da1560d478e5ec4f3a216427, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1

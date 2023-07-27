@@ -5,16 +5,19 @@ using TMPro;
 
 public class LevelSelectorUIScript : MonoBehaviour
 {
-    Difficulty difficulty;
-    TextMeshPro levelName;
-    Image levelImage;
+    public Difficulty difficulty;
+    public TextMeshProUGUI levelName;
+    public Image levelImage;
     int id = -1;
 
-    public void SetLevelName(string name)
+    public void SetLevelInfo(LevelInfo levelInfo)
     {
-        levelName.text = name;
+        levelName.text = levelInfo.levelName;
+        SetDifficulty(levelInfo.difficulty);
+        SetImageSprite(levelInfo.spriteName);
+        id = levelInfo.id;
     }
-    public void SetDifficulty(int i)
+    void SetDifficulty(int i)
     {
         difficulty.star2.enabled = false;
         difficulty.star3.enabled = false;
@@ -33,18 +36,13 @@ public class LevelSelectorUIScript : MonoBehaviour
         }
     }
 
-    public void setId(int id)
-    {
-        this.id = id;
-    }
-
     public int GetId()
     {
         return id;
     }
-    public void setImageSprite(Sprite sprite)
+    void SetImageSprite(string spriteName)
     {
-        levelImage.sprite = sprite;
+        levelImage.sprite = Resources.Load<Sprite>(spriteName);
     }
 }
 
