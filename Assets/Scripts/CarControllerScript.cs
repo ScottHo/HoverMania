@@ -21,6 +21,8 @@ public class CarControllerScript : MonoBehaviour
 
     void FixedUpdate()
     {
+        if (logic.gameIsOver)
+            return;
         CheckGrounded();
         Drive();
         ApplyBooster();
