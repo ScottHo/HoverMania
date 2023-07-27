@@ -3,11 +3,11 @@ using UnityEngine;
 public class RockSampleScript : MonoBehaviour
 {
     int sampleID;
-    LogicScript logic;
+    LevelLogicScript logic;
     // Start is called before the first frame update
     void Start()
     {
-        logic = GameObject.FindGameObjectWithTag("Logic").GetComponent<LogicScript>();
+        logic = GameObject.FindGameObjectWithTag("LevelLogic").GetComponent<LevelLogicScript>();
     }
 
     private void OnTriggerEnter(Collider collision)

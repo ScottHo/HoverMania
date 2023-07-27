@@ -5,13 +5,14 @@ using TMPro;
 using System.Collections.Generic;
 using UnityEngine.SceneManagement;
 
-public class LogicScript : MonoBehaviour
+public class LevelLogicScript : MonoBehaviour
 {
     IDatabaseRepository databaseRepository;
     public TextMeshProUGUI totalSampleText;
     public TextMeshProUGUI currentSampleText;
     public TextMeshProUGUI batteryText;
     public Slider batterySlider;
+    public GameObject mainScreen;
     int batteryLife = 10000;
     bool batteryDraining;
     int currentSamplesCollected = 0;
@@ -105,6 +106,6 @@ public class LogicScript : MonoBehaviour
 
     public void GameOver()
     {
-        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+        SceneManager.LoadScene("UI");
     }
 }

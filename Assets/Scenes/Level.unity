@@ -1558,7 +1558,7 @@ GameObject:
   - component: {fileID: 814153937}
   m_Layer: 0
   m_Name: LogicManager
-  m_TagString: Logic
+  m_TagString: LevelLogic
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1579,6 +1579,7 @@ MonoBehaviour:
   currentSampleText: {fileID: 1399815569}
   batteryText: {fileID: 1220475109}
   batterySlider: {fileID: 1760263091}
+  mainScreen: {fileID: 0}
 --- !u!4 &814153938
 Transform:
   m_ObjectHideFlags: 0
@@ -1762,7 +1763,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0.7071068, z: 0, w: 0.7071068}
   m_LocalPosition: {x: 200, y: 15, z: 100}
-  m_LocalScale: {x: 199, y: 30, z: 1}
+  m_LocalScale: {x: 200, y: 30, z: 0.5}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
@@ -2146,7 +2147,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 100, y: 15, z: 0.5}
-  m_LocalScale: {x: 199, y: 30, z: 1}
+  m_LocalScale: {x: 200, y: 30, z: 0.5}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
@@ -2823,7 +2824,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 100, y: 15, z: 200}
-  m_LocalScale: {x: 199, y: 30, z: 1}
+  m_LocalScale: {x: 200, y: 30, z: 0.5}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
@@ -3336,7 +3337,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0.7071068, z: 0, w: 0.7071068}
   m_LocalPosition: {x: 0, y: 15, z: 100}
-  m_LocalScale: {x: 199, y: 30, z: 1}
+  m_LocalScale: {x: 200, y: 30, z: 0.5}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}

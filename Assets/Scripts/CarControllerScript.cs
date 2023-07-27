@@ -1,7 +1,7 @@
 using System;
 using UnityEngine;
 
-public class CarController : MonoBehaviour
+public class CarControllerScript : MonoBehaviour
 {
     public AxleInfo[] axleInfos;
     public Rigidbody rigidBody;
@@ -12,11 +12,11 @@ public class CarController : MonoBehaviour
     float maxSpeed = 250;
     bool grounded = true;
     float currentFloatWheelAngle = 0f;
-    LogicScript logic;
+    LevelLogicScript logic;
 
     void Start()
     {
-        logic = GameObject.FindGameObjectWithTag("Logic").GetComponent<LogicScript>();
+        logic = GameObject.FindGameObjectWithTag("LevelLogic").GetComponent<LevelLogicScript>();
     }
 
     void FixedUpdate()
