@@ -13,6 +13,9 @@ public class LevelLogicScript : MonoBehaviour
     public TextMeshProUGUI timerText;
     public TextMeshProUGUI currentSampleText;
     public TextMeshProUGUI batteryText;
+    public GameObject gameOverContainer;
+    public TextMeshProUGUI gameOverText;
+    public Button gameOverButton;
     public Slider batterySlider;
     public LevelContainers levelContainers;
     int batteryLife = 10000;
@@ -23,6 +26,7 @@ public class LevelLogicScript : MonoBehaviour
 
     void Start()
     {
+        gameOverContainer.SetActive(false);
         LoadLevelObjects();
         SetupDatabase();
         ShowSamplesCollected();
@@ -97,6 +101,10 @@ public class LevelLogicScript : MonoBehaviour
         databaseRepository.addSample(sample);
         currentSamples++;
         ShowSamplesCollected();
+        if (currentSamples == totalSamples)
+        {
+            GameOver();
+        }
     }
 
     public void UpdateBatteryLifeUI()
@@ -128,6 +136,20 @@ public class LevelLogicScript : MonoBehaviour
     }
 
     public void GameOver()
+    {
+        gameOverContainer.SetActive(true);
+        if (currentSamples == totalSamples)
+        {
+            gameOverText.text = "Mission Compelte!";
+        }
+        else
+        {
+            gameOverText.text = "Mission Failed!";
+        }
+        gameOverButton.onClick.AddListener(ReturnToMenu);
+    }
+
+    public void ReturnToMenu()
     {
         SceneManager.LoadScene("UI");
     }
