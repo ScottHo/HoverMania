@@ -7,10 +7,12 @@ public class CarControllerScript : MonoBehaviour
     public Rigidbody rigidBody;
     float torque = 2000;
     float angle = 45;
-    float brakeTorque = 2000;
-    float jumpPower = 150000;
+    float brakeTorque = 3000;
+    float jumpPower = 350000;
     float maxSpeed = 250;
     bool grounded = true;
+    bool jumping = false;
+    float timeSinceLastJump = 0;
     float currentFloatWheelAngle = 0f;
     LevelLogicScript logic;
 
@@ -38,6 +40,17 @@ public class CarControllerScript : MonoBehaviour
             grounded |= axleInfo.leftWheel.isGrounded;
             grounded |= axleInfo.rightWheel.isGrounded;
         }
+        if (jumping)
+        {
+            timeSinceLastJump += Time.deltaTime;
+            if (timeSinceLastJump > 0.25)
+            {
+                // Only allow consecutive jumps every .25 seconds
+                jumping = false;
+                timeSinceLastJump = 0;
+            }
+        }
+        
     }
 
 
@@ -48,8 +61,12 @@ public class CarControllerScript : MonoBehaviour
         {
             if (Input.GetKey(KeyCode.Space))
             {
-                logic.DrainBattery(500);
-                rigidBody.AddForce(Vector3.up * jumpPower);
+                if (!jumping)
+                {
+                    jumping = true;
+                    logic.DrainBattery(500);
+                    rigidBody.AddForce(Vector3.up * jumpPower);
+                }
             }
         }
         else
@@ -58,6 +75,12 @@ public class CarControllerScript : MonoBehaviour
             Vector3 angularVelocity = rigidBody.angularVelocity;
             angularVelocity.y = drift/2;
             rigidBody.angularVelocity = angularVelocity;
+            float speed = Mathf.Abs(rigidBody.velocity.sqrMagnitude);
+            if (speed <= maxSpeed)
+            {
+                float forwardDrift = Input.GetAxis("Vertical");
+                rigidBody.AddForce(rigidBody.transform.forward * forwardDrift * 4000);
+            }
         }
         LimitAngularVelocity();
     }
@@ -94,7 +117,7 @@ public class CarControllerScript : MonoBehaviour
     void Motor(AxleInfo axleInfo)
     {
         float motor = torque * Input.GetAxis("Vertical");
-        if (axleInfo.motor)
+        if (axleInfo.motor && grounded)
         {
             bool isMovingForward = axleInfo.leftWheel.rotationSpeed > 5;
             bool isMovingBackwards = axleInfo.leftWheel.rotationSpeed < -5;
