@@ -152,7 +152,7 @@ public class LevelLogicScript : MonoBehaviour
             gameOverContainer.SetActive(true);
             if (currentSamples == totalSamples)
             {
-                gameOverText.text = "Mission Compelte!";
+                gameOverText.text = "Mission Complete!";
             }
             else
             {
