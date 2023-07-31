@@ -1,15 +1,13 @@
-using System;
 using UnityEngine;
 
 public class CarControllerScript : MonoBehaviour
 {
     public AxleInfo[] axleInfos;
     public Rigidbody rigidBody;
-    float torque = 4000;
-    float angle = 50;
-    float brakeTorque = 4000;
-    float jumpPower = 350000;
-    float maxSpeed = 150;
+    float torque = 2000;
+    float angle = 40;
+    float brakeTorque = 2000;
+    float jumpPower = 180000;
     bool grounded = true;
     bool newlyFloating = false;
     bool jumping = false;
@@ -63,7 +61,7 @@ public class CarControllerScript : MonoBehaviour
 
     void ApplyBooster()
     {
-        
+
         if (grounded)
         {
             if (Input.GetKey(KeyCode.Space))
@@ -78,16 +76,17 @@ public class CarControllerScript : MonoBehaviour
         }
         else
         {
-
             float drift = Input.GetAxis("Horizontal");
             Vector3 angularVelocity = rigidBody.angularVelocity;
             angularVelocity.y = drift;
             rigidBody.angularVelocity = angularVelocity;
-            float speed = Mathf.Abs(rigidBody.velocity.sqrMagnitude);
+            float maxSpeed = 10;
+            float speed = rigidBody.velocity.magnitude;
             if (speed <= maxSpeed)
             {
                 float forwardDrift = Input.GetAxis("Vertical");
-                rigidBody.AddForce(rigidBody.transform.forward * forwardDrift * 10000);
+                rigidBody.AddForce(rigidBody.transform.forward * forwardDrift * 2000);
+                Debug.Log("Forcing");
             }
         }
         LimitAngularVelocity();
@@ -134,9 +133,14 @@ public class CarControllerScript : MonoBehaviour
     void Motor(AxleInfo axleInfo)
     {
         float motor = torque * Input.GetAxis("Vertical");
-        bool isMovingForward = axleInfo.leftWheel.rotationSpeed > 5;
-        bool isMovingBackwards = axleInfo.leftWheel.rotationSpeed < -5;
+        float brakePower = brakeTorque;
+        bool isMovingForward = axleInfo.leftWheel.rotationSpeed > 50;
+        bool isMovingBackwards = axleInfo.leftWheel.rotationSpeed < -50;
         bool reverse = motor < 0;
+        if (motor == 0)
+        {
+            brakePower = brakePower / 2;
+        }
         axleInfo.leftWheel.brakeTorque = 0;
         axleInfo.rightWheel.brakeTorque = 0;
         axleInfo.leftWheel.motorTorque = 0;
@@ -147,24 +151,24 @@ public class CarControllerScript : MonoBehaviour
             if (motor == 0 || (reverse && isMovingForward) || (!reverse && isMovingBackwards))
             {
                 logic.SetBatteryDraining(false);
-                axleInfo.leftWheel.brakeTorque = brakeTorque;
-                axleInfo.rightWheel.brakeTorque = brakeTorque;
+                axleInfo.leftWheel.brakeTorque = brakePower;
+                axleInfo.rightWheel.brakeTorque = brakePower;
             }
             else
             {
                 logic.SetBatteryDraining(true);
-                float maxRotationSpeed = 2000;
+                float maxRotationSpeed = 1200;
                 if (Mathf.Abs(angle * Input.GetAxis("Horizontal")) > 25)
                 {
-                    maxRotationSpeed = 1000;
+                    maxRotationSpeed = maxRotationSpeed/2;
                 }
                 if (reverse)
                 {
-                    if (axleInfo.leftWheel.rotationSpeed > -maxRotationSpeed)
+                    if (axleInfo.leftWheel.rotationSpeed > -maxRotationSpeed * .7f)
                     {
                         axleInfo.leftWheel.motorTorque = motor;
                     }
-                    if (axleInfo.rightWheel.rotationSpeed > -maxRotationSpeed)
+                    if (axleInfo.rightWheel.rotationSpeed > -maxRotationSpeed * .7f)
                     {
                         axleInfo.rightWheel.motorTorque = motor;
                     }

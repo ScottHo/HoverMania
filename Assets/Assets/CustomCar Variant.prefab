@@ -56,7 +56,7 @@ WheelCollider:
     m_ExtremumValue: 5
     m_AsymptoteSlip: 5
     m_AsymptoteValue: 2
-    m_Stiffness: 3
+    m_Stiffness: 1
   m_SidewaysFriction:
     m_ExtremumSlip: 0.4
     m_ExtremumValue: 1
@@ -160,7 +160,7 @@ WheelCollider:
     m_ExtremumValue: 5
     m_AsymptoteSlip: 5
     m_AsymptoteValue: 2
-    m_Stiffness: 3
+    m_Stiffness: 1
   m_SidewaysFriction:
     m_ExtremumSlip: 0.4
     m_ExtremumValue: 1
@@ -232,7 +232,7 @@ WheelCollider:
     m_ExtremumValue: 5
     m_AsymptoteSlip: 5
     m_AsymptoteValue: 2
-    m_Stiffness: 3
+    m_Stiffness: 1
   m_SidewaysFriction:
     m_ExtremumSlip: 0.4
     m_ExtremumValue: 1
@@ -368,7 +368,7 @@ WheelCollider:
     m_ExtremumValue: 5
     m_AsymptoteSlip: 5
     m_AsymptoteValue: 2
-    m_Stiffness: 3
+    m_Stiffness: 1
   m_SidewaysFriction:
     m_ExtremumSlip: 0.4
     m_ExtremumValue: 1
@@ -519,6 +519,10 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 3394bb5b6f2fd8d4391b5b7e494e2b15,
         type: 3}
       insertIndex: -1
+      addedObject: {fileID: 2309180247147778243}
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 3394bb5b6f2fd8d4391b5b7e494e2b15,
+        type: 3}
+      insertIndex: -1
       addedObject: {fileID: 1018998872016521601}
   m_SourcePrefab: {fileID: 100100000, guid: 3394bb5b6f2fd8d4391b5b7e494e2b15, type: 3}
 --- !u!1 &10913888353049932 stripped
@@ -535,7 +539,7 @@ Rigidbody:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 10913888353049932}
   serializedVersion: 4
-  m_Mass: 400
+  m_Mass: 300
   m_Drag: 0
   m_AngularDrag: 0.05
   m_CenterOfMass: {x: 0, y: -1, z: 0}
@@ -596,6 +600,27 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 0.021, y: 0.011, z: 0.04}
   m_Center: {x: 0, y: 0.0095, z: 0.004}
+--- !u!65 &2309180247147778243
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 10913888353049932}
+  m_Material: {fileID: 13400000, guid: a36101bd5908fc447adf2387c3e867b6, type: 2}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 0.008, y: 0.005, z: 0.04}
+  m_Center: {x: 0, y: 0.0015, z: 0.004}
 --- !u!114 &1018998872016521601
 MonoBehaviour:
   m_ObjectHideFlags: 0
