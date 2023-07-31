@@ -11,6 +11,7 @@ TagManager:
   - 2
   - 3
   - Sample
+  - -1
   layers:
   - Default
   - TransparentFX

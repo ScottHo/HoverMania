@@ -1,7 +1,4 @@
-﻿using UnityEngine;
-using UnityEngine.UI;
-
-public readonly struct LevelInfo
+﻿public readonly struct LevelInfo
 {
     public LevelInfo(int id, string levelName, string spriteName, int difficulty)
     {
@@ -33,7 +30,7 @@ public class LevelFactory
         }
         else
         {
-            throw new LevelFactoryException("Unimplemented level id " + id);
+            return new LevelInfo(-1, "Dev Level", "CheckMark", 4);
         }
     }
 }

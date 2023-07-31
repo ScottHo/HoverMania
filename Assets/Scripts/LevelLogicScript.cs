@@ -31,7 +31,10 @@ public class LevelLogicScript : MonoBehaviour
 
     void Start()
     {
-        databaseRepository = UILogicScript.Instance.databaseRepository;
+        if (UILogicScript.Instance != null)
+        {
+            databaseRepository = UILogicScript.Instance.databaseRepository;
+        }
         SetupScene();
         ShowSamplesCollected();
     }
@@ -129,8 +132,13 @@ public class LevelLogicScript : MonoBehaviour
             if (currentSamples == totalSamples)
             {
                 string text = "Mission Complete!";
+                int previousTimeCentiseconds = 999999;
+                if (databaseRepository != null)
+                {
+                    previousTimeCentiseconds = databaseRepository.GetLevelTime(loadedId);
+
+                }
                 int timeCentiseconds = (int) (elapsedTime * 100);
-                int previousTimeCentiseconds = databaseRepository.GetLevelTime(loadedId);
                 if (previousTimeCentiseconds > timeCentiseconds)
                 {
                     string newTime = TimeSpan.FromMilliseconds(
@@ -142,7 +150,10 @@ public class LevelLogicScript : MonoBehaviour
                     text += "\nNew Time: " + newTime;
                 }
                 gameOverText.text = text;
-                databaseRepository.SetLevelTime(loadedId, timeCentiseconds);
+                if (databaseRepository != null)
+                {
+                    databaseRepository.SetLevelTime(loadedId, timeCentiseconds);
+                }
             }
             else
             {
