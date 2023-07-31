@@ -5,15 +5,17 @@ public class CarControllerScript : MonoBehaviour
 {
     public AxleInfo[] axleInfos;
     public Rigidbody rigidBody;
-    float torque = 2000;
-    float angle = 45;
-    float brakeTorque = 3000;
+    float torque = 4000;
+    float angle = 50;
+    float brakeTorque = 4000;
     float jumpPower = 350000;
-    float maxSpeed = 250;
+    float maxSpeed = 150;
     bool grounded = true;
+    bool newlyFloating = false;
     bool jumping = false;
     float timeSinceLastJump = 0;
     float currentFloatWheelAngle = 0f;
+    float currentFloatSpinWheelAngle = 0f;
     LevelLogicScript logic;
 
     void Start()
@@ -34,11 +36,17 @@ public class CarControllerScript : MonoBehaviour
 
     void CheckGrounded()
     {
+        bool wasGrounded = grounded;
+        newlyFloating = false;
         grounded = false;
         foreach (AxleInfo axleInfo in axleInfos)
         {
             grounded |= axleInfo.leftWheel.isGrounded;
             grounded |= axleInfo.rightWheel.isGrounded;
+        }
+        if (wasGrounded && !grounded)
+        {
+            newlyFloating = true;
         }
         if (jumping)
         {
@@ -52,7 +60,6 @@ public class CarControllerScript : MonoBehaviour
         }
         
     }
-
 
     void ApplyBooster()
     {
@@ -71,15 +78,16 @@ public class CarControllerScript : MonoBehaviour
         }
         else
         {
+
             float drift = Input.GetAxis("Horizontal");
             Vector3 angularVelocity = rigidBody.angularVelocity;
-            angularVelocity.y = drift/2;
+            angularVelocity.y = drift;
             rigidBody.angularVelocity = angularVelocity;
             float speed = Mathf.Abs(rigidBody.velocity.sqrMagnitude);
             if (speed <= maxSpeed)
             {
                 float forwardDrift = Input.GetAxis("Vertical");
-                rigidBody.AddForce(rigidBody.transform.forward * forwardDrift * 4000);
+                rigidBody.AddForce(rigidBody.transform.forward * forwardDrift * 10000);
             }
         }
         LimitAngularVelocity();
@@ -88,9 +96,18 @@ public class CarControllerScript : MonoBehaviour
     void LimitAngularVelocity()
     {
         Vector3 angularVelocity = rigidBody.angularVelocity;
-        angularVelocity.x = Mathf.Clamp(angularVelocity.x, -.1f, .1f);
-        angularVelocity.z = Mathf.Clamp(angularVelocity.z, -.1f, .1f);
-        angularVelocity.y = Mathf.Clamp(angularVelocity.y, -angle*(float)Math.PI / 180.0f, angle*(float)Math.PI/180.0f);
+        float groundedFlipVelocity = 1f;
+        float airFlipVelocity = .2f;
+        if (grounded)
+        {
+            angularVelocity.x = Mathf.Clamp(angularVelocity.x, -groundedFlipVelocity, groundedFlipVelocity);
+            angularVelocity.z = Mathf.Clamp(angularVelocity.z, -groundedFlipVelocity, groundedFlipVelocity);
+        }
+        else
+        {
+            angularVelocity.x = Mathf.Clamp(angularVelocity.x, -airFlipVelocity, airFlipVelocity);
+            angularVelocity.z = Mathf.Clamp(angularVelocity.z, -airFlipVelocity, airFlipVelocity);
+        }
         rigidBody.angularVelocity = angularVelocity;
     }
 
@@ -117,50 +134,50 @@ public class CarControllerScript : MonoBehaviour
     void Motor(AxleInfo axleInfo)
     {
         float motor = torque * Input.GetAxis("Vertical");
+        bool isMovingForward = axleInfo.leftWheel.rotationSpeed > 5;
+        bool isMovingBackwards = axleInfo.leftWheel.rotationSpeed < -5;
+        bool reverse = motor < 0;
+        axleInfo.leftWheel.brakeTorque = 0;
+        axleInfo.rightWheel.brakeTorque = 0;
+        axleInfo.leftWheel.motorTorque = 0;
+        axleInfo.rightWheel.motorTorque = 0;
         if (axleInfo.motor && grounded)
         {
-            bool isMovingForward = axleInfo.leftWheel.rotationSpeed > 5;
-            bool isMovingBackwards = axleInfo.leftWheel.rotationSpeed < -5;
-            bool reverse = motor < 0;
+            
             if (motor == 0 || (reverse && isMovingForward) || (!reverse && isMovingBackwards))
             {
                 logic.SetBatteryDraining(false);
                 axleInfo.leftWheel.brakeTorque = brakeTorque;
                 axleInfo.rightWheel.brakeTorque = brakeTorque;
-                axleInfo.leftWheel.motorTorque = 0;
-                axleInfo.rightWheel.motorTorque = 0;
             }
             else
             {
                 logic.SetBatteryDraining(true);
-                axleInfo.leftWheel.brakeTorque = 0;
-                axleInfo.rightWheel.brakeTorque = 0;
-
-                float speed = Mathf.Abs(rigidBody.velocity.sqrMagnitude);
+                float maxRotationSpeed = 2000;
+                if (Mathf.Abs(angle * Input.GetAxis("Horizontal")) > 25)
+                {
+                    maxRotationSpeed = 1000;
+                }
                 if (reverse)
                 {
-                    if (speed < maxSpeed * .5)
+                    if (axleInfo.leftWheel.rotationSpeed > -maxRotationSpeed)
                     {
                         axleInfo.leftWheel.motorTorque = motor;
-                        axleInfo.rightWheel.motorTorque = motor;
                     }
-                    else 
+                    if (axleInfo.rightWheel.rotationSpeed > -maxRotationSpeed)
                     {
-                        axleInfo.leftWheel.motorTorque = 0;
-                        axleInfo.rightWheel.motorTorque = 0;
+                        axleInfo.rightWheel.motorTorque = motor;
                     }
                 }
                 else
                 {
-                    if (speed < maxSpeed)
+                    if (axleInfo.leftWheel.rotationSpeed < maxRotationSpeed)
                     {
                         axleInfo.leftWheel.motorTorque = motor;
-                        axleInfo.rightWheel.motorTorque = motor;
                     }
-                    else
+                    if (axleInfo.rightWheel.rotationSpeed < maxRotationSpeed)
                     {
-                        axleInfo.leftWheel.motorTorque = 0;
-                        axleInfo.rightWheel.motorTorque = 0;
+                        axleInfo.rightWheel.motorTorque = motor;
                     }
                 }
             }
@@ -214,13 +231,21 @@ public class CarControllerScript : MonoBehaviour
             currentFloatWheelAngle -= 3f;
         }
         currentFloatWheelAngle = Mathf.Clamp(currentFloatWheelAngle, 0f, 90f);
+        if (newlyFloating)
+        {
+            currentFloatSpinWheelAngle = 0;
+        }
+        else
+        {
+            currentFloatSpinWheelAngle += 4;
+        }
+        angles.x = 0;
+        angles.y = currentFloatSpinWheelAngle;
         angles.z = -currentFloatWheelAngle;
         if (leftWheel)
         {
             angles.z = currentFloatWheelAngle;
         }
-        angles.x = 0;
-        angles.y = 0;
         return angles;
     }
 }
