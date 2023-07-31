@@ -1,5 +1,4 @@
 using System;
-using System.Collections.Generic;
 using System.Data;
 using Mono.Data.Sqlite;
 using UnityEngine;
@@ -7,7 +6,7 @@ using UnityEngine;
 public class SqliteDatabase : IDatabaseRepository
 {
     IDbConnection dbcon;
-    public int user_id;
+    public int userID;
 
     public static void CreateDatabase(string path)
     {
@@ -17,7 +16,7 @@ public class SqliteDatabase : IDatabaseRepository
     {
         dbcon = new SqliteConnection(connection);
         dbcon.Open();
-        setupDatabase();
+        SetupDatabase();
     }
 
     ~SqliteDatabase()
@@ -25,52 +24,53 @@ public class SqliteDatabase : IDatabaseRepository
         dbcon.Close();
     }
 
-    void setupDatabase()
+    void SetupDatabase()
     {
         string q_createTable =
             "CREATE TABLE IF NOT EXISTS user_table(" +
             "user_id INTEGER PRIMARY KEY AUTOINCREMENT, " +
             "money INT)";
-        runNonQuery(q_createTable);
+        RunNonQuery(q_createTable);
 
         q_createTable =
-            "CREATE TABLE IF NOT EXISTS sample_table(" +
-            "sample_id INT, " +
+            "CREATE TABLE IF NOT EXISTS scores_table(" +
             "user_id INT, " +
-            "amount INT, " +
+            "level_id INT, " +
+            "time_centiseconds INT, " +
             "FOREIGN KEY (user_id) REFERENCES user_table(user_id) )";
-        runNonQuery(q_createTable);
+        RunNonQuery(q_createTable);
     }
 
 
-    public void createUser()
+    public int CreateUser()
     {
         string query = "INSERT INTO user_table (money) " +
             "VALUES (0)";
-        runNonQuery(query);
+        RunNonQuery(query);
         query = "SELECT MAX (user_id) " +
             "FROM user_table";
-        IDataReader reader = runQuery(query);
+        IDataReader reader = RunQuery(query);
         reader.Read();
-        this.user_id = Convert.ToInt32(reader[0]);
+        this.userID = Convert.ToInt32(reader[0]);
+        return this.userID;
     }
 
-    public void switchUser(int user_id)
+    public void SwitchUser(int user_id)
     {
         string query = "SELECT * FROM user_table WHERE user_id = " + user_id;
-        IDataReader reader = runQuery(query);
+        IDataReader reader = RunQuery(query);
         if (reader.Read())
         {
             if (reader.FieldCount > 0)
             {
-                this.user_id = user_id;
+                this.userID = user_id;
                 return;
             }
         }
         throw new SqliteException("User Id " + user_id + " does not exist, could not switch user");
     }
 
-    IDataReader runQuery(string query)
+    IDataReader RunQuery(string query)
     {
         Debug.Log("Running query: \n" + query);
         IDbCommand dbcmd;
@@ -83,7 +83,7 @@ public class SqliteDatabase : IDatabaseRepository
         return reader;
     }
 
-    void runNonQuery(string query)
+    void RunNonQuery(string query)
     {
         Debug.Log("Running query: \n" + query);
         IDbCommand dbcmd;
@@ -92,17 +92,17 @@ public class SqliteDatabase : IDatabaseRepository
         dbcmd.ExecuteNonQuery();
     }
 
-    public void setMoney(int money)
+    public void SetMoney(int money)
     {
         string query = "UPDATE user_table " +
                 "SET money = " + money + " " +
-                "WHERE user_id = " + user_id + "";
-        runNonQuery(query);
+                "WHERE user_id = " + userID + "";
+        RunNonQuery(query);
     }
-    public int money()
+    public int Money()
     {
-        string query = "SELECT * FROM user_table WHERE user_id = " + user_id;
-        IDataReader reader = runQuery(query);
+        string query = "SELECT * FROM user_table WHERE user_id = " + userID;
+        IDataReader reader = RunQuery(query);
         int ret = 0;
         if (reader.Read())
         {
@@ -110,43 +110,41 @@ public class SqliteDatabase : IDatabaseRepository
         }
         else
         {
-            throw new SqliteException("Nothing to read when trying to access money for user_id" + user_id);
+            throw new SqliteException("Nothing to read when trying to access money for user_id" + userID);
         }
         return ret;
     }
 
-    public void addSample(Sample sample)
+    public void SetLevelTime(int levelID, int timeCentiseconds)
     {
-        string query = "SELECT * FROM sample_table WHERE (user_id = "
-            + user_id + " AND sample_id = " + sample.id + ")";
-        IDataReader reader = runQuery(query);
+        string query = "SELECT * FROM scores_table WHERE (user_id = "
+            + userID + " AND level_id = " + levelID + ")";
+        IDataReader reader = RunQuery(query);
         if (reader.Read())
         {
-            query = "UPDATE sample_table " +
-                "SET amount = amount + " + sample.quantity + " " +
+            query = "UPDATE scores_table " +
+                "SET time_centiseconds = " + timeCentiseconds + " " +
                 "WHERE(user_id = "
-            + user_id + " AND sample_id = " + sample.id + ")";
-            runNonQuery(query);
+            + userID + " AND level_id = " + levelID + ")";
+            RunNonQuery(query);
         }
         else
         {
-            query = "INSERT INTO sample_table (sample_id, user_id, amount) " +
-            "VALUES ("+ sample.id + ", " + user_id + ", 1)";
-            runNonQuery(query);
+            query = "INSERT INTO scores_table (user_id, level_id, time_centiseconds) " +
+            "VALUES ("+ userID + ", " + levelID + ", 1)";
+            RunNonQuery(query);
         }
     }
 
-    public List<Sample> samples()
+    public int GetLevelTime(int levelID)
     {
-        string query = "SELECT * FROM sample_table WHERE user_id = " + user_id;
-        IDataReader reader = runQuery(query);
-        List<Sample> samples = new List<Sample>();
-        while (reader.Read())
+        string query = "SELECT * FROM scores_table WHERE(user_id = "
+            + userID + " AND level_id = " + levelID + ")";
+        IDataReader reader = RunQuery(query);
+        if (reader.Read())
         {
-            int sample_id = Convert.ToInt32(reader[0]);
-            int quantity = Convert.ToInt32(reader[2]);
-            samples.Add(SampleFactory.createSample(sample_id, quantity));
+            return Convert.ToInt32(reader[2]);
         }
-        return samples;
+        return -1;
     }
 }

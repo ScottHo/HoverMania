@@ -16,47 +16,50 @@ public class SqliteTests
     public void TestMoney()
     {
         Assert.Throws<SqliteException>(throwGetMoney);
-        sqliteDatabase.createUser();
-        int money = sqliteDatabase.money();
+        sqliteDatabase.CreateUser();
+        int money = sqliteDatabase.Money();
         Assert.AreEqual(0, money);
-        sqliteDatabase.setMoney(100);
-        money = sqliteDatabase.money();
+        sqliteDatabase.SetMoney(100);
+        money = sqliteDatabase.Money();
         Assert.AreEqual(100, money);
     }
 
     void throwGetMoney()
     {
-        sqliteDatabase.money();
+        sqliteDatabase.Money();
     }
 
     [Test]
     public void TestCreateUser()
     {
-        sqliteDatabase.createUser();
-        Assert.AreEqual(1, sqliteDatabase.user_id);
-        sqliteDatabase.createUser();
-        Assert.AreEqual(2, sqliteDatabase.user_id);
-        sqliteDatabase.switchUser(1);
-        Assert.AreEqual(1, sqliteDatabase.user_id);
+        sqliteDatabase.CreateUser();
+        Assert.AreEqual(1, sqliteDatabase.userID);
+        sqliteDatabase.CreateUser();
+        Assert.AreEqual(2, sqliteDatabase.userID);
+        sqliteDatabase.SwitchUser(1);
+        Assert.AreEqual(1, sqliteDatabase.userID);
         Assert.Throws<SqliteException>(throwSwitchUser);
 
     }
 
     void throwSwitchUser()
     {
-        sqliteDatabase.switchUser(3);
+        sqliteDatabase.SwitchUser(3);
     }
 
     [Test]
-    public void TestSamples()
+    public void TestScores()
     {
-        sqliteDatabase.createUser();
-        List<Sample> samples = sqliteDatabase.samples();
-        Assert.AreEqual(0, samples.Count);
-        Sample sample = SampleFactory.createSample(0, 1);
-        sqliteDatabase.addSample(sample);
-        samples = sqliteDatabase.samples();
-        Assert.AreEqual(1, samples.Count);
-        Assert.AreEqual(1, samples[0].quantity);
+        sqliteDatabase.CreateUser();
+        int levelTime = sqliteDatabase.GetLevelTime(1);
+        Assert.AreEqual(levelTime, -1);
+        sqliteDatabase.SetLevelTime(1, 999);
+        levelTime = sqliteDatabase.GetLevelTime(1);
+        Assert.AreEqual(levelTime, 999);
+        levelTime = sqliteDatabase.GetLevelTime(2);
+        Assert.AreEqual(levelTime, -1);
+        sqliteDatabase.SetLevelTime(2, 999);
+        levelTime = sqliteDatabase.GetLevelTime(2);
+        Assert.AreEqual(levelTime, 999);
     }
 }

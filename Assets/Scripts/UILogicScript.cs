@@ -1,3 +1,4 @@
+using Mono.Data.Sqlite;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -6,11 +7,13 @@ using UnityEngine.UI;
 
 public class UILogicScript : MonoBehaviour
 {
+    public IDatabaseRepository databaseRepository;
     public LevelSelectContainers levelSelectContainers;
     public Button playButton;
     public int selectedLevelID;
     public static UILogicScript Instance;
     int levelOffset = 1;
+
 
     private void Awake()
     {
@@ -18,6 +21,7 @@ public class UILogicScript : MonoBehaviour
         {
             Instance = this;
             DontDestroyOnLoad(gameObject);
+            SetupDatabase();
         }
         else if (Instance != this)
         {
@@ -25,8 +29,35 @@ public class UILogicScript : MonoBehaviour
             Destroy(Instance.gameObject);
             Instance = this;
             DontDestroyOnLoad(gameObject);
+            SetupDatabase();
         }
     }
+
+    void SetupDatabase()
+    {
+        if (Application.platform == RuntimePlatform.WebGLPlayer)
+        {
+            databaseRepository = new DummyDatabase("");
+        }
+        else
+        {
+            string databasePath = Application.persistentDataPath + "/main_db.sqlite";
+            if (!System.IO.File.Exists(databasePath))
+            {
+                SqliteDatabase.CreateDatabase(databasePath);
+            }
+            databaseRepository = new SqliteDatabase("URI=file:" + databasePath);
+            try
+            {
+                databaseRepository.SwitchUser(1);
+            }
+            catch (SqliteException)
+            {
+                databaseRepository.CreateUser();
+            }
+        }
+    }
+
     private void Start()
     {
         playButton.onClick.AddListener(PlayLevel);
@@ -46,6 +77,7 @@ public class UILogicScript : MonoBehaviour
             LevelInfo info = LevelFactory.GetLevelInfo(it.Index + levelOffset);
             LevelSelectorUIScript script = container.GetComponent<LevelSelectorUIScript>();
             script.SetLevelInfo(info);
+            script.SetBestTime(databaseRepository.GetLevelTime(info.id));
         }
     }
 

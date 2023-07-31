@@ -3,7 +3,7 @@ using System.Collections.Generic;
 public class DummyDatabase : IDatabaseRepository
 {
     int _money = 0;
-    List<Sample> _sampleList = new List<Sample>();
+    Dictionary<int, int> _scoresDict = new Dictionary<int, int>();
 
     public DummyDatabase(string connection)
     {
@@ -13,30 +13,35 @@ public class DummyDatabase : IDatabaseRepository
     {
     }
 
-    public void createUser()
+    public int CreateUser()
+    {
+        return 1;
+    }
+
+    public void SwitchUser(int user_id)
     {
     }
 
-    public void switchUser(int user_id)
-    {
-    }
-
-    public void setMoney(int money)
+    public void SetMoney(int money)
     {
         _money = money;
     }
-    public int money()
+    public int Money()
     {
         return _money;
     }
 
-    public void addSample(Sample sample)
+    public int GetLevelTime(int levelID)
     {
-        _sampleList.Add(sample);
+        if (_scoresDict.ContainsKey(levelID))
+        {
+            return _scoresDict[levelID];
+        }
+        return -1;
     }
 
-    public List<Sample> samples()
+    public void SetLevelTime(int levelID, int timeCentiseconds)
     {
-        return _sampleList;
+        _scoresDict[levelID] = timeCentiseconds;
     }
 }

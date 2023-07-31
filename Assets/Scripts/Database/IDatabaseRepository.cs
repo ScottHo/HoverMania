@@ -1,16 +1,15 @@
 
 using System.Collections.Generic;
 
-interface IDatabaseRepository
+public interface IDatabaseRepository
 {
-    void setMoney(int money);
-    int money();
+    int CreateUser();
+    void SwitchUser(int userID);
+    void SetMoney(int money);
+    int Money();
 
-    void addSample(Sample sample);
-    List<Sample> samples();
+    void SetLevelTime(int levelID, int timeCentiseconds);
 
-    void createUser();
-
-    void switchUser(int userId);
+    int GetLevelTime(int levelID);
 }
 

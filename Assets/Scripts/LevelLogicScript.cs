@@ -8,7 +8,6 @@ using System;
 
 public class LevelLogicScript : MonoBehaviour
 {
-    IDatabaseRepository databaseRepository;
     public TextMeshProUGUI levelNameText;
     public TextMeshProUGUI timerText;
     public TextMeshProUGUI currentSampleText;
@@ -27,12 +26,13 @@ public class LevelLogicScript : MonoBehaviour
     int totalSamples = 0;
     float elapsedTime = 0;
     public bool gameIsOver = false;
+    int loadedId = -1;
+    IDatabaseRepository databaseRepository;
 
     void Start()
     {
-
+        databaseRepository = UILogicScript.Instance.databaseRepository;
         SetupScene();
-        SetupDatabase();
         ShowSamplesCollected();
     }
 
@@ -73,31 +73,7 @@ public class LevelLogicScript : MonoBehaviour
                 break;
             }
         }
-    }
-
-    void SetupDatabase()
-    {
-        if (Application.platform == RuntimePlatform.WebGLPlayer)
-        {
-            databaseRepository = new DummyDatabase("");
-        }
-        else
-        {
-            string databasePath = Application.persistentDataPath + "/main_db.sqlite";
-            if (!System.IO.File.Exists(databasePath))
-            {
-                SqliteDatabase.CreateDatabase(databasePath);
-            }
-            databaseRepository = new SqliteDatabase("URI=file:" + databasePath);
-            try
-            {
-                databaseRepository.switchUser(1);
-            }
-            catch (SqliteException)
-            {
-                databaseRepository.createUser();
-            }
-        }
+        loadedId = idToLoad;
     }
 
     private void ShowSamplesCollected()
@@ -107,7 +83,6 @@ public class LevelLogicScript : MonoBehaviour
 
     public void SampleCollected(Sample sample)
     {
-        databaseRepository.addSample(sample);
         currentSamples++;
         ShowSamplesCollected();
         if (currentSamples == totalSamples)
@@ -140,19 +115,34 @@ public class LevelLogicScript : MonoBehaviour
 
     public void UpdateTimeUI()
     {
-        TimeSpan time = TimeSpan.FromSeconds(elapsedTime);
-        timerText.text = time.ToString(@"mm\:ss");
+        TimeSpan time = TimeSpan.FromMilliseconds(elapsedTime*1000);
+        timerText.text = time.ToString(@"mm\:ss\.ff");
     }
 
     public void GameOver()
     {
         if (!gameIsOver)
         {
+            quitButton.enabled = false;
             gameIsOver = true;
             gameOverContainer.SetActive(true);
             if (currentSamples == totalSamples)
             {
-                gameOverText.text = "Mission Complete!";
+                string text = "Mission Complete!";
+                int timeCentiseconds = (int) (elapsedTime * 100);
+                int previousTimeCentiseconds = databaseRepository.GetLevelTime(loadedId);
+                if (previousTimeCentiseconds > timeCentiseconds)
+                {
+                    string newTime = TimeSpan.FromMilliseconds(
+                            timeCentiseconds * 10).ToString(@"mm\:ss\.ff");
+                    string oldTime = TimeSpan.FromMilliseconds(
+                            previousTimeCentiseconds * 10).ToString(@"mm\:ss\.ff");
+                    text += "\nNew Record!";
+                    text += "\nPrevious Time: " + oldTime;
+                    text += "\nNew Time: " + newTime;
+                }
+                gameOverText.text = text;
+                databaseRepository.SetLevelTime(loadedId, timeCentiseconds);
             }
             else
             {
