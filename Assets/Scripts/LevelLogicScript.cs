@@ -143,7 +143,7 @@ public class LevelLogicScript : MonoBehaviour
                 {
                     string newTime = TimeSpan.FromMilliseconds(
                             timeCentiseconds * 10).ToString(@"mm\:ss\.ff");
-                    text += "\nNew Record!";
+                    text += "\n\nNew Record!";
                     text += "\nTime: " + newTime;
                 }
                 else if (previousTimeCentiseconds > timeCentiseconds)
@@ -152,7 +152,7 @@ public class LevelLogicScript : MonoBehaviour
                             timeCentiseconds * 10).ToString(@"mm\:ss\.ff");
                     string oldTime = TimeSpan.FromMilliseconds(
                             previousTimeCentiseconds * 10).ToString(@"mm\:ss\.ff");
-                    text += "\nNew Record!";
+                    text += "\n\nNew Record!";
                     text += "\nPrevious Time: " + oldTime;
                     text += "\nNew Time: " + newTime;
                 }

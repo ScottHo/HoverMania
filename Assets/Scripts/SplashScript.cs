@@ -1,11 +1,11 @@
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class SplashScript : MonoBehaviour
 {
     public RawImage image;
     public float duration;
-    public AudioSource audioSource;
     bool fadingIn = true;
 
     private void Start()
@@ -50,8 +50,7 @@ public class SplashScript : MonoBehaviour
         image.color = color;
         if (color.b <= 0)
         {
-            audioSource.Play();
-            Destroy(gameObject);
+            SceneManager.LoadScene("UI");
         }
     }
 }

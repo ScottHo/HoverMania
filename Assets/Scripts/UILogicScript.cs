@@ -20,17 +20,21 @@ public class UILogicScript : MonoBehaviour
         if (Instance == null)
         {
             Instance = this;
-            DontDestroyOnLoad(gameObject);
-            SetupDatabase();
+            Init();
         }
         else if (Instance != this)
         {
             //Instance is not the same as the one we have, destroy old one, and reset to newest one
             Destroy(Instance.gameObject);
             Instance = this;
-            DontDestroyOnLoad(gameObject);
-            SetupDatabase();
+            Init();
         }
+    }
+
+    void Init()
+    {
+        DontDestroyOnLoad(gameObject);
+        SetupDatabase();
     }
 
     void SetupDatabase()
