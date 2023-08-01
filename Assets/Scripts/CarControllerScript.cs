@@ -86,7 +86,6 @@ public class CarControllerScript : MonoBehaviour
             {
                 float forwardDrift = Input.GetAxis("Vertical");
                 rigidBody.AddForce(rigidBody.transform.forward * forwardDrift * 2000);
-                Debug.Log("Forcing");
             }
         }
         LimitAngularVelocity();

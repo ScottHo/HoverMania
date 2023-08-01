@@ -131,7 +131,7 @@ public class SqliteDatabase : IDatabaseRepository
         else
         {
             query = "INSERT INTO scores_table (user_id, level_id, time_centiseconds) " +
-            "VALUES ("+ userID + ", " + levelID + ", 1)";
+            "VALUES ("+ userID + ", " + levelID + ", " + timeCentiseconds + ")";
             RunNonQuery(query);
         }
     }
