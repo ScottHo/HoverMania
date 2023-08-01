@@ -18,19 +18,19 @@ public class LevelFactory
     {
         if (id == 1)
         {
-            return new LevelInfo(1, "Demo Level 1", "CheckMark", 1);
+            return new LevelInfo(1, "Demo Level 1", "Level1Thumbnail", 1);
         }
         if (id == 2)
         {
-            return new LevelInfo(2, "Demo Level 2", "CheckMark", 2);
+            return new LevelInfo(2, "Demo Level 2", "Level2Thumbnail", 2);
         }
         if (id == 3)
         {
-            return new LevelInfo(3, "Demo Level 3", "CheckMark", 3);
+            return new LevelInfo(3, "Demo Level 3", "Level3Thumbnail", 3);
         }
         else
         {
-            return new LevelInfo(-1, "Dev Level", "CheckMark", 4);
+            return new LevelInfo(-1, "Dev Level", "UnknownThumbnail", 4);
         }
     }
 }
