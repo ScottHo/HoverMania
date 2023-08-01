@@ -628,6 +628,7 @@ GameObject:
   - component: {fileID: 204020878}
   - component: {fileID: 204020877}
   - component: {fileID: 204020876}
+  - component: {fileID: 204020879}
   m_Layer: 3
   m_Name: MainCamera
   m_TagString: Untagged
@@ -743,6 +744,20 @@ Camera:
   m_OcclusionCulling: 1
   m_StereoConvergence: 10
   m_StereoSeparation: 0.022
+--- !u!114 &204020879
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 204020874}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f5bf734ebb954644cbfa378e1fd1ff24, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  obstrution: {fileID: 0}
+  target: {fileID: 288411600}
 --- !u!1001 &207192205
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -4064,7 +4079,7 @@ GameObject:
   - component: {fileID: 824152186}
   - component: {fileID: 824152185}
   - component: {fileID: 824152184}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Wall
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -4151,7 +4166,7 @@ Transform:
   m_GameObject: {fileID: 824152183}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: 0.7071068, z: -0, w: 0.7071068}
-  m_LocalPosition: {x: 200, y: 25, z: 100}
+  m_LocalPosition: {x: 199.75, y: 25, z: 100}
   m_LocalScale: {x: 200.00002, y: 50, z: 0.5}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -5037,7 +5052,7 @@ GameObject:
   - component: {fileID: 992938727}
   - component: {fileID: 992938726}
   - component: {fileID: 992938725}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Wall
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -5124,7 +5139,7 @@ Transform:
   m_GameObject: {fileID: 992938724}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 100, y: 25, z: 0.5}
+  m_LocalPosition: {x: 100, y: 25, z: 0.25}
   m_LocalScale: {x: 200, y: 50, z: 0.5}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -6685,7 +6700,7 @@ GameObject:
   - component: {fileID: 1548015600}
   - component: {fileID: 1548015599}
   - component: {fileID: 1548015598}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Wall
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -6772,7 +6787,7 @@ Transform:
   m_GameObject: {fileID: 1548015597}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 100, y: 25, z: 200}
+  m_LocalPosition: {x: 100, y: 25, z: 199.75}
   m_LocalScale: {x: 200, y: 50, z: 0.5}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -7683,7 +7698,7 @@ GameObject:
   - component: {fileID: 1768166941}
   - component: {fileID: 1768166940}
   - component: {fileID: 1768166939}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Wall
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -7770,7 +7785,7 @@ Transform:
   m_GameObject: {fileID: 1768166938}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: 0.7071068, z: -0, w: 0.7071068}
-  m_LocalPosition: {x: 0, y: 25, z: 100}
+  m_LocalPosition: {x: 0.25, y: 25, z: 100}
   m_LocalScale: {x: 200.00002, y: 50, z: 0.5}
   m_ConstrainProportionsScale: 0
   m_Children: []
