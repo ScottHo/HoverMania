@@ -5,6 +5,8 @@ using TMPro;
 using System.Collections.Generic;
 using UnityEngine.SceneManagement;
 using System;
+using System.Linq.Expressions;
+using System.Collections;
 
 public class LevelLogicScript : MonoBehaviour
 {
@@ -19,6 +21,7 @@ public class LevelLogicScript : MonoBehaviour
     public Button retryButton;
     public Slider batterySlider;
     public LevelContainers levelContainers;
+    public Image fader;
     public int defaultId = 1;
     int batteryLife = 10000;
     bool batteryDraining;
@@ -27,6 +30,9 @@ public class LevelLogicScript : MonoBehaviour
     float elapsedTime = 0;
     public bool gameIsOver = false;
     int loadedId = -1;
+    bool fading = false;
+    bool fadeIn = true;
+    Action actionAfterFade;
     IDatabaseRepository databaseRepository;
 
     void Start()
@@ -36,11 +42,16 @@ public class LevelLogicScript : MonoBehaviour
             databaseRepository = UILogicScript.Instance.databaseRepository;
         }
         SetupScene();
-        ShowSamplesCollected();
+        SetupFader(true, null);
     }
 
     private void FixedUpdate()
     {
+        if (fading)
+        {
+            Fade();
+            return;
+        }
         if (gameIsOver)
             return;
         elapsedTime += Time.deltaTime;
@@ -77,6 +88,58 @@ public class LevelLogicScript : MonoBehaviour
             }
         }
         loadedId = idToLoad;
+        ShowSamplesCollected();
+        UpdateBatteryLifeUI();
+    }
+
+    void SetupFader(bool fadeIn, Action action)
+    {
+        fading = true;
+        this.fadeIn = fadeIn;
+        this.actionAfterFade = action;
+        Color color = Color.black;
+        if (fadeIn)
+        {
+            color.a = 1f;
+        }
+        else
+        {
+            color.a = 0f;
+        }
+        fader.color = color;
+    }
+
+
+    void Fade()
+    {
+        Color color = fader.color;
+        if (fadeIn)
+        {
+            color.a -= .05f;
+            if (color.a <= 0f)
+            {
+                FinishFade();
+            }
+        }
+        else // Fade out
+        {
+            color.a += .05f;
+            if (color.a >= 1f)
+            {
+                FinishFade();
+            }
+        }
+        fader.color = color;
+    }
+
+    void FinishFade()
+    {
+        fading = false;
+
+        if (actionAfterFade != null)
+        {
+            actionAfterFade();
+        }
     }
 
     private void ShowSamplesCollected()
@@ -173,11 +236,24 @@ public class LevelLogicScript : MonoBehaviour
 
     public void ReturnToMenu()
     {
-        SceneManager.LoadScene("UI");
+        Action a = () => {
+            SceneManager.LoadScene("UI");
+        };
+        SetupFader(false, a);
     }
 
     public void RetryMission()
     {
+        gameOverContainer.SetActive(false);
+        Action a = () => {
+            StartCoroutine(LoadLevelAfterDelay(.5f));
+        };
+        SetupFader(false, a);
+      }
+    IEnumerator LoadLevelAfterDelay(float delay)
+    {
+        // Loading in feels to fast, wait a second
+        yield return new WaitForSeconds(delay);
         SceneManager.LoadScene("Level");
     }
 }
