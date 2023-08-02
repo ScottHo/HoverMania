@@ -37,10 +37,7 @@ public class LevelLogicScript : MonoBehaviour
 
     void Start()
     {
-        if (UILogicScript.Instance != null)
-        {
-            databaseRepository = UILogicScript.Instance.databaseRepository;
-        }
+        databaseRepository = DatabaseManager.Instance.database;
         SetupScene();
         SetupFader(true, null);
     }

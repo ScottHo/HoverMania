@@ -7,11 +7,11 @@ using UnityEngine.UI;
 
 public class UILogicScript : MonoBehaviour
 {
-    public IDatabaseRepository databaseRepository;
     public LevelSelectContainers levelSelectContainers;
     public Button playButton;
     public int selectedLevelID;
     public static UILogicScript Instance;
+    IDatabaseRepository databaseRepository;
     int levelOffset = 1;
 
 
@@ -34,32 +34,7 @@ public class UILogicScript : MonoBehaviour
     void Init()
     {
         DontDestroyOnLoad(gameObject);
-        SetupDatabase();
-    }
-
-    void SetupDatabase()
-    {
-        if (Application.platform == RuntimePlatform.WebGLPlayer)
-        {
-            databaseRepository = new DummyDatabase("");
-        }
-        else
-        {
-            string databasePath = Application.persistentDataPath + "/main_db.sqlite";
-            if (!System.IO.File.Exists(databasePath))
-            {
-                SqliteDatabase.CreateDatabase(databasePath);
-            }
-            databaseRepository = new SqliteDatabase("URI=file:" + databasePath);
-            try
-            {
-                databaseRepository.SwitchUser(1);
-            }
-            catch (SqliteException)
-            {
-                databaseRepository.CreateUser();
-            }
-        }
+        databaseRepository = DatabaseManager.Instance.database;
     }
 
     private void Start()
