@@ -2,12 +2,14 @@ using UnityEngine;
 
 public class CarControllerScript : MonoBehaviour
 {
+    public AudioSource audioSource;
     public AxleInfo[] axleInfos;
     public Rigidbody rigidBody;
     float torque = 2000;
     float angle = 40;
     float brakeTorque = 2000;
     float jumpPower = 180000;
+    AudioAction audioAction = AudioAction.None;
     bool grounded = true;
     bool newlyFloating = false;
     bool jumping = false;
@@ -25,11 +27,13 @@ public class CarControllerScript : MonoBehaviour
     {
         if (logic.gameIsOver)
             return;
+        audioAction = AudioAction.None;
         CheckGrounded();
         Drive();
         ApplyBooster();
         // Double the gravity for fun
         rigidBody.AddForce(Physics.gravity * rigidBody.mass);
+        AudioManager.Play(audioAction, ref audioSource);
     }
 
     void CheckGrounded()
@@ -56,7 +60,6 @@ public class CarControllerScript : MonoBehaviour
                 timeSinceLastJump = 0;
             }
         }
-        
     }
 
     void ApplyBooster()
@@ -68,6 +71,7 @@ public class CarControllerScript : MonoBehaviour
             {
                 if (!jumping)
                 {
+                    audioAction = AudioAction.Jump;
                     jumping = true;
                     logic.DrainBattery(500);
                     rigidBody.AddForce(Vector3.up * jumpPower);
@@ -146,7 +150,6 @@ public class CarControllerScript : MonoBehaviour
         axleInfo.rightWheel.motorTorque = 0;
         if (axleInfo.motor && grounded)
         {
-            
             if (motor == 0 || (reverse && isMovingForward) || (!reverse && isMovingBackwards))
             {
                 logic.SetBatteryDraining(false);
@@ -156,6 +159,7 @@ public class CarControllerScript : MonoBehaviour
             else
             {
                 logic.SetBatteryDraining(true);
+
                 float maxRotationSpeed = 1200;
                 if (Mathf.Abs(angle * Input.GetAxis("Horizontal")) > 25)
                 {

@@ -1,11 +1,9 @@
-using Mono.Data.Sqlite;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 using System.Collections.Generic;
 using UnityEngine.SceneManagement;
 using System;
-using System.Linq.Expressions;
 using System.Collections;
 
 public class LevelLogicScript : MonoBehaviour
@@ -22,6 +20,7 @@ public class LevelLogicScript : MonoBehaviour
     public Slider batterySlider;
     public LevelContainers levelContainers;
     public Image fader;
+    public AudioSource audioSource;
     public int defaultId = 1;
     int batteryLife = 10000;
     bool batteryDraining;
@@ -146,6 +145,7 @@ public class LevelLogicScript : MonoBehaviour
 
     public void SampleCollected(Sample sample)
     {
+        AudioManager.Play(AudioAction.Collect, ref audioSource);
         currentSamples++;
         ShowSamplesCollected();
         if (currentSamples == totalSamples)
@@ -191,6 +191,7 @@ public class LevelLogicScript : MonoBehaviour
             gameOverContainer.SetActive(true);
             if (currentSamples == totalSamples)
             {
+                AudioManager.Play(AudioAction.Win, ref audioSource);
                 string text = "Mission Complete!";
                 int previousTimeCentiseconds = 999999;
                 if (databaseRepository != null)
