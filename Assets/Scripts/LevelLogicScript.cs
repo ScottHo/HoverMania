@@ -163,7 +163,7 @@ public class LevelLogicScript : MonoBehaviour
             GameOver();
         }
         batteryText.text = batteryLifePercent.ToString();
-        batterySlider.value = batteryLifePercent; 
+        batterySlider.value = batteryLifePercent;
     }
 
     public void SetBatteryDraining(bool draining)
@@ -178,7 +178,7 @@ public class LevelLogicScript : MonoBehaviour
 
     public void UpdateTimeUI()
     {
-        TimeSpan time = TimeSpan.FromMilliseconds(elapsedTime*1000);
+        TimeSpan time = TimeSpan.FromMilliseconds(elapsedTime * 1000);
         timerText.text = time.ToString(@"mm\:ss\.ff");
     }
 
@@ -191,45 +191,55 @@ public class LevelLogicScript : MonoBehaviour
             gameOverContainer.SetActive(true);
             if (currentSamples == totalSamples)
             {
-                AudioManager.Play(AudioAction.Win, ref audioSource);
-                string text = "Mission Complete!";
-                int previousTimeCentiseconds = 999999;
-                if (databaseRepository != null)
-                {
-                    previousTimeCentiseconds = databaseRepository.GetLevelTime(loadedId);
-
-                }
-                int timeCentiseconds = (int) (elapsedTime * 100);
-                if (previousTimeCentiseconds == -1)
-                {
-                    string newTime = TimeSpan.FromMilliseconds(
-                            timeCentiseconds * 10).ToString(@"mm\:ss\.ff");
-                    text += "\n\nNew Record!";
-                    text += "\nTime: " + newTime;
-                }
-                else if (previousTimeCentiseconds > timeCentiseconds)
-                {
-                    string newTime = TimeSpan.FromMilliseconds(
-                            timeCentiseconds * 10).ToString(@"mm\:ss\.ff");
-                    string oldTime = TimeSpan.FromMilliseconds(
-                            previousTimeCentiseconds * 10).ToString(@"mm\:ss\.ff");
-                    text += "\n\nNew Record!";
-                    text += "\nPrevious Time: " + oldTime;
-                    text += "\nNew Time: " + newTime;
-                }
-                gameOverText.text = text;
-                if (databaseRepository != null)
-                {
-                    databaseRepository.SetLevelTime(loadedId, timeCentiseconds);
-                }
+                Win();
             }
             else
             {
-                gameOverText.text = "Mission Failed!";
+                Lose();
             }
             gameOverButton.onClick.AddListener(ReturnToMenu);
             retryButton.onClick.AddListener(RetryMission);
         }
+    }
+
+    void Win()
+    {
+        AudioManager.Play(AudioAction.Win, ref audioSource);
+        string text = "Mission Complete!";
+        int previousTimeCentiseconds = 999999;
+        if (databaseRepository != null)
+        {
+            previousTimeCentiseconds = databaseRepository.GetLevelTime(loadedId);
+
+        }
+        int timeCentiseconds = (int)(elapsedTime * 100);
+        if (previousTimeCentiseconds == -1)
+        {
+            string newTime = TimeSpan.FromMilliseconds(
+                    timeCentiseconds * 10).ToString(@"mm\:ss\.ff");
+            text += "\n\nNew Record!";
+            text += "\nTime: " + newTime;
+        }
+        else if (previousTimeCentiseconds > timeCentiseconds)
+        {
+            string newTime = TimeSpan.FromMilliseconds(
+                    timeCentiseconds * 10).ToString(@"mm\:ss\.ff");
+            string oldTime = TimeSpan.FromMilliseconds(
+                    previousTimeCentiseconds * 10).ToString(@"mm\:ss\.ff");
+            text += "\n\nNew Record!";
+            text += "\nPrevious Time: " + oldTime;
+            text += "\nNew Time: " + newTime;
+        }
+        gameOverText.text = text;
+        if (databaseRepository != null)
+        {
+            databaseRepository.SetLevelTime(loadedId, timeCentiseconds);
+        }
+    }
+
+    void Lose()
+    {
+        gameOverText.text = "Mission Failed!";
     }
 
     public void ReturnToMenu()
