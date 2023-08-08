@@ -8,6 +8,7 @@ public class UILogicScript : MonoBehaviour
 {
     public LevelSelectContainers levelSelectContainers;
     public Button playButton;
+    public Button settingsButton;
     public int selectedLevelID;
     public static UILogicScript Instance;
     IDatabaseRepository databaseRepository;
