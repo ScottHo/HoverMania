@@ -8,6 +8,7 @@ public class UISettingsLogicScript : MonoBehaviour
     public Slider effectsSlider;
     public Slider ambienceSlider;
     public TMP_Dropdown graphicsDropdown;
+    public GameObject container;
 
     // Start is called before the first frame update
     void Start()
@@ -16,6 +17,16 @@ public class UISettingsLogicScript : MonoBehaviour
         effectsSlider.value = PlayerPrefs.GetFloat("VolumeEffects");
         ambienceSlider.value = PlayerPrefs.GetFloat("VolumeAmbience");
         graphicsDropdown.value = PlayerPrefs.GetInt("Graphics");
+    }
+
+    public void Show()
+    {
+        container.SetActive(true);
+    }
+
+    public void Hide()
+    {
+        container.SetActive(false);
     }
 
     public void UpdateMusicSlider()

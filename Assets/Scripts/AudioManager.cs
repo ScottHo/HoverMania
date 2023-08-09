@@ -37,7 +37,7 @@ public class AudioManager : MonoBehaviour
         {
             clip = Resources.Load<AudioClip>("Jump");
             source.Stop();
-            source.volume = .4f * mod;
+            source.volume = .8f * mod;
             source.PlayOneShot(clip);
             return;
         }
@@ -45,7 +45,7 @@ public class AudioManager : MonoBehaviour
         {
             clip = Resources.Load<AudioClip>("Collect");
             source.Stop();
-            source.volume = .7f * mod;
+            source.volume = 1f * mod;
             source.PlayOneShot(clip);
             return;
         }
@@ -53,7 +53,7 @@ public class AudioManager : MonoBehaviour
         {
             clip = Resources.Load<AudioClip>("Click");
             source.Stop();
-            source.volume = .4f * mod;
+            source.volume = .8f * mod;
             source.PlayOneShot(clip);
             return;
         }
@@ -61,7 +61,7 @@ public class AudioManager : MonoBehaviour
         {
             clip = Resources.Load<AudioClip>("Win");
             source.Stop();
-            source.volume = .4f * mod;
+            source.volume = .8f * mod;
             source.PlayOneShot(clip);
             return;
         }
