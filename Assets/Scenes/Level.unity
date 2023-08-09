@@ -1494,8 +1494,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: -144}
-  m_SizeDelta: {x: 600, y: 350}
+  m_AnchoredPosition: {x: 0, y: -130}
+  m_SizeDelta: {x: 680, y: 350}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &360519635
 MonoBehaviour:
@@ -4479,7 +4479,7 @@ RectTransform:
   m_AnchorMin: {x: 1, y: 1}
   m_AnchorMax: {x: 1, y: 1}
   m_AnchoredPosition: {x: -960, y: -390}
-  m_SizeDelta: {x: 100, y: 100}
+  m_SizeDelta: {x: 140, y: 140}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1001 &841206786
 PrefabInstance:
@@ -5647,6 +5647,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _source: {fileID: 1107308827}
   baseVolume: 0.2
+  isMusic: 1
 --- !u!82 &1107308827
 AudioSource:
   m_ObjectHideFlags: 0
@@ -7256,7 +7257,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0.16862746, g: 0.16862746, b: 0.16862746, a: 0.392}
+  m_Color: {r: 0.16862746, g: 0.16862746, b: 0.16862746, a: 0.78431374}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -8564,6 +8565,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _source: {fileID: 1807991558}
   baseVolume: 0.1
+  isMusic: 1
 --- !u!1001 &1811144511
 PrefabInstance:
   m_ObjectHideFlags: 0
