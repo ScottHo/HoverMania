@@ -33,7 +33,7 @@ public class CarControllerScript : MonoBehaviour
         ApplyBooster();
         // Double the gravity for fun
         rigidBody.AddForce(Physics.gravity * rigidBody.mass);
-        AudioManager.Play(audioAction, ref audioSource);
+        AudioManager.PlayEffect(audioAction, ref audioSource);
     }
 
     void CheckGrounded()

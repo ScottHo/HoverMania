@@ -3,23 +3,41 @@ using UnityEngine;
 public class AudioManager : MonoBehaviour
 {
     public AudioSource _source;
+    public float baseVolume = .1f;
+    public bool isMusic = true;
+
+    void Start()
+    {
+        ChangeVolume();
+    }
+
+    public void ChangeVolume()
+    {
+        float mod = PlayerPrefs.GetFloat("VolumeAmbience");
+        if (isMusic)
+        {
+            mod = PlayerPrefs.GetFloat("VolumeMusic");
+        }
+        _source.volume = baseVolume * mod;
+    }
 
     public void Collect()
     {
-        Play(AudioAction.Collect, ref _source);
+        PlayEffect(AudioAction.Collect, ref _source);
     }
     public void Click()
     {
-        Play(AudioAction.Click, ref _source);
+        PlayEffect(AudioAction.Click, ref _source);
     }
-    public static void Play(AudioAction action, ref AudioSource source)
+    public static void PlayEffect(AudioAction action, ref AudioSource source)
     {
         AudioClip clip;
+        float mod = PlayerPrefs.GetFloat("VolumeEffects");
         if (action == AudioAction.Jump)
         {
             clip = Resources.Load<AudioClip>("Jump");
             source.Stop();
-            source.volume = .4f;
+            source.volume = .4f * mod;
             source.PlayOneShot(clip);
             return;
         }
@@ -27,7 +45,7 @@ public class AudioManager : MonoBehaviour
         {
             clip = Resources.Load<AudioClip>("Collect");
             source.Stop();
-            source.volume = .7f;
+            source.volume = .7f * mod;
             source.PlayOneShot(clip);
             return;
         }
@@ -35,7 +53,7 @@ public class AudioManager : MonoBehaviour
         {
             clip = Resources.Load<AudioClip>("Click");
             source.Stop();
-            source.volume = .4f;
+            source.volume = .4f * mod;
             source.PlayOneShot(clip);
             return;
         }
@@ -43,7 +61,7 @@ public class AudioManager : MonoBehaviour
         {
             clip = Resources.Load<AudioClip>("Win");
             source.Stop();
-            source.volume = .4f;
+            source.volume = .4f * mod;
             source.PlayOneShot(clip);
             return;
         }

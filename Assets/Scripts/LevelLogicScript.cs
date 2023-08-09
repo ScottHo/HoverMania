@@ -145,7 +145,7 @@ public class LevelLogicScript : MonoBehaviour
 
     public void SampleCollected(Sample sample)
     {
-        AudioManager.Play(AudioAction.Collect, ref audioSource);
+        AudioManager.PlayEffect(AudioAction.Collect, ref audioSource);
         currentSamples++;
         ShowSamplesCollected();
         if (currentSamples == totalSamples)
@@ -204,9 +204,9 @@ public class LevelLogicScript : MonoBehaviour
 
     void Win()
     {
-        AudioManager.Play(AudioAction.Win, ref audioSource);
+        AudioManager.PlayEffect(AudioAction.Win, ref audioSource);
         string text = "Mission Complete!";
-        int previousTimeCentiseconds = 999999;
+        int previousTimeCentiseconds = -1;
         if (databaseRepository != null)
         {
             previousTimeCentiseconds = databaseRepository.GetLevelTime(loadedId);
