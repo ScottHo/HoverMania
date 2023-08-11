@@ -22,6 +22,7 @@ public class LevelLogicScript : MonoBehaviour
     public Image fader;
     public AudioSource audioSource;
     public int defaultId = 1;
+    int defaultBatteryLife = 10000;
     int batteryLife = 10000;
     bool batteryDraining;
     int currentSamples = 0;
@@ -151,6 +152,18 @@ public class LevelLogicScript : MonoBehaviour
         if (currentSamples == totalSamples)
         {
             GameOver();
+        }
+    }
+
+    public void IncreaseBatteryLife(int life)
+    {
+        if (batteryLife + life > defaultBatteryLife)
+        {
+            batteryLife = defaultBatteryLife;
+        }
+        else
+        {
+            batteryLife += life;
         }
     }
 

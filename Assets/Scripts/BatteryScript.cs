@@ -1,8 +1,7 @@
 using UnityEngine;
 
-public class RockSampleScript : MonoBehaviour
+public class BatteryScript : MonoBehaviour
 {
-    int sampleID;
     LevelLogicScript logic;
     bool beingDestroyed = false;
     void Start()
@@ -17,7 +16,7 @@ public class RockSampleScript : MonoBehaviour
             if (!beingDestroyed)
             {
                 beingDestroyed = true;
-                logic.SampleCollected(SampleFactory.createSample(sampleID, 1));
+                logic.IncreaseBatteryLife(2500);
                 Destroy(gameObject);
             }
         }
