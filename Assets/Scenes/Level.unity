@@ -4845,13 +4845,13 @@ MonoBehaviour:
   batterySlider: {fileID: 1760263091}
   levelContainers:
     levels:
-    - {fileID: 0}
+    - {fileID: 1874164232}
     - {fileID: 141674899}
     - {fileID: 196421017}
     - {fileID: 1563746631}
   fader: {fileID: 227920900}
   audioSource: {fileID: 741896867}
-  defaultId: 3
+  defaultId: -1
   gameIsOver: 0
 --- !u!4 &814153938
 Transform:
@@ -9744,7 +9744,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &1874164233
 Transform:
   m_ObjectHideFlags: 0

@@ -157,6 +157,7 @@ public class LevelLogicScript : MonoBehaviour
 
     public void IncreaseBatteryLife(int life)
     {
+        AudioManager.PlayEffect(AudioAction.Battery, ref audioSource);
         if (batteryLife + life > defaultBatteryLife)
         {
             batteryLife = defaultBatteryLife;

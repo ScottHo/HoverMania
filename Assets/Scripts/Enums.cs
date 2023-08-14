@@ -5,4 +5,5 @@ public enum AudioAction : int
     Collect = 2,
     Click = 3,
     Win = 4,
+    Battery = 5,
 }

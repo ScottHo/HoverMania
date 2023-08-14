@@ -65,5 +65,13 @@ public class AudioManager : MonoBehaviour
             source.PlayOneShot(clip);
             return;
         }
+        if (action == AudioAction.Battery)
+        {
+            clip = Resources.Load<AudioClip>("BatteryPickup");
+            source.Stop();
+            source.volume = .15f * mod;
+            source.PlayOneShot(clip);
+            return;
+        }
     }
 }
