@@ -33,10 +33,11 @@ public class SqliteDatabase : IDatabaseRepository
         RunNonQuery(q_createTable);
 
         q_createTable =
-            "CREATE TABLE IF NOT EXISTS scores_table(" +
+            "CREATE TABLE IF NOT EXISTS level_table(" +
             "user_id INT, " +
             "level_id INT, " +
             "time_centiseconds INT, " +
+            "locked INT, " +
             "FOREIGN KEY (user_id) REFERENCES user_table(user_id) )";
         RunNonQuery(q_createTable);
     }
@@ -117,12 +118,12 @@ public class SqliteDatabase : IDatabaseRepository
 
     public void SetLevelTime(int levelID, int timeCentiseconds)
     {
-        string query = "SELECT * FROM scores_table WHERE (user_id = "
+        string query = "SELECT * FROM level_table WHERE (user_id = "
             + userID + " AND level_id = " + levelID + ")";
         IDataReader reader = RunQuery(query);
         if (reader.Read())
         {
-            query = "UPDATE scores_table " +
+            query = "UPDATE level_table " +
                 "SET time_centiseconds = " + timeCentiseconds + " " +
                 "WHERE(user_id = "
             + userID + " AND level_id = " + levelID + ")";
@@ -130,7 +131,7 @@ public class SqliteDatabase : IDatabaseRepository
         }
         else
         {
-            query = "INSERT INTO scores_table (user_id, level_id, time_centiseconds) " +
+            query = "INSERT INTO level_table (user_id, level_id, time_centiseconds) " +
             "VALUES ("+ userID + ", " + levelID + ", " + timeCentiseconds + ")";
             RunNonQuery(query);
         }
@@ -138,7 +139,7 @@ public class SqliteDatabase : IDatabaseRepository
 
     public int GetLevelTime(int levelID)
     {
-        string query = "SELECT * FROM scores_table WHERE(user_id = "
+        string query = "SELECT * FROM level_table WHERE(user_id = "
             + userID + " AND level_id = " + levelID + ")";
         IDataReader reader = RunQuery(query);
         if (reader.Read())
@@ -146,5 +147,38 @@ public class SqliteDatabase : IDatabaseRepository
             return Convert.ToInt32(reader[2]);
         }
         return -1;
+    }
+
+    public void SetLevelLocked(int levelID, bool locked)
+    {
+        string query = "SELECT * FROM level_table WHERE (user_id = "
+            + userID + " AND level_id = " + levelID + ")";
+        IDataReader reader = RunQuery(query);
+        if (reader.Read())
+        {
+            query = "UPDATE level_table " +
+                "SET locked = " + (locked ? 1 : 0) + " " +
+                "WHERE(user_id = "
+            + userID + " AND level_id = " + levelID + ")";
+            RunNonQuery(query);
+        }
+        else
+        {
+            query = "INSERT INTO level_table (user_id, level_id, locked) " +
+            "VALUES (" + userID + ", " + levelID + ", " + (locked ? 1 : 0) + ")";
+            RunNonQuery(query);
+        }
+
+    }
+    public bool GetLevelLocked(int levelID)
+    {
+        string query = "SELECT * FROM level_table WHERE(user_id = "
+            + userID + " AND level_id = " + levelID + ")";
+        IDataReader reader = RunQuery(query);
+        if (reader.Read())
+        {
+            return Convert.ToBoolean(reader[3]);
+        }
+        return true;
     }
 }

@@ -3,39 +3,20 @@ using UnityEngine.UI;
 using TMPro;
 using System;
 
-
 public class LevelSelectorUIScript : MonoBehaviour
 {
-    public Difficulty difficulty;
     public TextMeshProUGUI levelName;
     public TextMeshProUGUI bestTime;
     public Image levelImage;
+    public Button levelButton;
     int id = -1;
 
     public void SetLevelInfo(LevelInfo levelInfo)
     {
         levelName.text = levelInfo.levelName;
-        SetDifficulty(levelInfo.difficulty);
         SetImageSprite(levelInfo.spriteName);
         id = levelInfo.id;
-    }
-    void SetDifficulty(int i)
-    {
-        difficulty.star2.enabled = false;
-        difficulty.star3.enabled = false;
-        difficulty.star4.enabled = false;
-        if (i > 1)
-        {
-            difficulty.star2.enabled = true;
-        }
-        if (i > 2)
-        {
-            difficulty.star3.enabled = true;
-        }
-        if (i > 3)
-        {
-            difficulty.star4.enabled = true;
-        }
+        levelButton.interactable = true;
     }
 
     public int GetId()
@@ -55,13 +36,20 @@ public class LevelSelectorUIScript : MonoBehaviour
             bestTime.color = Color.green;
         }
     }
-}
 
-[System.Serializable]
-public class Difficulty
-{
-    public Image star1;
-    public Image star2;
-    public Image star3;
-    public Image star4;
+    public void SetLocked(bool locked)
+    {
+        if (locked)
+        {
+            bestTime.text = "LOCKED";
+            bestTime.color = Color.red;
+            levelButton.interactable = false;
+        }
+        else
+        {
+            bestTime.text = "INCOMPLETE";
+            bestTime.color = Color.red;
+            levelButton.interactable = true;
+        }
+    }
 }

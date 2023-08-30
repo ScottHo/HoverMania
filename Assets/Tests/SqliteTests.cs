@@ -62,4 +62,19 @@ public class SqliteTests
         levelTime = sqliteDatabase.GetLevelTime(2);
         Assert.AreEqual(levelTime, 999);
     }
+
+
+    [Test]
+    public void TestLocked()
+    {
+        sqliteDatabase.CreateUser();
+        bool locked = sqliteDatabase.GetLevelLocked(1);
+        Assert.True(locked);
+        sqliteDatabase.SetLevelLocked(1, false);
+        locked = sqliteDatabase.GetLevelLocked(1);
+        Assert.False(locked);
+        sqliteDatabase.SetLevelLocked(1, true);
+        locked = sqliteDatabase.GetLevelLocked(1);
+        Assert.True(locked);
+    }
 }
