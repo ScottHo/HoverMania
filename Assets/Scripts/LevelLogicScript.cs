@@ -144,10 +144,10 @@ public class LevelLogicScript : MonoBehaviour
         currentSampleText.text = currentSamples.ToString() + " / " + totalSamples.ToString();
     }
 
-    public void SampleCollected(Sample sample)
+    public void SampleCollected(int samples)
     {
         AudioManager.PlayEffect(AudioAction.Collect, ref audioSource);
-        currentSamples++;
+        currentSamples += samples;
         ShowSamplesCollected();
         if (currentSamples == totalSamples)
         {
