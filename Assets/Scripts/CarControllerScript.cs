@@ -8,7 +8,7 @@ public class CarControllerScript : MonoBehaviour
     float torque = 2000;
     float angle = 40;
     float brakeTorque = 2000;
-    float jumpPower = 180000;
+    float jumpPower = 12;
     AudioAction audioAction = AudioAction.None;
     bool grounded = true;
     bool newlyFloating = false;
@@ -64,7 +64,6 @@ public class CarControllerScript : MonoBehaviour
 
     void ApplyBooster()
     {
-
         if (grounded)
         {
             if (Input.GetKey(KeyCode.Space))
@@ -74,7 +73,7 @@ public class CarControllerScript : MonoBehaviour
                     audioAction = AudioAction.Jump;
                     jumping = true;
                     logic.DrainBattery(500);
-                    rigidBody.AddForce(Vector3.up * jumpPower);
+                    rigidBody.AddForce(Vector3.up * jumpPower, ForceMode.VelocityChange);
                 }
             }
         }

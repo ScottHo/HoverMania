@@ -4,7 +4,7 @@ using UnityEngine;
 public class MovingPlatformScript : MonoBehaviour
 {
     public List<Vector3> points;
-    public float speed = 3.0f;
+    public float speed = 2.5f;
     int currentIdx = 0;
     bool arrived = false;
     float stallTimeStart = 0;

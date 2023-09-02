@@ -477,7 +477,7 @@ PrefabInstance:
     - target: {fileID: 919132149155446097, guid: 3394bb5b6f2fd8d4391b5b7e494e2b15,
         type: 3}
       propertyPath: m_Name
-      value: CustomCar Variant
+      value: Car
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: 3394bb5b6f2fd8d4391b5b7e494e2b15,
         type: 3}
