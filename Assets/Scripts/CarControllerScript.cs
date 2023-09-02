@@ -6,7 +6,7 @@ public class CarControllerScript : MonoBehaviour
     public AxleInfo[] axleInfos;
     public Rigidbody rigidBody;
     float torque = 2000;
-    float angle = 40;
+    float angle = 50;
     float brakeTorque = 2000;
     float jumpPower = 12;
     AudioAction audioAction = AudioAction.None;

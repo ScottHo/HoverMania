@@ -1509,30 +1509,10 @@ PrefabInstance:
       propertyPath: m_WheelDampingRate
       value: 1
       objectReference: {fileID: 0}
-    - target: {fileID: 1181745425347201687, guid: 32a43b6484474ca42bd24d3cb76f0877,
-        type: 3}
-      propertyPath: m_SuspensionSpring.damper
-      value: 5000
-      objectReference: {fileID: 0}
-    - target: {fileID: 1181745425347201687, guid: 32a43b6484474ca42bd24d3cb76f0877,
-        type: 3}
-      propertyPath: m_SuspensionSpring.spring
-      value: 30000
-      objectReference: {fileID: 0}
     - target: {fileID: 4686981419531241121, guid: 32a43b6484474ca42bd24d3cb76f0877,
         type: 3}
       propertyPath: m_WheelDampingRate
       value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 4686981419531241121, guid: 32a43b6484474ca42bd24d3cb76f0877,
-        type: 3}
-      propertyPath: m_SuspensionSpring.damper
-      value: 5000
-      objectReference: {fileID: 0}
-    - target: {fileID: 4686981419531241121, guid: 32a43b6484474ca42bd24d3cb76f0877,
-        type: 3}
-      propertyPath: m_SuspensionSpring.spring
-      value: 30000
       objectReference: {fileID: 0}
     - target: {fileID: 4993317378693372706, guid: 32a43b6484474ca42bd24d3cb76f0877,
         type: 3}
@@ -1544,30 +1524,10 @@ PrefabInstance:
       propertyPath: m_WheelDampingRate
       value: 1
       objectReference: {fileID: 0}
-    - target: {fileID: 5010233001317424126, guid: 32a43b6484474ca42bd24d3cb76f0877,
-        type: 3}
-      propertyPath: m_SuspensionSpring.damper
-      value: 5000
-      objectReference: {fileID: 0}
-    - target: {fileID: 5010233001317424126, guid: 32a43b6484474ca42bd24d3cb76f0877,
-        type: 3}
-      propertyPath: m_SuspensionSpring.spring
-      value: 30000
-      objectReference: {fileID: 0}
     - target: {fileID: 9105349691101298259, guid: 32a43b6484474ca42bd24d3cb76f0877,
         type: 3}
       propertyPath: m_WheelDampingRate
       value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 9105349691101298259, guid: 32a43b6484474ca42bd24d3cb76f0877,
-        type: 3}
-      propertyPath: m_SuspensionSpring.damper
-      value: 5000
-      objectReference: {fileID: 0}
-    - target: {fileID: 9105349691101298259, guid: 32a43b6484474ca42bd24d3cb76f0877,
-        type: 3}
-      propertyPath: m_SuspensionSpring.spring
-      value: 30000
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
