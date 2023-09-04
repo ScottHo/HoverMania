@@ -139,21 +139,6 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5394039435312808626, guid: 5c063150f9981b6418e6721f4c991bb8,
         type: 3}
-      propertyPath: m_LocalScale.x
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 5394039435312808626, guid: 5c063150f9981b6418e6721f4c991bb8,
-        type: 3}
-      propertyPath: m_LocalScale.y
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 5394039435312808626, guid: 5c063150f9981b6418e6721f4c991bb8,
-        type: 3}
-      propertyPath: m_LocalScale.z
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 5394039435312808626, guid: 5c063150f9981b6418e6721f4c991bb8,
-        type: 3}
       propertyPath: m_LocalPosition.x
       value: 101.97606
       objectReference: {fileID: 0}
@@ -680,21 +665,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: RockSample (12)
-      objectReference: {fileID: 0}
-    - target: {fileID: 5394039435312808626, guid: 5c063150f9981b6418e6721f4c991bb8,
-        type: 3}
-      propertyPath: m_LocalScale.x
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 5394039435312808626, guid: 5c063150f9981b6418e6721f4c991bb8,
-        type: 3}
-      propertyPath: m_LocalScale.y
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 5394039435312808626, guid: 5c063150f9981b6418e6721f4c991bb8,
-        type: 3}
-      propertyPath: m_LocalScale.z
-      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 5394039435312808626, guid: 5c063150f9981b6418e6721f4c991bb8,
         type: 3}
@@ -1262,21 +1232,6 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5394039435312808626, guid: 5c063150f9981b6418e6721f4c991bb8,
         type: 3}
-      propertyPath: m_LocalScale.x
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 5394039435312808626, guid: 5c063150f9981b6418e6721f4c991bb8,
-        type: 3}
-      propertyPath: m_LocalScale.y
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 5394039435312808626, guid: 5c063150f9981b6418e6721f4c991bb8,
-        type: 3}
-      propertyPath: m_LocalScale.z
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 5394039435312808626, guid: 5c063150f9981b6418e6721f4c991bb8,
-        type: 3}
       propertyPath: m_LocalPosition.x
       value: 101.97606
       objectReference: {fileID: 0}
@@ -1568,21 +1523,6 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5394039435312808626, guid: 5c063150f9981b6418e6721f4c991bb8,
         type: 3}
-      propertyPath: m_LocalScale.x
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 5394039435312808626, guid: 5c063150f9981b6418e6721f4c991bb8,
-        type: 3}
-      propertyPath: m_LocalScale.y
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 5394039435312808626, guid: 5c063150f9981b6418e6721f4c991bb8,
-        type: 3}
-      propertyPath: m_LocalScale.z
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 5394039435312808626, guid: 5c063150f9981b6418e6721f4c991bb8,
-        type: 3}
       propertyPath: m_LocalPosition.x
       value: 113.2
       objectReference: {fileID: 0}
@@ -1843,21 +1783,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: RockSample (6)
-      objectReference: {fileID: 0}
-    - target: {fileID: 5394039435312808626, guid: 5c063150f9981b6418e6721f4c991bb8,
-        type: 3}
-      propertyPath: m_LocalScale.x
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 5394039435312808626, guid: 5c063150f9981b6418e6721f4c991bb8,
-        type: 3}
-      propertyPath: m_LocalScale.y
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 5394039435312808626, guid: 5c063150f9981b6418e6721f4c991bb8,
-        type: 3}
-      propertyPath: m_LocalScale.z
-      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 5394039435312808626, guid: 5c063150f9981b6418e6721f4c991bb8,
         type: 3}
@@ -3808,21 +3733,6 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5394039435312808626, guid: 5c063150f9981b6418e6721f4c991bb8,
         type: 3}
-      propertyPath: m_LocalScale.x
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 5394039435312808626, guid: 5c063150f9981b6418e6721f4c991bb8,
-        type: 3}
-      propertyPath: m_LocalScale.y
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 5394039435312808626, guid: 5c063150f9981b6418e6721f4c991bb8,
-        type: 3}
-      propertyPath: m_LocalScale.z
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 5394039435312808626, guid: 5c063150f9981b6418e6721f4c991bb8,
-        type: 3}
       propertyPath: m_LocalPosition.x
       value: 101.97606
       objectReference: {fileID: 0}
@@ -4028,21 +3938,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: RockSample (9)
-      objectReference: {fileID: 0}
-    - target: {fileID: 5394039435312808626, guid: 5c063150f9981b6418e6721f4c991bb8,
-        type: 3}
-      propertyPath: m_LocalScale.x
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 5394039435312808626, guid: 5c063150f9981b6418e6721f4c991bb8,
-        type: 3}
-      propertyPath: m_LocalScale.y
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 5394039435312808626, guid: 5c063150f9981b6418e6721f4c991bb8,
-        type: 3}
-      propertyPath: m_LocalScale.z
-      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 5394039435312808626, guid: 5c063150f9981b6418e6721f4c991bb8,
         type: 3}
@@ -5796,21 +5691,6 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5394039435312808626, guid: 5c063150f9981b6418e6721f4c991bb8,
         type: 3}
-      propertyPath: m_LocalScale.x
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 5394039435312808626, guid: 5c063150f9981b6418e6721f4c991bb8,
-        type: 3}
-      propertyPath: m_LocalScale.y
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 5394039435312808626, guid: 5c063150f9981b6418e6721f4c991bb8,
-        type: 3}
-      propertyPath: m_LocalScale.z
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 5394039435312808626, guid: 5c063150f9981b6418e6721f4c991bb8,
-        type: 3}
       propertyPath: m_LocalPosition.x
       value: 113.2
       objectReference: {fileID: 0}
@@ -6530,21 +6410,6 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5394039435312808626, guid: 5c063150f9981b6418e6721f4c991bb8,
         type: 3}
-      propertyPath: m_LocalScale.x
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 5394039435312808626, guid: 5c063150f9981b6418e6721f4c991bb8,
-        type: 3}
-      propertyPath: m_LocalScale.y
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 5394039435312808626, guid: 5c063150f9981b6418e6721f4c991bb8,
-        type: 3}
-      propertyPath: m_LocalScale.z
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 5394039435312808626, guid: 5c063150f9981b6418e6721f4c991bb8,
-        type: 3}
       propertyPath: m_LocalPosition.x
       value: 113.2
       objectReference: {fileID: 0}
@@ -6981,21 +6846,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: RockSample (7)
-      objectReference: {fileID: 0}
-    - target: {fileID: 5394039435312808626, guid: 5c063150f9981b6418e6721f4c991bb8,
-        type: 3}
-      propertyPath: m_LocalScale.x
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 5394039435312808626, guid: 5c063150f9981b6418e6721f4c991bb8,
-        type: 3}
-      propertyPath: m_LocalScale.y
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 5394039435312808626, guid: 5c063150f9981b6418e6721f4c991bb8,
-        type: 3}
-      propertyPath: m_LocalScale.z
-      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 5394039435312808626, guid: 5c063150f9981b6418e6721f4c991bb8,
         type: 3}
@@ -7863,21 +7713,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: RockSample (4)
-      objectReference: {fileID: 0}
-    - target: {fileID: 5394039435312808626, guid: 5c063150f9981b6418e6721f4c991bb8,
-        type: 3}
-      propertyPath: m_LocalScale.x
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 5394039435312808626, guid: 5c063150f9981b6418e6721f4c991bb8,
-        type: 3}
-      propertyPath: m_LocalScale.y
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 5394039435312808626, guid: 5c063150f9981b6418e6721f4c991bb8,
-        type: 3}
-      propertyPath: m_LocalScale.z
-      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 5394039435312808626, guid: 5c063150f9981b6418e6721f4c991bb8,
         type: 3}
@@ -10208,21 +10043,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: RockSample (2)
-      objectReference: {fileID: 0}
-    - target: {fileID: 5394039435312808626, guid: 5c063150f9981b6418e6721f4c991bb8,
-        type: 3}
-      propertyPath: m_LocalScale.x
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 5394039435312808626, guid: 5c063150f9981b6418e6721f4c991bb8,
-        type: 3}
-      propertyPath: m_LocalScale.y
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 5394039435312808626, guid: 5c063150f9981b6418e6721f4c991bb8,
-        type: 3}
-      propertyPath: m_LocalScale.z
-      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 5394039435312808626, guid: 5c063150f9981b6418e6721f4c991bb8,
         type: 3}
