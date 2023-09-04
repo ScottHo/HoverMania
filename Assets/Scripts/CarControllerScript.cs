@@ -5,10 +5,10 @@ public class CarControllerScript : MonoBehaviour
     public AudioSource audioSource;
     public AxleInfo[] axleInfos;
     public Rigidbody rigidBody;
-    public float torque = 2000;
+    public float torque = 5000;
     public float angle = 50;
     public float brakeTorque = 2000;
-    public float jumpPower = 12;
+    public float jumpPower = 10;
     public float maxRotationSpeed = 1500;
     public BoxCollider bottomCollider;
     AudioAction audioAction = AudioAction.None;
@@ -16,6 +16,7 @@ public class CarControllerScript : MonoBehaviour
     bool canJump = false;
     float jumpTimeBuffer = 0;
     float currentFloatWheelAngle = 0f;
+    bool spacePressed = false;
     LevelLogicScript logic;
 
     void Start()
@@ -54,9 +55,8 @@ public class CarControllerScript : MonoBehaviour
         if (!canJump)
         {
             jumpTimeBuffer += Time.deltaTime;
-            if (jumpTimeBuffer > .15)
+            if (jumpTimeBuffer > .05)
             {
-                // Only allow consecutive jumps every .25 seconds
                 canJump = true;
                 jumpTimeBuffer = 0;
             }
@@ -74,6 +74,7 @@ public class CarControllerScript : MonoBehaviour
             Drift();
             Hover();
         }
+        spacePressed = Input.GetKey(KeyCode.Space);
     }
 
     void Drift()
@@ -106,7 +107,7 @@ public class CarControllerScript : MonoBehaviour
 
     void Jump()
     {
-        if (canJump && Input.GetKey(KeyCode.Space))
+        if (canJump && Input.GetKey(KeyCode.Space) && !spacePressed)
         {
             audioAction = AudioAction.Jump;
             canJump = false;
@@ -180,10 +181,15 @@ public class CarControllerScript : MonoBehaviour
             {
                 float _maxRotationSpeed = maxRotationSpeed;
                 logic.SetBatteryDraining(true);
-                if (Mathf.Abs(angle * Input.GetAxis("Horizontal")) > 25)
+                if (Mathf.Abs(angle * Input.GetAxis("Horizontal")) > 10)
                 {
-                    _maxRotationSpeed = maxRotationSpeed * .75f;
+                    _maxRotationSpeed = maxRotationSpeed * .8f;
+                    if (Mathf.Abs(angle * Input.GetAxis("Horizontal")) > 25)
+                    {
+                        _maxRotationSpeed = maxRotationSpeed * .7f;
+                    }
                 }
+                
                 if (reverse)
                 {
                     if (axleInfo.leftWheel.rotationSpeed > -_maxRotationSpeed * .7f)
