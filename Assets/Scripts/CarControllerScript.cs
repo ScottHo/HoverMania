@@ -5,17 +5,16 @@ public class CarControllerScript : MonoBehaviour
     public AudioSource audioSource;
     public AxleInfo[] axleInfos;
     public Rigidbody rigidBody;
-    float torque = 2000;
-    float angle = 50;
-    float brakeTorque = 2000;
-    float jumpPower = 12;
+    public float torque = 2000;
+    public float angle = 50;
+    public float brakeTorque = 2000;
+    public float jumpPower = 12;
+    public BoxCollider bottomCollider;
     AudioAction audioAction = AudioAction.None;
     bool grounded = true;
-    bool newlyFloating = false;
     bool jumping = false;
     float timeSinceLastJump = 0;
     float currentFloatWheelAngle = 0f;
-    float currentFloatSpinWheelAngle = 0f;
     LevelLogicScript logic;
 
     void Start()
@@ -30,30 +29,31 @@ public class CarControllerScript : MonoBehaviour
         audioAction = AudioAction.None;
         CheckGrounded();
         Drive();
-        ApplyBooster();
-        // Double the gravity for fun
-        rigidBody.AddForce(Physics.gravity * rigidBody.mass);
+        ApplyFloatState();
+        LimitAngularVelocity();
+        rigidBody.AddForce(Physics.gravity * rigidBody.mass * 2);
         AudioManager.PlayEffect(audioAction, ref audioSource);
     }
 
     void CheckGrounded()
     {
         bool wasGrounded = grounded;
-        newlyFloating = false;
         grounded = false;
         foreach (AxleInfo axleInfo in axleInfos)
         {
             grounded |= axleInfo.leftWheel.isGrounded;
             grounded |= axleInfo.rightWheel.isGrounded;
         }
-        if (wasGrounded && !grounded)
+        bool justLanded = grounded && !wasGrounded;
+        if (justLanded)
         {
-            newlyFloating = true;
+            jumping = true;
+            timeSinceLastJump = 0;
         }
         if (jumping)
         {
             timeSinceLastJump += Time.deltaTime;
-            if (timeSinceLastJump > 0.25)
+            if (timeSinceLastJump > .15)
             {
                 // Only allow consecutive jumps every .25 seconds
                 jumping = false;
@@ -62,36 +62,59 @@ public class CarControllerScript : MonoBehaviour
         }
     }
 
-    void ApplyBooster()
+    void ApplyFloatState()
     {
         if (grounded)
         {
-            if (Input.GetKey(KeyCode.Space))
-            {
-                if (!jumping)
-                {
-                    audioAction = AudioAction.Jump;
-                    jumping = true;
-                    logic.DrainBattery(500);
-                    rigidBody.AddForce(Vector3.up * jumpPower, ForceMode.VelocityChange);
-                }
-            }
+            Jump();
         }
         else
         {
-            float drift = Input.GetAxis("Horizontal");
-            Vector3 angularVelocity = rigidBody.angularVelocity;
-            angularVelocity.y = drift;
-            rigidBody.angularVelocity = angularVelocity;
-            float maxSpeed = 10;
-            float speed = rigidBody.velocity.magnitude;
-            if (speed <= maxSpeed)
+            Drift();
+            Hover();
+        }
+    }
+
+    void Drift()
+    {
+        float drift = Input.GetAxis("Horizontal");
+        Vector3 angularVelocity = rigidBody.angularVelocity;
+        angularVelocity.y = drift;
+        rigidBody.angularVelocity = angularVelocity;
+        float maxSpeed = 10;
+        float speed = rigidBody.velocity.magnitude;
+        if (speed <= maxSpeed)
+        {
+            float forwardDrift = Input.GetAxis("Vertical");
+            rigidBody.AddForce(rigidBody.transform.forward * forwardDrift * 2000);
+        }
+    }
+
+    void Hover()
+    {
+        if (Input.GetKey(KeyCode.Space))
+        {
+            logic.SetBatteryDraining(true);
+            rigidBody.AddForce(-Physics.gravity * rigidBody.mass * 2f);
+        }
+        else
+        {
+            logic.SetBatteryDraining(false);
+        }
+    }
+
+    void Jump()
+    {
+        if (Input.GetKey(KeyCode.Space))
+        {
+            if (!jumping)
             {
-                float forwardDrift = Input.GetAxis("Vertical");
-                rigidBody.AddForce(rigidBody.transform.forward * forwardDrift * 2000);
+                audioAction = AudioAction.Jump;
+                jumping = true;
+                logic.DrainBattery(500);
+                rigidBody.AddForce(Vector3.up * jumpPower, ForceMode.VelocityChange);
             }
         }
-        LimitAngularVelocity();
     }
 
     void LimitAngularVelocity()
@@ -158,7 +181,6 @@ public class CarControllerScript : MonoBehaviour
             else
             {
                 logic.SetBatteryDraining(true);
-
                 float maxRotationSpeed = 1200;
                 if (Mathf.Abs(angle * Input.GetAxis("Horizontal")) > 25)
                 {
@@ -192,12 +214,12 @@ public class CarControllerScript : MonoBehaviour
 
     public void UpdateWheelVisuals(AxleInfo axleInfo)
     {
-        ApplyLocalPositionToVisuals(axleInfo.leftWheel, true);
-        ApplyLocalPositionToVisuals(axleInfo.rightWheel, false);
+        ApplyLocalPositionToVisuals(axleInfo.leftWheel, axleInfo.leftSpring, true);
+        ApplyLocalPositionToVisuals(axleInfo.rightWheel, axleInfo.rightSpring, false);
 
     }
 
-    public void ApplyLocalPositionToVisuals(WheelCollider collider, bool leftWheel)
+    public void ApplyLocalPositionToVisuals(WheelCollider collider, GameObject spring, bool leftWheel)
     {
         if (collider.transform.childCount == 0)
         {
@@ -213,6 +235,7 @@ public class CarControllerScript : MonoBehaviour
         {
             Vector3 angles = HoverModeAngles(true, leftWheel, rotation.eulerAngles);
             rotation.eulerAngles = angles;
+            position = Vector3.MoveTowards(position, spring.transform.position, 10f);
         }
         else
         {
@@ -230,28 +253,22 @@ public class CarControllerScript : MonoBehaviour
     {
         if (hover)
         {
-            currentFloatWheelAngle += 3f;
+            currentFloatWheelAngle += 2f;
         }
         else
         {
-            currentFloatWheelAngle -= 3f;
+            currentFloatWheelAngle -= 2f;
         }
         currentFloatWheelAngle = Mathf.Clamp(currentFloatWheelAngle, 0f, 90f);
-        if (newlyFloating)
-        {
-            currentFloatSpinWheelAngle = 0;
-        }
-        else
-        {
-            currentFloatSpinWheelAngle += 4;
-        }
-        angles.x = 0;
-        angles.y = currentFloatSpinWheelAngle;
+        float zBackup = rigidBody.transform.rotation.eulerAngles.z;
+        angles.x = rigidBody.transform.rotation.eulerAngles.x;
+        angles.y = rigidBody.transform.rotation.eulerAngles.y;
         angles.z = -currentFloatWheelAngle;
         if (leftWheel)
         {
             angles.z = currentFloatWheelAngle;
         }
+        angles.z += zBackup;
         return angles;
     }
 }
@@ -260,7 +277,9 @@ public class CarControllerScript : MonoBehaviour
 public class AxleInfo
 {
     public WheelCollider leftWheel;
+    public GameObject leftSpring;
     public WheelCollider rightWheel;
+    public GameObject rightSpring;
     public bool motor;
     public bool steering;
 }

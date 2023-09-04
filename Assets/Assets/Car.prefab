@@ -104,6 +104,37 @@ Transform:
   - {fileID: 1979097072371974641}
   m_Father: {fileID: 6248621417667595041}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &761501580280915532
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 740291590838372434}
+  m_Layer: 3
+  m_Name: FR Spring
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &740291590838372434
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 761501580280915532}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0.0082, y: 0.0011, z: 0.0159}
+  m_LocalScale: {x: 0.0022500001, y: 0.001, z: 0.0022500001}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 823339265954318326}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &4332286618752543640
 GameObject:
   m_ObjectHideFlags: 0
@@ -280,6 +311,37 @@ Transform:
   - {fileID: 6510560257978166896}
   m_Father: {fileID: 7618481198863602798}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &5025643078961090367
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 3736341439270002056}
+  m_Layer: 3
+  m_Name: FL Spring
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &3736341439270002056
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5025643078961090367}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -0.0082, y: 0.0011, z: 0.0159}
+  m_LocalScale: {x: 0.0022500001, y: 0.001, z: 0.0022500001}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 823339265954318326}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &5810581910275886153
 GameObject:
   m_ObjectHideFlags: 0
@@ -311,6 +373,37 @@ Transform:
   m_Children:
   - {fileID: 6662144553292745638}
   m_Father: {fileID: 4903291167882146049}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &7373917802917986368
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 6195677623297503683}
+  m_Layer: 3
+  m_Name: BL Spring
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &6195677623297503683
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7373917802917986368}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -0.0082, y: 0.0011, z: -0.0103}
+  m_LocalScale: {x: 0.0022500001, y: 0.001, z: 0.0022500001}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 823339265954318326}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &8351330549139327540
 GameObject:
@@ -384,6 +477,37 @@ WheelCollider:
   m_LayerOverridePriority: 0
   m_Enabled: 1
   m_ProvidesContacts: 0
+--- !u!1 &8805547468361613245
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 7120609737690109237}
+  m_Layer: 3
+  m_Name: BR Spring
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &7120609737690109237
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8805547468361613245}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0.0082, y: 0.0011, z: -0.0103}
+  m_LocalScale: {x: 0.0022500001, y: 0.001, z: 0.0022500001}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 823339265954318326}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &8809847331751718787
 GameObject:
   m_ObjectHideFlags: 0
@@ -490,6 +614,22 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: -8679921383154817045, guid: 3394bb5b6f2fd8d4391b5b7e494e2b15,
         type: 3}
       insertIndex: -1
+      addedObject: {fileID: 3736341439270002056}
+    - targetCorrespondingSourceObject: {fileID: -8679921383154817045, guid: 3394bb5b6f2fd8d4391b5b7e494e2b15,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 740291590838372434}
+    - targetCorrespondingSourceObject: {fileID: -8679921383154817045, guid: 3394bb5b6f2fd8d4391b5b7e494e2b15,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 6195677623297503683}
+    - targetCorrespondingSourceObject: {fileID: -8679921383154817045, guid: 3394bb5b6f2fd8d4391b5b7e494e2b15,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 7120609737690109237}
+    - targetCorrespondingSourceObject: {fileID: -8679921383154817045, guid: 3394bb5b6f2fd8d4391b5b7e494e2b15,
+        type: 3}
+      insertIndex: -1
       addedObject: {fileID: 6248621417667595041}
     - targetCorrespondingSourceObject: {fileID: -8679921383154817045, guid: 3394bb5b6f2fd8d4391b5b7e494e2b15,
         type: 3}
@@ -554,7 +694,7 @@ Rigidbody:
   m_Mass: 300
   m_Drag: 0
   m_AngularDrag: 0.05
-  m_CenterOfMass: {x: 0, y: -1, z: 0}
+  m_CenterOfMass: {x: 0, y: -1, z: 0.4}
   m_InertiaTensor: {x: 1, y: 1, z: 1}
   m_InertiaRotation: {x: 0, y: 0, z: 0, w: 1}
   m_IncludeLayers:
@@ -648,14 +788,23 @@ MonoBehaviour:
   audioSource: {fileID: 168169985650834326}
   axleInfos:
   - leftWheel: {fileID: 4686981419531241121}
+    leftSpring: {fileID: 5025643078961090367}
     rightWheel: {fileID: 5010233001317424126}
+    rightSpring: {fileID: 761501580280915532}
     motor: 1
     steering: 1
   - leftWheel: {fileID: 1181745425347201687}
+    leftSpring: {fileID: 7373917802917986368}
     rightWheel: {fileID: 9105349691101298259}
+    rightSpring: {fileID: 8805547468361613245}
     motor: 1
     steering: 0
   rigidBody: {fileID: 4993317378693372706}
+  torque: 2000
+  angle: 50
+  brakeTorque: 2000
+  jumpPower: 12
+  bottomCollider: {fileID: 0}
 --- !u!82 &168169985650834326
 AudioSource:
   m_ObjectHideFlags: 0

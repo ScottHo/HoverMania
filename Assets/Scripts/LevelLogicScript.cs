@@ -22,8 +22,8 @@ public class LevelLogicScript : MonoBehaviour
     public Image fader;
     public AudioSource audioSource;
     public int defaultId = 1;
-    int defaultBatteryLife = 10000;
-    int batteryLife = 10000;
+    int defaultBatteryLife = 100000;
+    int batteryLife = 100000;
     bool batteryDraining;
     int currentSamples = 0;
     int totalSamples = 0;
