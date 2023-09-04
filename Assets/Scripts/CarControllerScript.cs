@@ -9,11 +9,12 @@ public class CarControllerScript : MonoBehaviour
     public float angle = 50;
     public float brakeTorque = 2000;
     public float jumpPower = 12;
+    public float maxRotationSpeed = 1500;
     public BoxCollider bottomCollider;
     AudioAction audioAction = AudioAction.None;
     bool grounded = true;
-    bool jumping = false;
-    float timeSinceLastJump = 0;
+    bool canJump = false;
+    float jumpTimeBuffer = 0;
     float currentFloatWheelAngle = 0f;
     LevelLogicScript logic;
 
@@ -47,17 +48,17 @@ public class CarControllerScript : MonoBehaviour
         bool justLanded = grounded && !wasGrounded;
         if (justLanded)
         {
-            jumping = true;
-            timeSinceLastJump = 0;
+            canJump = false;
+            jumpTimeBuffer = 0f;
         }
-        if (jumping)
+        if (!canJump)
         {
-            timeSinceLastJump += Time.deltaTime;
-            if (timeSinceLastJump > .15)
+            jumpTimeBuffer += Time.deltaTime;
+            if (jumpTimeBuffer > .15)
             {
                 // Only allow consecutive jumps every .25 seconds
-                jumping = false;
-                timeSinceLastJump = 0;
+                canJump = true;
+                jumpTimeBuffer = 0;
             }
         }
     }
@@ -105,15 +106,12 @@ public class CarControllerScript : MonoBehaviour
 
     void Jump()
     {
-        if (Input.GetKey(KeyCode.Space))
+        if (canJump && Input.GetKey(KeyCode.Space))
         {
-            if (!jumping)
-            {
-                audioAction = AudioAction.Jump;
-                jumping = true;
-                logic.DrainBattery(500);
-                rigidBody.AddForce(Vector3.up * jumpPower, ForceMode.VelocityChange);
-            }
+            audioAction = AudioAction.Jump;
+            canJump = false;
+            logic.DrainBattery(500);
+            rigidBody.AddForce(Vector3.up * jumpPower, ForceMode.VelocityChange);
         }
     }
 
@@ -180,30 +178,30 @@ public class CarControllerScript : MonoBehaviour
             }
             else
             {
+                float _maxRotationSpeed = maxRotationSpeed;
                 logic.SetBatteryDraining(true);
-                float maxRotationSpeed = 1200;
                 if (Mathf.Abs(angle * Input.GetAxis("Horizontal")) > 25)
                 {
-                    maxRotationSpeed = maxRotationSpeed/2;
+                    _maxRotationSpeed = maxRotationSpeed * .75f;
                 }
                 if (reverse)
                 {
-                    if (axleInfo.leftWheel.rotationSpeed > -maxRotationSpeed * .7f)
+                    if (axleInfo.leftWheel.rotationSpeed > -_maxRotationSpeed * .7f)
                     {
                         axleInfo.leftWheel.motorTorque = motor;
                     }
-                    if (axleInfo.rightWheel.rotationSpeed > -maxRotationSpeed * .7f)
+                    if (axleInfo.rightWheel.rotationSpeed > -_maxRotationSpeed * .7f)
                     {
                         axleInfo.rightWheel.motorTorque = motor;
                     }
                 }
                 else
                 {
-                    if (axleInfo.leftWheel.rotationSpeed < maxRotationSpeed)
+                    if (axleInfo.leftWheel.rotationSpeed < _maxRotationSpeed)
                     {
                         axleInfo.leftWheel.motorTorque = motor;
                     }
-                    if (axleInfo.rightWheel.rotationSpeed < maxRotationSpeed)
+                    if (axleInfo.rightWheel.rotationSpeed < _maxRotationSpeed)
                     {
                         axleInfo.rightWheel.motorTorque = motor;
                     }
@@ -257,7 +255,7 @@ public class CarControllerScript : MonoBehaviour
         }
         else
         {
-            currentFloatWheelAngle -= 2f;
+            currentFloatWheelAngle -= 4f;
         }
         currentFloatWheelAngle = Mathf.Clamp(currentFloatWheelAngle, 0f, 90f);
         float zBackup = rigidBody.transform.rotation.eulerAngles.z;
