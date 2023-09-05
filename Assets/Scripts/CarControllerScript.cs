@@ -6,12 +6,12 @@ public class CarControllerScript : MonoBehaviour
     public AudioSource audioSourceAmbience;
     public AxleInfo[] axleInfos;
     public Rigidbody rigidBody;
+    public Light bottomGlow;
     public float torque = 5000;
     public float angle = 50;
     public float brakeTorque = 2000;
     public float jumpPower = 10;
     public float maxRotationSpeed = 1500;
-    public BoxCollider bottomCollider;
     AudioAction audioAction = AudioAction.None;
     bool grounded = true;
     bool canJump = false;
@@ -34,6 +34,7 @@ public class CarControllerScript : MonoBehaviour
             rigidBody.angularVelocity = Vector3.zero;
             return;
         }
+        bottomGlow.enabled = false;
         audioAction = AudioAction.None;
         CheckGrounded();
         Drive();
@@ -102,12 +103,16 @@ public class CarControllerScript : MonoBehaviour
     {
         if (Input.GetKey(KeyCode.Space))
         {
+            bottomGlow.enabled = true;
+            bottomGlow.color = Color.green;
             AudioManager.PlayAmbience(AudioAction.Hover, ref audioSourceAmbience);
             logic.SetBatteryDraining(true);
             rigidBody.AddForce(-Physics.gravity * rigidBody.mass * 2f);
         }
         else
         {
+            bottomGlow.enabled = true;
+            bottomGlow.color = Color.yellow;
             AudioManager.PlayAmbience(AudioAction.Idle, ref audioSourceAmbience);
             logic.SetBatteryDraining(false);
         }
@@ -189,6 +194,8 @@ public class CarControllerScript : MonoBehaviour
             else
             {
                 AudioManager.PlayAmbience(AudioAction.Drive, ref audioSourceAmbience);
+                bottomGlow.enabled = true;
+                bottomGlow.color = Color.cyan;
                 float _maxRotationSpeed = maxRotationSpeed;
                 logic.SetBatteryDraining(true);
                 if (Mathf.Abs(angle * Input.GetAxis("Horizontal")) > 10)
