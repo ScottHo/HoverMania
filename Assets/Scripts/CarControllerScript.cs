@@ -31,6 +31,7 @@ public class CarControllerScript : MonoBehaviour
         {
             audioSourceAmbience.Stop();
             rigidBody.velocity = Vector3.zero;
+            rigidBody.angularVelocity = Vector3.zero;
             return;
         }
         audioAction = AudioAction.None;

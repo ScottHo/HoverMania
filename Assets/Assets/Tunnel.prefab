@@ -108,6 +108,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: Tunnel
       objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: a6a9ce94225e1134a9c261e87e8a7554,
+        type: 3}
+      propertyPath: m_Layer
+      value: 6
+      objectReference: {fileID: 0}
     - target: {fileID: 7202271454713460447, guid: a6a9ce94225e1134a9c261e87e8a7554,
         type: 3}
       propertyPath: m_Materials.Array.data[0]
