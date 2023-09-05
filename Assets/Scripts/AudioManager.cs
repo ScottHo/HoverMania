@@ -39,16 +39,12 @@ public class AudioManager : MonoBehaviour
         if (action == AudioAction.Hover)
         {
             clip = Resources.Load<AudioClip>("Whir");
-            if (source.clip ==  clip && source.isPlaying)
-            {
-                source.pitch = 1.0f;
-            }
-            else
+            source.pitch = 1.0f;
+            source.volume = .7f * mod;
+            if (source.clip != clip || !source.isPlaying)
             {
                 source.Stop();
-                source.pitch = 1.0f;
                 source.clip = clip;
-                source.volume = .7f * mod;
                 source.loop = true;
                 source.Play();
             }
@@ -57,16 +53,12 @@ public class AudioManager : MonoBehaviour
         if (action == AudioAction.Drive)
         {
             clip = Resources.Load<AudioClip>("Whir");
-            if (source.clip == clip && source.isPlaying)
-            {
-                source.pitch = .8f;
-            }
-            else
+            source.pitch = .8f;
+            source.volume = .6f * mod;
+            if (source.clip != clip || !source.isPlaying)
             {
                 source.Stop();
-                source.pitch = .8f;
                 source.clip = clip;
-                source.volume = .6f * mod;
                 source.loop = true;
                 source.Play();
             }
@@ -75,16 +67,12 @@ public class AudioManager : MonoBehaviour
         if (action == AudioAction.Idle)
         {
             clip = Resources.Load<AudioClip>("Whir");
-            if (source.clip == clip && source.isPlaying)
-            {
-                source.pitch = .6f;
-            }
-            else
+            source.pitch = .6f;
+            source.volume = .4f * mod;
+            if (source.clip != clip || !source.isPlaying)
             {
                 source.Stop();
-                source.pitch = .6f;
                 source.clip = clip;
-                source.volume = .5f * mod;
                 source.loop = true;
                 source.Play();
             }
