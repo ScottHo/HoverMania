@@ -22,8 +22,8 @@ public class LevelLogicScript : MonoBehaviour
     public Image fader;
     public AudioSource audioSource;
     public int defaultId = 1;
-    int defaultBatteryLife = 100000;
-    int batteryLife = 100000;
+    int defaultBatteryLife = 10000;
+    int batteryLife = 10000;
     bool batteryDraining;
     int currentSamples = 0;
     int totalSamples = 0;
@@ -81,7 +81,10 @@ public class LevelLogicScript : MonoBehaviour
             {
                 levelContainer.SetActive(true);
                 totalSamples = levelContainer.transform.Find("SampleContainer").childCount;
-                break;
+            }
+            else
+            {
+                levelContainer.SetActive(false);
             }
         }
         loadedId = idToLoad;
