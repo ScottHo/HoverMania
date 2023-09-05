@@ -73,7 +73,6 @@ public class LevelLogicScript : MonoBehaviour
         {
             idToLoad = UILogicScript.Instance.selectedLevelID;
         }
-        levelNameText.text = LevelFactory.GetLevelInfo(idToLoad).levelName;
         Debug.Log("Loading level " + idToLoad);
         foreach (GameObject levelContainer in levelContainers.levels)
         {

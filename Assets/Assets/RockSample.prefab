@@ -98,6 +98,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 23bf0ed90411a534d848f421f8106ad8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  textPrefab: {fileID: 7897696854367130939, guid: 50ff12982aaadd444b62d519c0638299,
+    type: 3}
+  meshRenderer: {fileID: 5083112188415694915}
 --- !u!82 &6896391755487907323
 AudioSource:
   m_ObjectHideFlags: 0
@@ -209,7 +212,7 @@ BoxCollider:
     serializedVersion: 2
     m_Bits: 0
   m_LayerOverridePriority: 0
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3

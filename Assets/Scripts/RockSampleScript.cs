@@ -3,10 +3,17 @@ using UnityEngine;
 
 public class RockSampleScript : MonoBehaviour
 {
+    public GameObject textPrefab;
+    public MeshRenderer meshRenderer;
     LevelLogicScript logic;
     bool beingDestroyed = false;
     bool movingUp = true;
     Vector3 down, up;
+    float textTimerStart = 0.0f;
+    float textTimer = 2.0f;
+    Quaternion textRotation;
+    GameObject textObject;
+
     void Start()
     {
         logic = GameObject.FindGameObjectWithTag("LevelLogic").GetComponent<LevelLogicScript>();
@@ -28,6 +35,21 @@ public class RockSampleScript : MonoBehaviour
 
     void FixedUpdate()
     {
+        if (beingDestroyed)
+        {
+            if (textTimerStart == 0.0f)
+            {
+                meshRenderer.forceRenderingOff = true;
+                textObject = Instantiate(textPrefab, gameObject.transform.position, textRotation);
+            }
+            textTimerStart += Time.deltaTime;
+            if (textTimer < textTimerStart)
+            {
+                Destroy(textObject);
+                Destroy(gameObject);
+            }
+            return;
+        }
         float speed = .65f;
         float step = speed * Time.deltaTime;
         if (movingUp)
@@ -60,7 +82,7 @@ public class RockSampleScript : MonoBehaviour
             {
                 beingDestroyed = true;
                 logic.SampleCollected(1);
-                Destroy(gameObject);
+                textRotation = collision.gameObject.transform.rotation;
             }
         }
     }

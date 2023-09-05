@@ -80,6 +80,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -7511558181221131132, guid: b23fed404dc4b5444978c1097c72a986,
         type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: -7511558181221131132, guid: b23fed404dc4b5444978c1097c72a986,
+        type: 3}
       propertyPath: m_ReceiveShadows
       value: 0
       objectReference: {fileID: 0}
@@ -134,6 +139,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 666e8c098ce2e2d4e914f907e52b967b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  textPrefab: {fileID: 2129043438320112741, guid: 8eb0620222d35834384ed911e02204c7,
+    type: 3}
+  meshRenderer: {fileID: 4289360121413004561}
 --- !u!65 &5133722907737418089
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -155,3 +163,9 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 0.024, y: 0.024, z: 0.024}
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!23 &4289360121413004561 stripped
+MeshRenderer:
+  m_CorrespondingSourceObject: {fileID: -7511558181221131132, guid: b23fed404dc4b5444978c1097c72a986,
+    type: 3}
+  m_PrefabInstance: {fileID: 3190602339009360277}
+  m_PrefabAsset: {fileID: 0}

@@ -74,8 +74,11 @@ crashlytics-build.properties
 /[Aa]ssets/TextMesh Pro/
 /[Aa]ssets/TextMesh Pro.meta
 
-/[Aa]ssets/Adaptive Performance/
-/[Aa]ssets/Adaptive Performance.meta
+/[Aa]ssets/Pixel Font - Tripfive/
+/[Aa]ssets/Pixel Font - Tripfive.meta
+
+/[Aa]ssets/TextMesh Pro/
+/[Aa]ssets/TextMesh Pro.meta
 
 .vs
 .vsconfig
