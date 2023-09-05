@@ -672,10 +672,6 @@ PrefabInstance:
         type: 3}
       insertIndex: -1
       addedObject: {fileID: 2483029997929933224}
-    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 3394bb5b6f2fd8d4391b5b7e494e2b15,
-        type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 1788151441931716206}
   m_SourcePrefab: {fileID: 100100000, guid: 3394bb5b6f2fd8d4391b5b7e494e2b15, type: 3}
 --- !u!1 &10913888353049932 stripped
 GameObject:
@@ -786,6 +782,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   audioSource: {fileID: 168169985650834326}
+  audioSourceAmbience: {fileID: 2483029997929933224}
   axleInfos:
   - leftWheel: {fileID: 4686981419531241121}
     leftSpring: {fileID: 5025643078961090367}
@@ -912,11 +909,11 @@ AudioSource:
   m_Enabled: 1
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
-  m_audioClip: {fileID: 8300000, guid: 64aaeda8606e79f4185c5cb48e072969, type: 3}
-  m_PlayOnAwake: 1
+  m_audioClip: {fileID: 0}
+  m_PlayOnAwake: 0
   m_Volume: 0.02
   m_Pitch: 1
-  Loop: 1
+  Loop: 0
   Mute: 0
   Spatialize: 0
   SpatializePostEffects: 0
@@ -998,21 +995,6 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
---- !u!114 &1788151441931716206
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 10913888353049932}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d66815a17b143fb429d70589406f37b1, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _source: {fileID: 2483029997929933224}
-  baseVolume: 0.05
-  isMusic: 0
 --- !u!4 &823339265954318326 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 3394bb5b6f2fd8d4391b5b7e494e2b15,

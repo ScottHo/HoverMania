@@ -47,7 +47,7 @@ public class BatteryScript : MonoBehaviour
             if (!beingDestroyed)
             {
                 beingDestroyed = true;
-                logic.IncreaseBatteryLife(2500);
+                logic.IncreaseBatteryLife(3000);
                 Destroy(gameObject);
             }
         }

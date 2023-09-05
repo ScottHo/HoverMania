@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 public class AudioManager : MonoBehaviour
@@ -5,6 +6,7 @@ public class AudioManager : MonoBehaviour
     public AudioSource _source;
     public float baseVolume = .1f;
     public bool isMusic = true;
+    public AudioAction currentAction = AudioAction.None;
 
     void Start()
     {
@@ -29,6 +31,67 @@ public class AudioManager : MonoBehaviour
     {
         PlayEffect(AudioAction.Click, ref _source);
     }
+
+    public static void PlayAmbience(AudioAction action, ref AudioSource source)
+    {
+        AudioClip clip;
+        float mod = PlayerPrefs.GetFloat("VolumeAmbience");
+        if (action == AudioAction.Hover)
+        {
+            clip = Resources.Load<AudioClip>("Whir");
+            if (source.clip ==  clip && source.isPlaying)
+            {
+                source.pitch = 1.0f;
+            }
+            else
+            {
+                source.Stop();
+                source.pitch = 1.0f;
+                source.clip = clip;
+                source.volume = .7f * mod;
+                source.loop = true;
+                source.Play();
+            }
+            return;
+        }
+        if (action == AudioAction.Drive)
+        {
+            clip = Resources.Load<AudioClip>("Whir");
+            if (source.clip == clip && source.isPlaying)
+            {
+                source.pitch = .8f;
+            }
+            else
+            {
+                source.Stop();
+                source.pitch = .8f;
+                source.clip = clip;
+                source.volume = .6f * mod;
+                source.loop = true;
+                source.Play();
+            }
+            return;
+        }
+        if (action == AudioAction.Idle)
+        {
+            clip = Resources.Load<AudioClip>("Whir");
+            if (source.clip == clip && source.isPlaying)
+            {
+                source.pitch = .6f;
+            }
+            else
+            {
+                source.Stop();
+                source.pitch = .6f;
+                source.clip = clip;
+                source.volume = .5f * mod;
+                source.loop = true;
+                source.Play();
+            }
+            return;
+        }
+    }
+
     public static void PlayEffect(AudioAction action, ref AudioSource source)
     {
         AudioClip clip;

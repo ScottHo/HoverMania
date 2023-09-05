@@ -824,8 +824,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 204020874}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.077293225, y: -0, z: -0, w: 0.99700844}
-  m_LocalPosition: {x: 101.01905, y: 7.425, z: 8.141219}
+  m_LocalRotation: {x: 0.07729321, y: -0, z: -0, w: 0.99700844}
+  m_LocalPosition: {x: 101.01905, y: 6.495, z: 8.141219}
   m_LocalScale: {x: 200.00002, y: 200, z: 200.00002}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -1307,7 +1307,7 @@ PrefabInstance:
     - target: {fileID: 823339265954318326, guid: 32a43b6484474ca42bd24d3cb76f0877,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: -1
+      value: -1.93
       objectReference: {fileID: 0}
     - target: {fileID: 823339265954318326, guid: 32a43b6484474ca42bd24d3cb76f0877,
         type: 3}
@@ -4402,6 +4402,7 @@ MonoBehaviour:
   audioSource: {fileID: 741896867}
   defaultId: 1
   gameIsOver: 0
+  fading: 0
 --- !u!4 &814153938
 Transform:
   m_ObjectHideFlags: 0
@@ -4601,7 +4602,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: 0.7071068, z: -0, w: 0.7071068}
   m_LocalPosition: {x: 179.75, y: 24, z: 90}
-  m_LocalScale: {x: 180, y: 200, z: 0.5}
+  m_LocalScale: {x: 180, y: 100, z: 0.5}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 741896866}
@@ -5623,7 +5624,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 90, y: 24, z: 0.25}
-  m_LocalScale: {x: 180, y: 200, z: 0.5}
+  m_LocalScale: {x: 180, y: 100, z: 0.5}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 741896866}
@@ -5844,6 +5845,7 @@ MonoBehaviour:
   _source: {fileID: 1107308827}
   baseVolume: 0.2
   isMusic: 1
+  currentAction: 0
 --- !u!82 &1107308827
 AudioSource:
   m_ObjectHideFlags: 0
@@ -7442,7 +7444,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 90, y: 24, z: 179.75}
-  m_LocalScale: {x: 180, y: 200, z: 0.5}
+  m_LocalScale: {x: 180, y: 100, z: 0.5}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 741896866}
@@ -8094,8 +8096,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1744024609}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.077293225, y: -0, z: -0, w: 0.99700844}
-  m_LocalPosition: {x: 101.01905, y: 7.425, z: 8.141219}
+  m_LocalRotation: {x: 0.07729321, y: -0, z: -0, w: 0.99700844}
+  m_LocalPosition: {x: 101.01905, y: 6.495, z: 8.141219}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -8342,7 +8344,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: 0.7071068, z: -0, w: 0.7071068}
   m_LocalPosition: {x: 0.25, y: 24, z: 90}
-  m_LocalScale: {x: 180, y: 200, z: 0.5}
+  m_LocalScale: {x: 180, y: 100, z: 0.5}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 741896866}
@@ -8777,6 +8779,7 @@ MonoBehaviour:
   _source: {fileID: 1807991558}
   baseVolume: 0.1
   isMusic: 1
+  currentAction: 0
 --- !u!1001 &1811144511
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -9056,7 +9059,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &1874164233
 Transform:
   m_ObjectHideFlags: 0

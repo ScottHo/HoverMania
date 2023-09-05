@@ -3,6 +3,7 @@ using UnityEngine;
 public class CarControllerScript : MonoBehaviour
 {
     public AudioSource audioSource;
+    public AudioSource audioSourceAmbience;
     public AxleInfo[] axleInfos;
     public Rigidbody rigidBody;
     public float torque = 5000;
@@ -26,8 +27,12 @@ public class CarControllerScript : MonoBehaviour
 
     void FixedUpdate()
     {
-        if (logic.gameIsOver)
+        if (logic.gameIsOver || logic.fading)
+        {
+            audioSourceAmbience.Stop();
+            rigidBody.velocity = Vector3.zero;
             return;
+        }
         audioAction = AudioAction.None;
         CheckGrounded();
         Drive();
@@ -96,11 +101,13 @@ public class CarControllerScript : MonoBehaviour
     {
         if (Input.GetKey(KeyCode.Space))
         {
+            AudioManager.PlayAmbience(AudioAction.Hover, ref audioSourceAmbience);
             logic.SetBatteryDraining(true);
             rigidBody.AddForce(-Physics.gravity * rigidBody.mass * 2f);
         }
         else
         {
+            AudioManager.PlayAmbience(AudioAction.Idle, ref audioSourceAmbience);
             logic.SetBatteryDraining(false);
         }
     }
@@ -173,12 +180,14 @@ public class CarControllerScript : MonoBehaviour
         {
             if (motor == 0 || (reverse && isMovingForward) || (!reverse && isMovingBackwards))
             {
+                AudioManager.PlayAmbience(AudioAction.Idle, ref audioSourceAmbience);
                 logic.SetBatteryDraining(false);
                 axleInfo.leftWheel.brakeTorque = brakePower;
                 axleInfo.rightWheel.brakeTorque = brakePower;
             }
             else
             {
+                AudioManager.PlayAmbience(AudioAction.Drive, ref audioSourceAmbience);
                 float _maxRotationSpeed = maxRotationSpeed;
                 logic.SetBatteryDraining(true);
                 if (Mathf.Abs(angle * Input.GetAxis("Horizontal")) > 10)

@@ -30,7 +30,7 @@ public class LevelLogicScript : MonoBehaviour
     float elapsedTime = 0;
     public bool gameIsOver = false;
     int loadedId = -1;
-    bool fading = false;
+    public bool fading = false;
     bool fadeIn = true;
     Action actionAfterFade;
     IDatabaseRepository databaseRepository;
@@ -108,8 +108,7 @@ public class LevelLogicScript : MonoBehaviour
         }
         fader.color = color;
     }
-
-
+     
     void Fade()
     {
         Color color = fader.color;
