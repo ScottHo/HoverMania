@@ -804,6 +804,7 @@ MonoBehaviour:
   angle: 50
   brakeTorque: 2000
   jumpPower: 12
+  maxRotationSpeed: 1500
   bottomCollider: {fileID: 0}
 --- !u!82 &168169985650834326
 AudioSource:
