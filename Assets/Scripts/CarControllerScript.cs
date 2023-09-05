@@ -194,8 +194,7 @@ public class CarControllerScript : MonoBehaviour
             else
             {
                 AudioManager.PlayAmbience(AudioAction.Drive, ref audioSourceAmbience);
-                bottomGlow.enabled = true;
-                bottomGlow.color = Color.cyan;
+                
                 float _maxRotationSpeed = maxRotationSpeed;
                 logic.SetBatteryDraining(true);
                 if (Mathf.Abs(angle * Input.GetAxis("Horizontal")) > 10)
@@ -209,6 +208,8 @@ public class CarControllerScript : MonoBehaviour
                 
                 if (reverse)
                 {
+                    bottomGlow.enabled = true;
+                    bottomGlow.color = Color.red;
                     if (axleInfo.leftWheel.rotationSpeed > -_maxRotationSpeed * .7f)
                     {
                         axleInfo.leftWheel.motorTorque = motor;
@@ -220,6 +221,8 @@ public class CarControllerScript : MonoBehaviour
                 }
                 else
                 {
+                    bottomGlow.enabled = true;
+                    bottomGlow.color = Color.cyan;
                     if (axleInfo.leftWheel.rotationSpeed < _maxRotationSpeed)
                     {
                         axleInfo.leftWheel.motorTorque = motor;
