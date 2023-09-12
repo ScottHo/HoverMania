@@ -89,3 +89,6 @@ crashlytics-build.properties
 *.zip
 /[Aa]ssets/Plugins/
 /[Aa]ssets/Resources/
+/Packages/
+/[Aa]ssets/Scripts/S.cs.meta
+/[Aa]ssets/Scripts/S.cs
