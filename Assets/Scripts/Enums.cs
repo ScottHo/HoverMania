@@ -10,3 +10,12 @@ public enum AudioAction : int
     Idle = 7,
     Drive = 8,
 }
+
+public enum UserCreatedStatus : int
+{
+    Success = 0,
+    UsernameExists = 1,
+    InvalidUsername = 2,
+    InvalidID = 3,
+    UnknownError = 4,
+}

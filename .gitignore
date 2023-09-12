@@ -83,7 +83,7 @@ crashlytics-build.properties
 .vs
 .vsconfig
 
-/[Aa]ssets/ImportedAssets
+/[Aa]ssets/ImportedAssets/
 /Release/
 /Web_Release/
 *.zip
