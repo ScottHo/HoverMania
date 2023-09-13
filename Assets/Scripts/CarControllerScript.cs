@@ -89,12 +89,12 @@ public class CarControllerScript : MonoBehaviour
         Vector3 angularVelocity = rigidBody.angularVelocity;
         angularVelocity.y = drift;
         rigidBody.angularVelocity = angularVelocity;
-        float maxSpeed = 10;
+        float maxSpeed = 15;
         float speed = rigidBody.velocity.magnitude;
         if (speed <= maxSpeed)
         {
             float forwardDrift = Input.GetAxis("Vertical");
-            rigidBody.AddForce(rigidBody.transform.forward * forwardDrift * 2000);
+            rigidBody.AddForce(rigidBody.transform.forward * forwardDrift * 1500);
         }
     }
 
@@ -201,7 +201,7 @@ public class CarControllerScript : MonoBehaviour
                     if (currAngle > 0)
                     {
                         motor *= .2f;
-                        if (currAngle > 45)
+                        if (currAngle > angle-5)
                             motor *= 1.7f;
                     }
                 }
@@ -246,9 +246,9 @@ public class CarControllerScript : MonoBehaviour
         {
             if (hoverUpStep < 1.0f)
             {
-                hoverUpStep += .05f;
+                hoverUpStep += .02f;
                 rotation = Quaternion.Slerp(orig.transform.rotation, spring.transform.rotation, hoverUpStep);
-                position = Vector3.MoveTowards(orig.transform.position, spring.transform.position, 1f);
+                position = Vector3.MoveTowards(orig.transform.position, spring.transform.position, .2f);
             }
             else
             {
@@ -263,7 +263,7 @@ public class CarControllerScript : MonoBehaviour
             {
                 hoverUpStep -= .05f;
                 rotation = Quaternion.Slerp(orig.transform.rotation, spring.transform.rotation, hoverUpStep);
-                position = Vector3.MoveTowards(spring.transform.position, orig.transform.position, 1f);
+                position = Vector3.MoveTowards(spring.transform.position, orig.transform.position, .4f);
             }
             else
             {
