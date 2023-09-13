@@ -1,48 +1,55 @@
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class UILogicScript : MonoBehaviour
 {
     public LevelSelectContainers levelSelectContainers;
+    public GameObject leaderboard;
+    public GameObject createUserPopup;
+    public GameObject offlinePopup;
+    public GameObject demoPopup;
     public Button playButton;
     public Button leftSelectButton;
     public Button rightSelectButton;
     public int selectedLevelID;
-    public static UILogicScript Instance;
     IDatabaseRepository databaseRepository;
     int levelOffset = 0;
 
-
-    private void Awake()
-    {
-        if (Instance == null)
-        {
-            Instance = this;
-            Init();
-        }
-        else if (Instance != this)
-        {
-            //Instance is not the same as the one we have, destroy old one, and reset to newest one
-            Destroy(Instance.gameObject);
-            Instance = this;
-            Init();
-        }
-    }
-
-    void Init()
-    {
-        DontDestroyOnLoad(gameObject);
-        databaseRepository = DatabaseManager.Instance.database;
-    }
-
     private void Start()
     {
+        databaseRepository = DatabaseManager.Instance.database;
+        selectedLevelID = PlayerPrefs.GetInt("SelectedLevel");
         AddListeners();
         UpdateLevelsLocked();
         FillLevelSelectContainers();
+        ShowPopups();
+        SetUser();
+    }
+
+    void ShowPopups()
+    {
+        if (PlayerPrefs.GetInt("ShowDemoPopup") == 1)
+        {
+            demoPopup.SetActive(true);
+            PlayerPrefs.SetInt("ShowDemoPopup", 0);
+            return;
+        }
+        if (PlayerPrefs.GetInt("ShowOfflinePopup") == 1)
+        {
+            offlinePopup.SetActive(true);
+            PlayerPrefs.SetInt("ShowOfflinePopup", 0);
+            return;
+        }
+        if (PlayerPrefs.GetInt("ShowNewUserPopup") == 1)
+        {
+            createUserPopup.SetActive(true);
+            PlayerPrefs.SetInt("ShowNewUserPopup", 0);
+            return;
+        }
     }
 
     void AddListeners()
@@ -53,39 +60,39 @@ public class UILogicScript : MonoBehaviour
             Button button = container.GetComponent<Button>();
             button.onClick.AddListener(() => { LevelClicked(container); });
         }
-        leftSelectButton.onClick.AddListener(() => { shiftLevelsLeft(); });
-        rightSelectButton.onClick.AddListener(() => { shiftLevelsRight(); });
+        leftSelectButton.onClick.AddListener(() => { ShiftLevelsLeft(); });
+        rightSelectButton.onClick.AddListener(() => { ShiftLevelsRight(); });
     }
 
     void UpdateLevelsLocked()
     {
-        for (int i = 0; i < LevelFactory.NumLevels(); i++)
+        databaseRepository.SetLevelLocked(1, false);
+        for (int i = 2; i <= LevelFactory.NumLevels(PlayerPrefs.GetInt("IsDemo") == 1); i++)
         {
-            if (i < 3)
+            if (databaseRepository.GetLevelTime(i-1) > 0)
             {
-                databaseRepository.SetLevelLocked(i+1, false);
-                continue;
-            }
-            if (databaseRepository.GetLevelTime(i) > 0)
-            {
-                databaseRepository.SetLevelLocked(i + 1, false);
+                databaseRepository.SetLevelLocked(i, false);
             }
             else
             {
-                databaseRepository.SetLevelLocked(i + 1, true);
+                databaseRepository.SetLevelLocked(i, true);
             }
         }
     }
 
     void FillLevelSelectContainers()
     {
+        if (selectedLevelID > 0)
+        {
+            levelOffset = (selectedLevelID / 3);
+        }
         foreach (var it in levelSelectContainers.containers.Select((Value, Index) => new { Value, Index }))
         {
             GameObject container = it.Value;
             LevelSelectorUIScript script = container.GetComponent<LevelSelectorUIScript>();
             int levelID = it.Index + levelOffset + 1;
             container.SetActive(true);
-            if (levelID > LevelFactory.NumLevels())
+            if (levelID > LevelFactory.NumLevels(PlayerPrefs.GetInt("IsDemo") == 1))
             {
                 container.SetActive(false);
                 continue;
@@ -102,6 +109,11 @@ public class UILogicScript : MonoBehaviour
                 script.SetLevelInfo(info);
                 script.SetLocked(false);
                 script.SetBestTime(databaseRepository.GetLevelTime(info.id));
+                if (levelID == selectedLevelID)
+                {
+                    container.GetComponent<Button>().Select();
+                    LevelClicked(container);
+                }
             }
         }
         bool leftActive = true;
@@ -110,7 +122,7 @@ public class UILogicScript : MonoBehaviour
         {
             leftActive = false;
         }
-        if (levelOffset + 3 >= LevelFactory.NumLevels())
+        if (levelOffset + 3 >= LevelFactory.NumLevels(PlayerPrefs.GetInt("IsDemo") == 1))
         {
             rightActive = false;
         }
@@ -118,14 +130,25 @@ public class UILogicScript : MonoBehaviour
         rightSelectButton.gameObject.SetActive(rightActive);
     }
 
-    void shiftLevelsLeft()
+    void ClearLevelSelect()
     {
+        EventSystem.current.SetSelectedGameObject(null);
+        selectedLevelID = -1;
+        PlayerPrefs.SetInt("SelectedLevel", selectedLevelID);
+        LeaderboardScript lScript = leaderboard.GetComponent<LeaderboardScript>();
+        lScript.ClearLeaderboard();
+    }
+
+    void ShiftLevelsLeft()
+    {
+        ClearLevelSelect();
         levelOffset -= 3;
         FillLevelSelectContainers();
     }
 
-    void shiftLevelsRight()
+    void ShiftLevelsRight()
     {
+        ClearLevelSelect();
         levelOffset += 3;
         FillLevelSelectContainers();
     }
@@ -142,6 +165,22 @@ public class UILogicScript : MonoBehaviour
     {
         LevelSelectorUIScript script = container.GetComponent<LevelSelectorUIScript>();
         selectedLevelID = script.GetId();
+        if (selectedLevelID > 0)
+        {
+            LeaderboardScript lScript = leaderboard.GetComponent<LeaderboardScript>();
+            lScript.ShowLevel(selectedLevelID);
+        }
+        PlayerPrefs.SetInt("SelectedLevel", selectedLevelID);
+    }
+
+    public void SetUser()
+    {
+        leaderboard.GetComponent<LeaderboardScript>().SetUser();
+    }
+
+    public void HidePopup()
+    {
+        offlinePopup.SetActive(false);
     }
 }
 

@@ -33,8 +33,12 @@ public class LevelFactory
         }
     }
 
-    public static int NumLevels()
+    public static int NumLevels(bool demo)
     {
+        if (demo)
+        {
+            return 3;
+        }
         return 3;
     }
 }

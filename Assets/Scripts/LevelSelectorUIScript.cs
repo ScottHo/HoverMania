@@ -1,7 +1,6 @@
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
-using System;
 
 public class LevelSelectorUIScript : MonoBehaviour
 {
@@ -31,8 +30,7 @@ public class LevelSelectorUIScript : MonoBehaviour
     {
         if (timeCentiseconds > 0)
         {
-            TimeSpan time = TimeSpan.FromMilliseconds(timeCentiseconds * 10);
-            bestTime.text = time.ToString(@"mm\:ss\.ff");
+            bestTime.text = Utils.ToTimeString(timeCentiseconds);
             bestTime.color = Color.green;
         }
     }

@@ -32,6 +32,7 @@ public class LevelLogicScript : MonoBehaviour
     int loadedId = -1;
     public bool fading = false;
     bool fadeIn = true;
+    bool syncInProgress = false;
     Action actionAfterFade;
     IDatabaseRepository databaseRepository;
 
@@ -68,10 +69,11 @@ public class LevelLogicScript : MonoBehaviour
         gameOverContainer.SetActive(false);
         quitButton.onClick.AddListener(GameOver);
 
-        int idToLoad = defaultId;
-        if (UILogicScript.Instance != null)
+        int idToLoad = PlayerPrefs.GetInt("SelectedLevel");
+        if (idToLoad == -1)
         {
-            idToLoad = UILogicScript.Instance.selectedLevelID;
+            idToLoad = defaultId;
+
         }
         Debug.Log("Loading level " + idToLoad);
         foreach (GameObject levelContainer in levelContainers.levels)
@@ -132,6 +134,8 @@ public class LevelLogicScript : MonoBehaviour
 
     void FinishFade()
     {
+        if (syncInProgress)
+            return;
         fading = false;
 
         if (actionAfterFade != null)
@@ -245,11 +249,22 @@ public class LevelLogicScript : MonoBehaviour
             text += "\nPrevious Time: " + oldTime;
             text += "\nNew Time: " + newTime;
         }
-        gameOverText.text = text;
-        if (databaseRepository != null)
+        
+
+        if (PlayerPrefs.GetInt("LeaderboardConnected") == 1)
         {
-            databaseRepository.SetLevelTime(loadedId, timeCentiseconds);
+            UploadScore(timeCentiseconds);
         }
+        gameOverText.text = text;
+
+        databaseRepository.SetLevelTime(loadedId, timeCentiseconds);
+    }
+
+    async void UploadScore(int timeCentiseconds)
+    {
+        syncInProgress = true;
+        await CloudSync.UploadHiScore(loadedId, timeCentiseconds);
+        syncInProgress = false;
     }
 
     void Lose()
