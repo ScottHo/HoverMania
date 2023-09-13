@@ -7,17 +7,16 @@ public class CarControllerScript : MonoBehaviour
     public AxleInfo[] axleInfos;
     public Rigidbody rigidBody;
     public Light bottomGlow;
-    public float torque = 5000;
-    public float angle = 50;
-    public float brakeTorque = 2000;
-    public float jumpPower = 10;
-    public float maxRotationSpeed = 1500;
+    public float torque;
+    public float angle;
+    public float brakeTorque;
+    public float jumpPower;
     AudioAction audioAction = AudioAction.None;
     bool grounded = true;
     bool canJump = false;
     float jumpTimeBuffer = 0;
-    float currentFloatWheelAngle = 0f;
     bool spacePressed = false;
+    float hoverUpStep = 0;
     LevelLogicScript logic;
 
     void Start()
@@ -40,7 +39,6 @@ public class CarControllerScript : MonoBehaviour
         Drive();
         ApplyFloatState();
         LimitAngularVelocity();
-        rigidBody.AddForce(Physics.gravity * rigidBody.mass * 2);
         AudioManager.PlayEffect(audioAction, ref audioSource);
     }
 
@@ -86,6 +84,7 @@ public class CarControllerScript : MonoBehaviour
 
     void Drift()
     {
+        rigidBody.drag = 0f;
         float drift = Input.GetAxis("Horizontal");
         Vector3 angularVelocity = rigidBody.angularVelocity;
         angularVelocity.y = drift;
@@ -107,7 +106,7 @@ public class CarControllerScript : MonoBehaviour
             bottomGlow.color = Color.green;
             AudioManager.PlayAmbience(AudioAction.Hover, ref audioSourceAmbience);
             logic.SetBatteryDraining(true);
-            rigidBody.AddForce(-Physics.gravity * rigidBody.mass * 2f);
+            rigidBody.AddForce(-Physics.gravity * rigidBody.mass * .6f);
         }
         else
         {
@@ -159,9 +158,9 @@ public class CarControllerScript : MonoBehaviour
 
     void Steer(AxleInfo axleInfo)
     {
-        float steering = angle * Input.GetAxis("Horizontal");
         if (axleInfo.steering)
         {
+            float steering = angle * Input.GetAxis("Horizontal");
             axleInfo.leftWheel.steerAngle = steering;
             axleInfo.rightWheel.steerAngle = steering;
         }
@@ -176,7 +175,7 @@ public class CarControllerScript : MonoBehaviour
         bool reverse = motor < 0;
         if (motor == 0)
         {
-            brakePower = brakePower / 2;
+            brakePower = brakePower * .5f;
         }
         axleInfo.leftWheel.brakeTorque = 0;
         axleInfo.rightWheel.brakeTorque = 0;
@@ -190,47 +189,42 @@ public class CarControllerScript : MonoBehaviour
                 logic.SetBatteryDraining(false);
                 axleInfo.leftWheel.brakeTorque = brakePower;
                 axleInfo.rightWheel.brakeTorque = brakePower;
+                rigidBody.drag = 0f;
             }
             else
             {
-                AudioManager.PlayAmbience(AudioAction.Drive, ref audioSourceAmbience);
-                
-                float _maxRotationSpeed = maxRotationSpeed;
-                logic.SetBatteryDraining(true);
-                if (Mathf.Abs(angle * Input.GetAxis("Horizontal")) > 10)
+                float speed = rigidBody.velocity.magnitude;
+                if (speed > 4)
                 {
-                    _maxRotationSpeed = maxRotationSpeed * .8f;
-                    if (Mathf.Abs(angle * Input.GetAxis("Horizontal")) > 25)
+                    rigidBody.drag = speed * speed * .03f;
+                    float currAngle = Mathf.Abs(angle * Input.GetAxis("Horizontal"));
+                    if (currAngle > 0)
                     {
-                        _maxRotationSpeed = maxRotationSpeed * .7f;
+                        motor *= .2f;
+                        if (currAngle > 45)
+                            motor *= 1.7f;
                     }
                 }
+                else
+                {
+                    rigidBody.drag = 0f;
+                }
+                AudioManager.PlayAmbience(AudioAction.Drive, ref audioSourceAmbience);
+                logic.SetBatteryDraining(true);
                 
                 if (reverse)
                 {
                     bottomGlow.enabled = true;
                     bottomGlow.color = Color.red;
-                    if (axleInfo.leftWheel.rotationSpeed > -_maxRotationSpeed * .7f)
-                    {
-                        axleInfo.leftWheel.motorTorque = motor;
-                    }
-                    if (axleInfo.rightWheel.rotationSpeed > -_maxRotationSpeed * .7f)
-                    {
-                        axleInfo.rightWheel.motorTorque = motor;
-                    }
+                    axleInfo.leftWheel.motorTorque = motor * .7f;
+                    axleInfo.leftWheel.motorTorque = motor * .7f;
                 }
                 else
                 {
                     bottomGlow.enabled = true;
                     bottomGlow.color = Color.cyan;
-                    if (axleInfo.leftWheel.rotationSpeed < _maxRotationSpeed)
-                    {
-                        axleInfo.leftWheel.motorTorque = motor;
-                    }
-                    if (axleInfo.rightWheel.rotationSpeed < _maxRotationSpeed)
-                    {
-                        axleInfo.rightWheel.motorTorque = motor;
-                    }
+                    axleInfo.leftWheel.motorTorque = motor;
+                    axleInfo.rightWheel.motorTorque = motor;
                 }
             }
         }
@@ -238,62 +232,47 @@ public class CarControllerScript : MonoBehaviour
 
     public void UpdateWheelVisuals(AxleInfo axleInfo)
     {
-        ApplyLocalPositionToVisuals(axleInfo.leftWheel, axleInfo.leftSpring, true);
-        ApplyLocalPositionToVisuals(axleInfo.rightWheel, axleInfo.rightSpring, false);
-
+        ApplyLocalPositionToVisuals(axleInfo.leftWheel, axleInfo.leftOrig, axleInfo.leftSpring);
+        ApplyLocalPositionToVisuals(axleInfo.rightWheel, axleInfo.rightOrig, axleInfo.rightSpring);
     }
 
-    public void ApplyLocalPositionToVisuals(WheelCollider collider, GameObject spring, bool leftWheel)
+    public void ApplyLocalPositionToVisuals(WheelCollider collider, GameObject orig, GameObject spring)
     {
-        if (collider.transform.childCount == 0)
-        {
-            return;
-        }
-
         Transform visualWheel = collider.transform.GetChild(0);
 
         Vector3 position;
         Quaternion rotation;
-        collider.GetWorldPose(out position, out rotation);
         if (!grounded)
         {
-            Vector3 angles = HoverModeAngles(true, leftWheel, rotation.eulerAngles);
-            rotation.eulerAngles = angles;
-            position = Vector3.MoveTowards(position, spring.transform.position, 10f);
+            if (hoverUpStep < 1.0f)
+            {
+                hoverUpStep += .05f;
+                rotation = Quaternion.Slerp(orig.transform.rotation, spring.transform.rotation, hoverUpStep);
+                position = Vector3.MoveTowards(orig.transform.position, spring.transform.position, 1f);
+            }
+            else
+            {
+                hoverUpStep = 1.0f;
+                rotation = spring.transform.rotation;
+                position = spring.transform.position;
+            }
         }
         else
         {
-            if (currentFloatWheelAngle > 0)
+            if (hoverUpStep > 0.0f)
             {
-                Vector3 angles = HoverModeAngles(false, leftWheel, rotation.eulerAngles);
-                rotation.eulerAngles = angles;
+                hoverUpStep -= .05f;
+                rotation = Quaternion.Slerp(orig.transform.rotation, spring.transform.rotation, hoverUpStep);
+                position = Vector3.MoveTowards(spring.transform.position, orig.transform.position, 1f);
+            }
+            else
+            {
+                hoverUpStep = 0.0f;
+                collider.GetWorldPose(out position, out rotation);
             }
         }
         visualWheel.transform.position = position;
         visualWheel.transform.rotation = rotation;
-    }
-
-    Vector3 HoverModeAngles(bool hover, bool leftWheel, Vector3 angles)
-    {
-        if (hover)
-        {
-            currentFloatWheelAngle += 2f;
-        }
-        else
-        {
-            currentFloatWheelAngle -= 4f;
-        }
-        currentFloatWheelAngle = Mathf.Clamp(currentFloatWheelAngle, 0f, 90f);
-        float zBackup = rigidBody.transform.rotation.eulerAngles.z;
-        angles.x = rigidBody.transform.rotation.eulerAngles.x;
-        angles.y = rigidBody.transform.rotation.eulerAngles.y;
-        angles.z = -currentFloatWheelAngle;
-        if (leftWheel)
-        {
-            angles.z = currentFloatWheelAngle;
-        }
-        angles.z += zBackup;
-        return angles;
     }
 }
 
@@ -302,8 +281,10 @@ public class AxleInfo
 {
     public WheelCollider leftWheel;
     public GameObject leftSpring;
+    public GameObject leftOrig;
     public WheelCollider rightWheel;
     public GameObject rightSpring;
+    public GameObject rightOrig;
     public bool motor;
     public bool steering;
 }

@@ -38,44 +38,41 @@ public class AudioManager : MonoBehaviour
         float mod = PlayerPrefs.GetFloat("VolumeAmbience");
         if (action == AudioAction.Hover)
         {
-            clip = Resources.Load<AudioClip>("Whir");
             source.pitch = 1.0f;
             source.volume = .5f * mod;
-            if (source.clip != clip || !source.isPlaying)
-            {
-                source.Stop();
-                source.clip = clip;
-                source.loop = true;
-                source.Play();
-            }
+            if (source.clip != null && source.clip.name == "Whir" && source.isPlaying)
+                return;
+            clip = Resources.Load<AudioClip>("Whir");
+            source.Stop();
+            source.clip = clip;
+            source.loop = true;
+            source.Play();
             return;
         }
         if (action == AudioAction.Drive)
         {
-            clip = Resources.Load<AudioClip>("Whir");
             source.pitch = .8f;
             source.volume = .4f * mod;
-            if (source.clip != clip || !source.isPlaying)
-            {
-                source.Stop();
-                source.clip = clip;
-                source.loop = true;
-                source.Play();
-            }
+            if (source.clip != null && source.clip.name == "Whir" && source.isPlaying)
+                return;
+            clip = Resources.Load<AudioClip>("Whir");
+            source.Stop();
+            source.clip = clip;
+            source.loop = true;
+            source.Play();
             return;
         }
         if (action == AudioAction.Idle)
         {
-            clip = Resources.Load<AudioClip>("Whir");
             source.pitch = .6f;
             source.volume = .2f * mod;
-            if (source.clip != clip || !source.isPlaying)
-            {
-                source.Stop();
-                source.clip = clip;
-                source.loop = true;
-                source.Play();
-            }
+            if (source.clip != null && source.clip.name == "Whir" && source.isPlaying)
+                return;
+            clip = Resources.Load<AudioClip>("Whir");
+            source.Stop();
+            source.clip = clip;
+            source.loop = true;
+            source.Play();
             return;
         }
     }
