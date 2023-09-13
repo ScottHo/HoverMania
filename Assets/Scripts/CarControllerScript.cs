@@ -124,7 +124,7 @@ public class CarControllerScript : MonoBehaviour
         {
             audioAction = AudioAction.Jump;
             canJump = false;
-            logic.DrainBattery(500);
+            logic.DrainBattery(5);
             rigidBody.AddForce(Vector3.up * jumpPower, ForceMode.VelocityChange);
         }
     }

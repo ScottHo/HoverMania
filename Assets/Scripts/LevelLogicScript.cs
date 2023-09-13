@@ -22,9 +22,10 @@ public class LevelLogicScript : MonoBehaviour
     public Image fader;
     public AudioSource audioSource;
     public int defaultId = 1;
-    int defaultBatteryLife = 10000;
-    int batteryLife = 10000;
+    int defaultBatteryLife = 100;
+    int batteryLife = 100;
     bool batteryDraining;
+    float batteryUpdateTime = 0;
     int currentSamples = 0;
     int totalSamples = 0;
     float elapsedTime = 0;
@@ -55,10 +56,12 @@ public class LevelLogicScript : MonoBehaviour
         elapsedTime += Time.deltaTime;
         if (batteryDraining)
         {
-            batteryLife -= 1;
-            if (batteryLife % 10 == 0)
+            batteryUpdateTime += Time.deltaTime;
+            if (batteryUpdateTime > 1f)
             {
+                batteryLife -= 1;
                 UpdateBatteryLifeUI();
+                batteryUpdateTime = 0;
             }
         }
         UpdateTimeUI();
@@ -175,14 +178,13 @@ public class LevelLogicScript : MonoBehaviour
 
     public void UpdateBatteryLifeUI()
     {
-        int batteryLifePercent = batteryLife / 100;
-        if (batteryLifePercent <= 0)
+        if (batteryLife <= 0)
         {
-            batteryLifePercent = 0;
+            batteryLife = 0;
             GameOver();
         }
-        batteryText.text = batteryLifePercent.ToString();
-        batterySlider.value = batteryLifePercent;
+        batteryText.text = batteryLife.ToString();
+        batterySlider.value = batteryLife;
     }
 
     public void SetBatteryDraining(bool draining)
@@ -197,7 +199,7 @@ public class LevelLogicScript : MonoBehaviour
 
     public void UpdateTimeUI()
     {
-        TimeSpan time = TimeSpan.FromMilliseconds(elapsedTime * 1000);
+        TimeSpan time = TimeSpan.FromSeconds(elapsedTime);
         timerText.text = time.ToString(@"mm\:ss\.ff");
     }
 

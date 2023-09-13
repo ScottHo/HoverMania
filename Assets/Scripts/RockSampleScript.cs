@@ -12,6 +12,7 @@ public class RockSampleScript : MonoBehaviour
     float textTimer = 2.0f;
     Quaternion textRotation;
     GameObject textObject;
+    Vector3 eulers = Vector3.zero;
 
     void Start()
     {
@@ -27,8 +28,7 @@ public class RockSampleScript : MonoBehaviour
         Vector3 pos = transform.position;
         pos.y += Random.Range(0f, .35f);
         transform.position = pos;
-        Vector3 eulers = transform.rotation.eulerAngles;
-        eulers.z += Random.Range(0, 45);
+        eulers.y += Random.Range(0, 45);
         transform.rotation = Quaternion.Euler(eulers);
     }
 
@@ -68,8 +68,7 @@ public class RockSampleScript : MonoBehaviour
             }
         }
 
-        Vector3 eulers = transform.rotation.eulerAngles;
-        eulers.z += 2.0f;
+        eulers.y += 2.0f;
         transform.rotation = Quaternion.Euler(eulers);
     }
 

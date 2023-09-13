@@ -12,6 +12,7 @@ public class BatteryScript : MonoBehaviour
     Quaternion textRotation;
     Vector3 down, up;
     GameObject textObject;
+    Vector3 eulers = Vector3.zero;
     void Start()
     {
         logic = GameObject.FindGameObjectWithTag("LevelLogic").GetComponent<LevelLogicScript>();
@@ -55,9 +56,7 @@ public class BatteryScript : MonoBehaviour
                 movingUp = true;
             }
         }
-
-        Vector3 eulers = transform.rotation.eulerAngles;
-        eulers.z += 2.0f;
+        eulers.y += 2.0f;
         transform.rotation = Quaternion.Euler(eulers);
     }
 
@@ -68,7 +67,7 @@ public class BatteryScript : MonoBehaviour
             if (!beingDestroyed)
             {
                 beingDestroyed = true;
-                logic.IncreaseBatteryLife(3000);
+                logic.IncreaseBatteryLife(30);
                 textRotation = collision.gameObject.transform.rotation;
             }
         }
