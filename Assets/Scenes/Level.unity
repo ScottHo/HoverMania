@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 705507994}
-  m_IndirectSpecularColor: {r: 0.18060209, g: 0.22609551, b: 0.30709627, a: 1}
+  m_IndirectSpecularColor: {r: 0.17446165, g: 0.21819612, b: 0.30043545, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -2885,7 +2885,7 @@ Light:
     serializedVersion: 2
     m_Bits: 64
   m_RenderingLayerMask: 1
-  m_Lightmapping: 4
+  m_Lightmapping: 1
   m_LightShadowCasterMode: 0
   m_AreaSize: {x: 1, y: 1}
   m_BounceIntensity: 1
@@ -3047,14 +3047,14 @@ Light:
   m_Type: 1
   m_Shape: 0
   m_Color: {r: 0.6132076, g: 0.6132076, b: 0.6132076, a: 1}
-  m_Intensity: 1.9
+  m_Intensity: 1.4
   m_Range: 300
   m_SpotAngle: 146.4
   m_InnerSpotAngle: 21.80208
   m_CookieSize: 10
   m_Shadows:
     m_Type: 2
-    m_Resolution: -1
+    m_Resolution: 0
     m_CustomResolution: -1
     m_Strength: 0.481
     m_Bias: 0.05
@@ -3092,7 +3092,7 @@ Light:
   m_BounceIntensity: 2
   m_ColorTemperature: 6570
   m_UseColorTemperature: 0
-  m_BoundingSphereOverride: {x: 0, y: 4.673e-40, z: 0, w: 2.1761533e-37}
+  m_BoundingSphereOverride: {x: 1.02e-43, y: 1.02e-43, z: 1.764e-42, w: 2.152e-42}
   m_UseBoundingSphereOverride: 0
   m_UseViewFrustumForShadowCasterCull: 1
   m_ShadowRadius: 0
@@ -3105,13 +3105,13 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 705507993}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.3814043, y: -0.40307385, z: 0.16080432, w: 0.8162133}
-  m_LocalPosition: {x: 100, y: 50, z: 100}
+  m_LocalRotation: {x: 0.53352, y: -0.28772423, z: 0.29064822, w: 0.7403343}
+  m_LocalPosition: {x: 101.01, y: 47.66, z: 76.15}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 741896866}
-  m_LocalEulerAnglesHint: {x: 131.215, y: 125.660995, z: 176.087}
+  m_LocalEulerAnglesHint: {x: 106.82001, y: 156.39, z: 205.23}
 --- !u!1 &716332702
 GameObject:
   m_ObjectHideFlags: 3
@@ -4355,13 +4355,13 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 950405295}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.36835778, y: -0.08068872, z: 0.032110736, w: 0.9256192}
-  m_LocalPosition: {x: 0.010839996, y: 0.14124002, z: -0.032759998}
+  m_LocalRotation: {x: 0.21561599, y: -0.08508985, z: 0.018863963, w: 0.9725809}
+  m_LocalPosition: {x: 1.46, y: 3.4, z: -8.23}
   m_LocalScale: {x: 1.1999999, y: 1.2000002, z: 1.2000002}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1306039170}
-  m_LocalEulerAnglesHint: {x: 43.401, y: -9.964, z: 0}
+  m_LocalEulerAnglesHint: {x: 25, y: -10, z: 0}
 --- !u!108 &950405297
 Light:
   m_ObjectHideFlags: 0
@@ -4375,8 +4375,8 @@ Light:
   m_Shape: 0
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_Intensity: 1
-  m_Range: 200
-  m_SpotAngle: 156.5
+  m_Range: 100
+  m_SpotAngle: 147.6
   m_InnerSpotAngle: 21.80208
   m_CookieSize: 10
   m_Shadows:
@@ -4413,13 +4413,13 @@ Light:
     serializedVersion: 2
     m_Bits: 256
   m_RenderingLayerMask: 1
-  m_Lightmapping: 4
+  m_Lightmapping: 1
   m_LightShadowCasterMode: 0
   m_AreaSize: {x: 1, y: 1}
   m_BounceIntensity: 1
   m_ColorTemperature: 6570
   m_UseColorTemperature: 0
-  m_BoundingSphereOverride: {x: -1, y: 9, z: 10, w: -10}
+  m_BoundingSphereOverride: {x: 5.91e-43, y: 9.4e-44, z: 0, w: 1.0241022e+30}
   m_UseBoundingSphereOverride: 0
   m_UseViewFrustumForShadowCasterCull: 1
   m_ShadowRadius: 0
@@ -5949,7 +5949,7 @@ MonoBehaviour:
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
   m_fontSizeMax: 72
-  m_fontStyle: 1
+  m_fontStyle: 0
   m_HorizontalAlignment: 1
   m_VerticalAlignment: 256
   m_textAlignment: 65535
@@ -8235,8 +8235,8 @@ Light:
   m_Shape: 0
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_Intensity: 1
-  m_Range: 20
-  m_SpotAngle: 72.6
+  m_Range: 4.5
+  m_SpotAngle: 97.9
   m_InnerSpotAngle: 21.80208
   m_CookieSize: 10
   m_Shadows:
@@ -8273,7 +8273,7 @@ Light:
     serializedVersion: 2
     m_Bits: 8
   m_RenderingLayerMask: 1
-  m_Lightmapping: 4
+  m_Lightmapping: 1
   m_LightShadowCasterMode: 0
   m_AreaSize: {x: 1, y: 1}
   m_BounceIntensity: 1
@@ -8299,7 +8299,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &1874164233
 Transform:
   m_ObjectHideFlags: 0
