@@ -180,6 +180,11 @@ public class UILogicScript : MonoBehaviour
     {
         offlinePopup.SetActive(false);
     }
+
+    public void QuitGame()
+    {
+        Application.Quit();
+    }
 }
 
 [System.Serializable]
