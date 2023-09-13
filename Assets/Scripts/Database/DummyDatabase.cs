@@ -1,10 +1,8 @@
-using Codice.CM.Common;
+using System;
 using System.Collections.Generic;
-using System.Data;
 
 public class DummyDatabase : IDatabaseRepository
 {
-    int _money = 0;
     Dictionary<int, int> _scoresDict = new Dictionary<int, int>();
     Dictionary<int, bool> _lockedDict = new Dictionary<int, bool>();
 
@@ -17,22 +15,18 @@ public class DummyDatabase : IDatabaseRepository
     {
     }
 
-    public int CreateUser()
-    {
-        return 1;
-    }
-
-    public void SwitchUser(int user_id)
+    public void SetUser(int user_id, string username)
     {
     }
 
-    public void SetMoney(int money)
+    public string GetUsername()
     {
-        _money = money;
+        return "";
     }
-    public int Money()
+
+    public int GetUserID()
     {
-        return _money;
+        return -1;
     }
 
     public int GetLevelTime(int levelID)
@@ -46,12 +40,18 @@ public class DummyDatabase : IDatabaseRepository
 
     public void SetLevelTime(int levelID, int timeCentiseconds)
     {
-        _scoresDict[levelID] = timeCentiseconds;
+        if (_scoresDict.ContainsKey(levelID))
+        {
+            if (timeCentiseconds < _scoresDict[levelID])
+                _scoresDict[levelID] = timeCentiseconds;
+        }
     }
+
     public void SetLevelLocked(int levelID, bool locked)
     {
         _lockedDict[levelID] = locked;
     }
+
     public bool GetLevelLocked(int levelID)
     {
         if (_lockedDict.ContainsKey(levelID))
@@ -59,5 +59,25 @@ public class DummyDatabase : IDatabaseRepository
             return _lockedDict[levelID];
         }
         return true;
+    }
+
+    public void ClearLeaderboard()
+    {
+
+    }
+
+    public void AddToLeaderboard(string username, int levelID, int rank, int timeCentiseconds)
+    {
+    
+    }
+
+    public int GetLeaderboardRank(string username, int levelID)
+    {
+        return 1;
+    }
+
+    public Tuple<string, int> GetLeaderboardUserScores(int levelID, int rank)
+    {
+        return new Tuple<string, int>("1", 1);
     }
 }

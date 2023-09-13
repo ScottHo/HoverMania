@@ -2,7 +2,6 @@ using System.Collections.Generic;
 using System;
 using System.Linq;
 using System.Threading.Tasks;
-using Codice.Client.Common;
 
 public class CloudSync
 {
@@ -11,10 +10,10 @@ public class CloudSync
     /*
      * Get the top X hi scores from the server, order them by rank, add them to the local database
      */
-    public static async void GetHiScores()
+    public static async Task GetHiScores()
     {
         databaseRepository.ClearLeaderboard();
-        var scores = await requestHandler.GetHiScores(LevelFactory.NumLevels());
+        var scores = await requestHandler.GetHiScores(LevelFactory.NumLevels(false));
         foreach (var level in scores)
         {
             List<Tuple<string, int>> t = new List<Tuple<string, int>>();
@@ -32,13 +31,32 @@ public class CloudSync
         }
     }
 
-    public static async void UploadHiScore(int levelID, int timeCentiseconds)
+    public static async Task SyncCurrentUser()
+    {
+        int userID = databaseRepository.GetUserID();
+        if (userID < 0)
+            return;
+        var scores = await requestHandler.GetUserRank(userID, LevelFactory.NumLevels(false));
+        foreach (var level in scores)
+        {
+            if (level.Value.Count == 2)
+            {
+                int score = level.Value[0];
+                int rank = level.Value[1];
+                databaseRepository.AddToLeaderboard(databaseRepository.GetUsername(), level.Key, rank, score);
+                databaseRepository.SetLevelTime(level.Key, score);
+            }
+        }
+    }
+
+    public static async Task UploadHiScore(int levelID, int timeCentiseconds)
     {
         int userID = databaseRepository.GetUserID();
         if (userID < 0)
             return;
         await requestHandler.AddHiScore(userID, levelID, timeCentiseconds);
-        GetHiScores();
+        await GetHiScores();
+        await SyncCurrentUser();
     }
 
     public static async Task<UserCreatedStatus> ChangeUsername(string username)

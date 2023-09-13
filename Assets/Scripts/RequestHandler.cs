@@ -24,23 +24,35 @@ public class RequestHandler
      */
     public async Task<Dictionary<string, Dictionary<string, int>>> GetHiScores(int numLevels)
     {
-        var responseString = await client.GetStringAsync(baseUrl + "/hiscores?secret="
+        var response = await client.GetAsync(baseUrl + "/hiscores?secret="
                 + secret + "&levels=" + numLevels);
-        Debug.Log(responseString);
-        var values = JsonConvert.DeserializeObject<Dictionary<string, Dictionary<string,int>>>(responseString);
-        return values;
+        if (response.StatusCode == System.Net.HttpStatusCode.OK)
+        {
+            var responseString = await response.Content.ReadAsStringAsync();
+            Debug.Log(responseString);
+            var values = JsonConvert.DeserializeObject<Dictionary<string, Dictionary<string, int>>>(responseString);
+            return values;
+        }
+        Debug.Log(response);
+        return new Dictionary<string, Dictionary<string, int>>();
     }
 
     /*
-     * Returns in levelID : rank)
+     * Returns in levelID : Tuple(score, rank)
      */
-    public async Task<Dictionary<string, int>> GetUserRank(int userID, int numLevels)
+    public async Task<Dictionary<int, List<int>>> GetUserRank(int userID, int numLevels)
     {
-        var responseString = await client.GetStringAsync(baseUrl + "/hiscores/rank?secret="
+        HttpResponseMessage response = await client.GetAsync(baseUrl + "/hiscores/rank?secret="
                 + secret + "&levels=" + numLevels + "&user_id=" + userID);
-        Debug.Log(responseString);
-        var values = JsonConvert.DeserializeObject<Dictionary<string, int>>(responseString);
-        return values;
+        if (response.StatusCode == System.Net.HttpStatusCode.OK)
+        {
+            var responseString = await response.Content.ReadAsStringAsync();
+            Debug.Log(responseString);
+            var values = JsonConvert.DeserializeObject<Dictionary<int, List<int>>>(responseString);
+            return values;
+        }
+        Debug.Log(response);
+        return new Dictionary<int, List<int>>();
     }
 
     public async Task<bool> AddHiScore(int userID, int levelID, int score)

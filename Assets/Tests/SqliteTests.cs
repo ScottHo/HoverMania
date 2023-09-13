@@ -1,7 +1,4 @@
 using NUnit.Framework;
-using Mono.Data.Sqlite;
-using System.Collections.Generic;
-
 
 public class SqliteTests
 {
@@ -11,46 +8,10 @@ public class SqliteTests
     {
         sqliteDatabase = new SqliteDatabase("Data Source=:memory:");
     }
-    // A Test behaves as an ordinary method
-    [Test]
-    public void TestMoney()
-    {
-        Assert.Throws<SqliteException>(throwGetMoney);
-        sqliteDatabase.CreateUser();
-        int money = sqliteDatabase.Money();
-        Assert.AreEqual(0, money);
-        sqliteDatabase.SetMoney(100);
-        money = sqliteDatabase.Money();
-        Assert.AreEqual(100, money);
-    }
-
-    void throwGetMoney()
-    {
-        sqliteDatabase.Money();
-    }
-
-    [Test]
-    public void TestCreateUser()
-    {
-        sqliteDatabase.CreateUser();
-        Assert.AreEqual(1, sqliteDatabase.userID);
-        sqliteDatabase.CreateUser();
-        Assert.AreEqual(2, sqliteDatabase.userID);
-        sqliteDatabase.SwitchUser(1);
-        Assert.AreEqual(1, sqliteDatabase.userID);
-        Assert.Throws<SqliteException>(throwSwitchUser);
-
-    }
-
-    void throwSwitchUser()
-    {
-        sqliteDatabase.SwitchUser(3);
-    }
 
     [Test]
     public void TestScores()
     {
-        sqliteDatabase.CreateUser();
         int levelTime = sqliteDatabase.GetLevelTime(1);
         Assert.AreEqual(levelTime, -1);
         sqliteDatabase.SetLevelTime(1, 999);
@@ -67,7 +28,6 @@ public class SqliteTests
     [Test]
     public void TestLocked()
     {
-        sqliteDatabase.CreateUser();
         bool locked = sqliteDatabase.GetLevelLocked(1);
         Assert.True(locked);
         sqliteDatabase.SetLevelLocked(1, false);
@@ -76,5 +36,40 @@ public class SqliteTests
         sqliteDatabase.SetLevelLocked(1, true);
         locked = sqliteDatabase.GetLevelLocked(1);
         Assert.True(locked);
+    }
+
+    [Test]
+    public void TestUsers()
+    {
+        var user = sqliteDatabase.GetUsername();
+        Assert.AreEqual("", user);
+
+        sqliteDatabase.SetUser(3, "Test");
+
+        user = sqliteDatabase.GetUsername();
+        Assert.AreEqual("Test", user);
+
+        var userID = sqliteDatabase.GetUserID();
+        Assert.AreEqual(3, userID);
+    }
+
+    [Test]
+    public void TestLeaderboard()
+    {
+        sqliteDatabase.AddToLeaderboard("test", 1, 1, 9999);
+        int rank = sqliteDatabase.GetLeaderboardRank("test", 1);
+        Assert.AreEqual(1, rank);
+        var userScore = sqliteDatabase.GetLeaderboardUserScores(1, 1);
+        Assert.AreEqual("test", userScore.Item1);
+        Assert.AreEqual(9999, userScore.Item2);
+        sqliteDatabase.AddToLeaderboard("test2", 1, 2, 1234);
+        rank = sqliteDatabase.GetLeaderboardRank("test2", 1);
+        Assert.AreEqual(2, rank);
+        userScore = sqliteDatabase.GetLeaderboardUserScores(1, 2);
+        Assert.AreEqual("test2", userScore.Item1);
+        Assert.AreEqual(1234, userScore.Item2);
+        sqliteDatabase.ClearLeaderboard();
+        rank = sqliteDatabase.GetLeaderboardRank("test", 1);
+        Assert.AreEqual(-1, rank);
     }
 }

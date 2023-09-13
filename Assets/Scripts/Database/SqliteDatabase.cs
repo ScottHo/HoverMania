@@ -6,7 +6,6 @@ using UnityEngine;
 public class SqliteDatabase : IDatabaseRepository
 {
     IDbConnection dbcon;
-    public int userID;
 
     public static void CreateDatabase(string path)
     {
@@ -27,48 +26,23 @@ public class SqliteDatabase : IDatabaseRepository
     void SetupDatabase()
     {
         string q_createTable =
-            "CREATE TABLE IF NOT EXISTS user_table(" +
-            "user_id INTEGER PRIMARY KEY AUTOINCREMENT, " +
-            "money INT)";
-        RunNonQuery(q_createTable);
-
-        q_createTable =
             "CREATE TABLE IF NOT EXISTS level_table(" +
-            "user_id INT, " +
             "level_id INT, " +
             "time_centiseconds INT, " +
-            "locked INT, " +
-            "FOREIGN KEY (user_id) REFERENCES user_table(user_id) )";
+            "locked INT)";
         RunNonQuery(q_createTable);
-    }
-
-
-    public int CreateUser()
-    {
-        string query = "INSERT INTO user_table (money) " +
-            "VALUES (0)";
-        RunNonQuery(query);
-        query = "SELECT MAX (user_id) " +
-            "FROM user_table";
-        IDataReader reader = RunQuery(query);
-        reader.Read();
-        this.userID = Convert.ToInt32(reader[0]);
-        return this.userID;
-    }
-
-    public void SwitchUser(int user_id)
-    {
-        string query = "SELECT * FROM user_table WHERE user_id = " + user_id;
-        IDataReader reader = RunQuery(query);
-        if (reader.Read())
-        {
-            if (reader.FieldCount > 0)
-            {
-                this.userID = user_id;
-                return;
-            }
-        }
-        throw new SqliteException("User Id " + user_id + " does not exist, could not switch user");
+        q_createTable =
+            "CREATE TABLE IF NOT EXISTS leaderboard_table(" +
+            "username TEXT, " +
+            "level_id INT, " +
+            "rank INT, " + 
+            "time_centiseconds INT)";
+        RunNonQuery(q_createTable);
+        q_createTable =
+            "CREATE TABLE IF NOT EXISTS users_table(" +
+            "user_id INT, " +
+            "username TEXT)";
+        RunNonQuery(q_createTable);
     }
 
     IDataReader RunQuery(string query)
@@ -93,92 +67,145 @@ public class SqliteDatabase : IDatabaseRepository
         dbcmd.ExecuteNonQuery();
     }
 
-    public void SetMoney(int money)
+    public void SetUser(int user_id, string username)
     {
-        string query = "UPDATE user_table " +
-                "SET money = " + money + " " +
-                "WHERE user_id = " + userID + "";
+        string query = "DELETE FROM users_table";
+        RunNonQuery(query);
+        query = "INSERT INTO users_table (user_id, username) " +
+            "VALUES (" + user_id + ", '" + username + "')";
         RunNonQuery(query);
     }
-    public int Money()
+
+    public string GetUsername()
     {
-        string query = "SELECT * FROM user_table WHERE user_id = " + userID;
+        string query = "SELECT * FROM users_table";
         IDataReader reader = RunQuery(query);
-        int ret = 0;
         if (reader.Read())
         {
-            ret = Convert.ToInt32(reader[1]);
+            return Convert.ToString(reader[1]);
         }
-        else
-        {
-            throw new SqliteException("Nothing to read when trying to access money for user_id" + userID);
-        }
-        return ret;
+        return "";
     }
+
+    public int GetUserID()
+    {
+        string query = "SELECT * FROM users_table";
+        IDataReader reader = RunQuery(query);
+        if (reader.Read())
+        {
+            return Convert.ToInt32(reader[0]);
+        }
+        return -1;
+    }
+
 
     public void SetLevelTime(int levelID, int timeCentiseconds)
     {
-        string query = "SELECT * FROM level_table WHERE (user_id = "
-            + userID + " AND level_id = " + levelID + ")";
+        string query = "SELECT * FROM level_table WHERE (level_id = " + levelID + ")";
         IDataReader reader = RunQuery(query);
         if (reader.Read())
         {
+            if (Convert.ToInt32(reader[1]) < timeCentiseconds)
+                return;
             query = "UPDATE level_table " +
                 "SET time_centiseconds = " + timeCentiseconds + " " +
-                "WHERE(user_id = "
-            + userID + " AND level_id = " + levelID + ")";
+                "WHERE(level_id = " + levelID + ")";
             RunNonQuery(query);
         }
         else
         {
-            query = "INSERT INTO level_table (user_id, level_id, time_centiseconds) " +
-            "VALUES ("+ userID + ", " + levelID + ", " + timeCentiseconds + ")";
+            query = "INSERT INTO level_table (level_id, time_centiseconds, locked) " +
+            "VALUES ("+ levelID + ", " + timeCentiseconds + ", " + 0 + ")";
             RunNonQuery(query);
         }
     }
 
     public int GetLevelTime(int levelID)
     {
-        string query = "SELECT * FROM level_table WHERE(user_id = "
-            + userID + " AND level_id = " + levelID + ")";
+        string query = "SELECT * FROM level_table WHERE(level_id = " + levelID + ")";
         IDataReader reader = RunQuery(query);
         if (reader.Read())
         {
-            return Convert.ToInt32(reader[2]);
+            var score = Convert.ToInt32(reader[1]);
+            if (score < 10)
+            {
+                score = -1;
+            }
+            return score;
         }
         return -1;
     }
 
     public void SetLevelLocked(int levelID, bool locked)
     {
-        string query = "SELECT * FROM level_table WHERE (user_id = "
-            + userID + " AND level_id = " + levelID + ")";
+        string query = "SELECT * FROM level_table WHERE (level_id = " + levelID + ")";
         IDataReader reader = RunQuery(query);
         if (reader.Read())
         {
             query = "UPDATE level_table " +
                 "SET locked = " + (locked ? 1 : 0) + " " +
-                "WHERE(user_id = "
-            + userID + " AND level_id = " + levelID + ")";
+                "WHERE(level_id = " + levelID + ")";
             RunNonQuery(query);
         }
         else
         {
-            query = "INSERT INTO level_table (user_id, level_id, locked) " +
-            "VALUES (" + userID + ", " + levelID + ", " + (locked ? 1 : 0) + ")";
+            query = "INSERT INTO level_table (level_id, time_centiseconds, locked) " +
+            "VALUES (" + levelID + ", "  + -1 + ", " + (locked ? 1 : 0) + ")";
             RunNonQuery(query);
         }
 
     }
     public bool GetLevelLocked(int levelID)
     {
-        string query = "SELECT * FROM level_table WHERE(user_id = "
-            + userID + " AND level_id = " + levelID + ")";
+        string query = "SELECT * FROM level_table WHERE(level_id = " + levelID + ")";
         IDataReader reader = RunQuery(query);
         if (reader.Read())
         {
-            return Convert.ToBoolean(reader[3]);
+            return Convert.ToBoolean(reader[2]);
         }
         return true;
+    }
+    
+    public void ClearLeaderboard()
+    {
+        string query = "DELETE FROM leaderboard_table;";
+        RunNonQuery(query);
+    }
+
+    public void AddToLeaderboard(string username, int levelID, int rank, int timeCentiseconds)
+    {
+        string query = "INSERT INTO leaderboard_table (username, level_id, rank, time_centiseconds) " +
+            "VALUES ('" + username + "', " + levelID + ", " + rank + ", " + timeCentiseconds + ")";
+        RunNonQuery(query);
+    }
+
+    public int GetLeaderboardRank(string username, int levelID)
+    {
+        string query = "SELECT rank FROM leaderboard_table WHERE(level_id = "
+                + levelID + " AND username = '" + username + "')";
+        IDataReader reader = RunQuery(query);
+        if (reader.Read())
+        {
+            return Convert.ToInt32(reader[0]);
+        }
+        return -1;
+    }
+
+    public Tuple<string, int> GetLeaderboardUserScores(int levelID, int rank)
+    {
+        string query = "SELECT username, time_centiseconds FROM leaderboard_table WHERE(level_id = "
+                + levelID + " AND rank = " + rank + ")";
+        IDataReader reader = RunQuery(query);
+        if (reader.Read())
+        {
+            var username = Convert.ToString(reader[0]);
+            var score = Convert.ToInt32(reader[1]);
+            if (score < 10)
+            {
+                score = -1;
+            }
+            return new Tuple<string, int>(username, score);
+        }
+        return new Tuple<string, int>("", -1);
     }
 }

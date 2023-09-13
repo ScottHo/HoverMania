@@ -25,7 +25,7 @@ public sealed class DatabaseManager
     }
     void Create()
     {
-        if (Application.platform == RuntimePlatform.WebGLPlayer)
+        if (PlayerPrefs.GetInt("IsDemo") == 1)
         {
             database = new DummyDatabase("");
         }
@@ -37,14 +37,6 @@ public sealed class DatabaseManager
                 SqliteDatabase.CreateDatabase(databasePath);
             }
             database = new SqliteDatabase("URI=file:" + databasePath);
-            try
-            {
-                database.SwitchUser(1);
-            }
-            catch (SqliteException)
-            {
-                database.CreateUser();
-            }
         }
     }
 }
