@@ -40,7 +40,7 @@ public class AudioManager : MonoBehaviour
         {
             clip = Resources.Load<AudioClip>("Whir");
             source.pitch = 1.0f;
-            source.volume = .7f * mod;
+            source.volume = .5f * mod;
             if (source.clip != clip || !source.isPlaying)
             {
                 source.Stop();
@@ -54,7 +54,7 @@ public class AudioManager : MonoBehaviour
         {
             clip = Resources.Load<AudioClip>("Whir");
             source.pitch = .8f;
-            source.volume = .6f * mod;
+            source.volume = .4f * mod;
             if (source.clip != clip || !source.isPlaying)
             {
                 source.Stop();
@@ -68,7 +68,7 @@ public class AudioManager : MonoBehaviour
         {
             clip = Resources.Load<AudioClip>("Whir");
             source.pitch = .6f;
-            source.volume = .4f * mod;
+            source.volume = .2f * mod;
             if (source.clip != clip || !source.isPlaying)
             {
                 source.Stop();

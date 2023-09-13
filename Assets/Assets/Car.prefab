@@ -1007,7 +1007,7 @@ Rigidbody:
   m_Mass: 300
   m_Drag: 0
   m_AngularDrag: 0.05
-  m_CenterOfMass: {x: 0, y: -1, z: 0.4}
+  m_CenterOfMass: {x: 0, y: -0.5, z: 0.4}
   m_InertiaTensor: {x: 1, y: 1, z: 1}
   m_InertiaRotation: {x: 0, y: 0, z: 0, w: 1}
   m_IncludeLayers:

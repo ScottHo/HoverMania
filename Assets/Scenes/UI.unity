@@ -9242,7 +9242,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _source: {fileID: 1706646055}
-  baseVolume: 0.2
+  baseVolume: 0.15
   isMusic: 1
   currentAction: 0
 --- !u!1 &1712898833
