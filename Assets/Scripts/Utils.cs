@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 public class Utils
@@ -79,5 +80,11 @@ public class Utils
                 Debug.LogFormat(LogType.Log, LogOption.NoStacktrace, null, "Render queue value outside of the allowed range ({0} - {1}) for selected Blend mode, resetting render queue to default", minRenderQueue, maxRenderQueue);
             material.renderQueue = defaultRenderQueue;
         }
+    }
+
+    public static string ToTimeString(int timeCentiseconds)
+    {
+        TimeSpan time = TimeSpan.FromMilliseconds(timeCentiseconds * 10);
+        return time.ToString(@"mm\:ss\.ff");
     }
 }
