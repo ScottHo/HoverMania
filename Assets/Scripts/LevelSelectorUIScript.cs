@@ -10,11 +10,16 @@ public class LevelSelectorUIScript : MonoBehaviour
     public Button levelButton;
     int id = -1;
 
-    public void SetLevelInfo(LevelInfo levelInfo)
+    public void SetLevelID(int levelID)
     {
-        levelName.text = levelInfo.levelName;
+        var levelInfo = LevelFactory.GetLevelInfo(levelID);
         SetImageSprite(levelInfo.spriteName);
-        id = levelInfo.id;
+        id = levelID;
+        levelName.text = "Level " + id;
+        if (id == -1)
+        {
+            levelName.text = "???";
+        }
         levelButton.interactable = true;
     }
 
@@ -46,7 +51,7 @@ public class LevelSelectorUIScript : MonoBehaviour
         else
         {
             bestTime.text = "INCOMPLETE";
-            bestTime.color = Color.red;
+            bestTime.color = Color.white;
             levelButton.interactable = true;
         }
     }

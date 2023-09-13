@@ -99,16 +99,14 @@ public class UILogicScript : MonoBehaviour
             }
             if (databaseRepository.GetLevelLocked(levelID))
             {
-                LevelInfo info = LevelFactory.GetLevelInfo(-1);
-                script.SetLevelInfo(info);
+                script.SetLevelID(levelID);
                 script.SetLocked(true);
             }
             else
             {
-                LevelInfo info = LevelFactory.GetLevelInfo(levelID);
-                script.SetLevelInfo(info);
+                script.SetLevelID(levelID);
                 script.SetLocked(false);
-                script.SetBestTime(databaseRepository.GetLevelTime(info.id));
+                script.SetBestTime(databaseRepository.GetLevelTime(levelID));
                 if (levelID == selectedLevelID)
                 {
                     container.GetComponent<Button>().Select();
