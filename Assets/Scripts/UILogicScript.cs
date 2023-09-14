@@ -78,6 +78,7 @@ public class UILogicScript : MonoBehaviour
                 databaseRepository.SetLevelLocked(i, true);
             }
         }
+        databaseRepository.Commit();
     }
 
     void FillLevelSelectContainers()

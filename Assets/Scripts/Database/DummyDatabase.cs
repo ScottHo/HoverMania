@@ -108,6 +108,8 @@ public class DummyDatabase
 
     public void Commit()
     {
+        if (path == "")
+            return;
         Serialize(_database, File.Open(path, FileMode.Create));
     }
 

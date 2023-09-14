@@ -23,6 +23,11 @@ public sealed class DatabaseManager
     }
     void Create()
     {
+        if (Application.platform == RuntimePlatform.WebGLPlayer)
+        {
+            database = new DummyDatabase("");
+            return;
+        }
         string databasePath = Application.persistentDataPath + "/data.bin";
         database = new DummyDatabase(databasePath);
     }
