@@ -16,7 +16,7 @@ public class UILogicScript : MonoBehaviour
     public Button leftSelectButton;
     public Button rightSelectButton;
     public int selectedLevelID;
-    IDatabaseRepository databaseRepository;
+    DummyDatabase databaseRepository;
     int levelOffset = 0;
 
     private void Start()

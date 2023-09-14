@@ -16,7 +16,7 @@ public class UsernameLogicScript : MonoBehaviour
     public Button changeUsernameButton;
     public Button cancelButton;
     public GameObject leaderboard;
-    IDatabaseRepository databaseRepository;
+    DummyDatabase databaseRepository;
 
     void Start()
     {

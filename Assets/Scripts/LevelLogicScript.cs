@@ -35,7 +35,7 @@ public class LevelLogicScript : MonoBehaviour
     bool fadeIn = true;
     bool syncInProgress = false;
     Action actionAfterFade;
-    IDatabaseRepository databaseRepository;
+    DummyDatabase databaseRepository;
 
     void Start()
     {
@@ -260,6 +260,7 @@ public class LevelLogicScript : MonoBehaviour
         gameOverText.text = text;
 
         databaseRepository.SetLevelTime(loadedId, timeCentiseconds);
+        databaseRepository.Commit();
     }
 
     async void UploadScore(int timeCentiseconds)

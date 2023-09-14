@@ -1,10 +1,8 @@
-
-using Mono.Data.Sqlite;
 using UnityEngine;
 
 public sealed class DatabaseManager
 {
-    public IDatabaseRepository database;
+    public DummyDatabase database;
     DatabaseManager() {}
     private static readonly object l = new object ();
     private static DatabaseManager instance = null;
@@ -25,18 +23,7 @@ public sealed class DatabaseManager
     }
     void Create()
     {
-        if (PlayerPrefs.GetInt("IsDemo") == 1)
-        {
-            database = new DummyDatabase("");
-        }
-        else
-        {
-            string databasePath = Application.persistentDataPath + "/main_db.sqlite";
-            if (!System.IO.File.Exists(databasePath))
-            {
-                SqliteDatabase.CreateDatabase(databasePath);
-            }
-            database = new SqliteDatabase("URI=file:" + databasePath);
-        }
+        string databasePath = Application.persistentDataPath + "/data.bin";
+        database = new DummyDatabase(databasePath);
     }
 }

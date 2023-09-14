@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 public class CloudSync
 {
-    public static IDatabaseRepository databaseRepository = DatabaseManager.Instance.database;
+    public static DummyDatabase databaseRepository = DatabaseManager.Instance.database;
     public static RequestHandler requestHandler = new RequestHandler();
     /*
      * Get the top X hi scores from the server, order them by rank, add them to the local database
@@ -29,6 +29,7 @@ public class CloudSync
                 i++;
             }
         }
+        databaseRepository.Commit();
     }
 
     public static async Task SyncCurrentUser()
@@ -47,6 +48,7 @@ public class CloudSync
                 databaseRepository.SetLevelTime(level.Key, score);
             }
         }
+        databaseRepository.Commit();
     }
 
     public static async Task UploadHiScore(int levelID, int timeCentiseconds)
@@ -68,6 +70,7 @@ public class CloudSync
         if (status == UserCreatedStatus.Success)
         {
             databaseRepository.SetUser(userID, username);
+            databaseRepository.Commit();
         }
         return status;
     }
@@ -78,6 +81,7 @@ public class CloudSync
         if (v.Item2 == UserCreatedStatus.Success)
         {
             databaseRepository.SetUser(v.Item1, username);
+            databaseRepository.Commit();
         }
         return v.Item2;
     }

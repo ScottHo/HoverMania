@@ -17,6 +17,7 @@ public class RequestHandler
         client = new HttpClient();
         secret = S.K();
         client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+        client.DefaultRequestHeaders.Add("x-api-key", S.A());
     }
 
     /*

@@ -77,8 +77,8 @@ crashlytics-build.properties
 /[Aa]ssets/Pixel Font - Tripfive/
 /[Aa]ssets/Pixel Font - Tripfive.meta
 
-/[Aa]ssets/TextMesh Pro/
-/[Aa]ssets/TextMesh Pro.meta
+/[Aa]ssets/SqlCipher4Unity3D/
+/[Aa]ssets/SqlCipher4Unity3D.meta
 
 .vs
 .vsconfig
@@ -90,5 +90,4 @@ crashlytics-build.properties
 /[Aa]ssets/Plugins/
 /[Aa]ssets/Resources/
 /Packages/
-/[Aa]ssets/Scripts/S.cs.meta
-/[Aa]ssets/Scripts/S.cs
+/[Aa]ssets/Scripts/X*

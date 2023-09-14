@@ -41,7 +41,7 @@ public class LeaderboardScript : MonoBehaviour
     {
         if (CheckOffline())
             return;
-        IDatabaseRepository databaseRepository = DatabaseManager.Instance.database;
+        DummyDatabase databaseRepository = DatabaseManager.Instance.database;
         var username = databaseRepository.GetUsername();
         if (username != "")
         {
@@ -54,7 +54,7 @@ public class LeaderboardScript : MonoBehaviour
         if (CheckOffline())
             return;
         ClearLeaderboard();
-        IDatabaseRepository databaseRepository = DatabaseManager.Instance.database;
+        DummyDatabase databaseRepository = DatabaseManager.Instance.database;
         for (int r = 1; r <= 5; r++)
         {
             var userScores = databaseRepository.GetLeaderboardUserScores(level, r);
