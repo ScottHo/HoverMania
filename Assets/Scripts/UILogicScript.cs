@@ -186,6 +186,7 @@ public class UILogicScript : MonoBehaviour
     public void HideOfflinePopup()
     {
         offlinePopup.SetActive(false);
+        leaderboard.GetComponent<LeaderboardScript>().GoOffline();
     }
     public void HideDemoPopup()
     {

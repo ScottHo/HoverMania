@@ -6624,8 +6624,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: 'Demo Version.
 
-    Find the full version on Steam for the Global Leaderboard
-    and more levels!'
+
+    Get the full version for more levels!'
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2100000, guid: 79459efec17a4d00a321bdcc27bbc385, type: 2}
@@ -7578,7 +7578,7 @@ MonoBehaviour:
   createUserPopup: {fileID: 272774396}
   offlinePopup: {fileID: 892659934}
   demoPopup: {fileID: 1056716167}
-  corruptPopup: {fileID: 0}
+  corruptPopup: {fileID: 1307153963}
   playButton: {fileID: 1510143605}
   leftSelectButton: {fileID: 2021076639}
   rightSelectButton: {fileID: 1211546107}
@@ -8168,7 +8168,7 @@ MonoBehaviour:
       m_Calls: []
   m_text: No connection. Continuing with Offline Mode. Scores will not be updated
     to the Global Leaderboard. Only times tracked while connected will show on the
-    Goobal Leaderboard.
+    Global Leaderboard.
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2100000, guid: 79459efec17a4d00a321bdcc27bbc385, type: 2}
