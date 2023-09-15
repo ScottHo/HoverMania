@@ -46,14 +46,16 @@ public class SplashScript : MonoBehaviour
 
     async void SyncAndWait()
     {
-        if (PlayerPrefs.GetInt("IsDemo") == 1)
+        DummyDatabase database = DatabaseManager.Instance.database;
+        PlayerPrefs.SetInt("DataFileCorruptPopup", 0);
+        if (database.dataBinCorrupt)
         {
-            PlayerPrefs.SetInt("LeaderboardConnected", 0);
-            PlayerPrefs.SetInt("ShowNewUserPopup", 0);
-            PlayerPrefs.SetInt("ShowOfflinePopup", 0);
+            PlayerPrefs.SetInt("DataFileCorruptPopup", 1);
+            database.dataBinCorrupt = false;
+        }
+        if (LevelFactory.NumLevels() == 3)
+        {
             PlayerPrefs.SetInt("ShowDemoPopup", 1);
-            startupFinished = true;
-            return;
         }
         PlayerPrefs.SetInt("ShowDemoPopup", 0);
 
@@ -63,7 +65,7 @@ public class SplashScript : MonoBehaviour
             await CloudSync.SyncCurrentUser();
             PlayerPrefs.SetInt("LeaderboardConnected", 1);
             int newUserFlag = 0;
-            if (DatabaseManager.Instance.database.GetUserID() == -1)
+            if (database.GetUserID() == -1)
             {
                 newUserFlag = 1;
             }

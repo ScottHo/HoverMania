@@ -13,7 +13,7 @@ public class CloudSync
     public static async Task GetHiScores()
     {
         databaseRepository.ClearLeaderboard();
-        var scores = await requestHandler.GetHiScores(LevelFactory.NumLevels(false));
+        var scores = await requestHandler.GetHiScores(LevelFactory.NumLevels());
         foreach (var level in scores)
         {
             List<Tuple<string, int>> t = new List<Tuple<string, int>>();
@@ -37,7 +37,7 @@ public class CloudSync
         int userID = databaseRepository.GetUserID();
         if (userID < 0)
             return;
-        var scores = await requestHandler.GetUserRank(userID, LevelFactory.NumLevels(false));
+        var scores = await requestHandler.GetUserRank(userID, LevelFactory.NumLevels());
         foreach (var level in scores)
         {
             if (level.Value.Count == 2)

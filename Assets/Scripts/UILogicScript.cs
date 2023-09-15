@@ -12,6 +12,7 @@ public class UILogicScript : MonoBehaviour
     public GameObject createUserPopup;
     public GameObject offlinePopup;
     public GameObject demoPopup;
+    public GameObject corruptPopup;
     public Button playButton;
     public Button leftSelectButton;
     public Button rightSelectButton;
@@ -32,6 +33,11 @@ public class UILogicScript : MonoBehaviour
 
     void ShowPopups()
     {
+        if (PlayerPrefs.GetInt("DataFileCorruptPopup") == 1)
+        {
+            corruptPopup.SetActive(true);
+            PlayerPrefs.SetInt("DataFileCorruptPopup", 0);
+        }
         if (PlayerPrefs.GetInt("ShowDemoPopup") == 1)
         {
             demoPopup.SetActive(true);
@@ -67,7 +73,7 @@ public class UILogicScript : MonoBehaviour
     void UpdateLevelsLocked()
     {
         databaseRepository.SetLevelLocked(1, false);
-        for (int i = 2; i <= LevelFactory.NumLevels(PlayerPrefs.GetInt("IsDemo") == 1); i++)
+        for (int i = 2; i <= LevelFactory.NumLevels(); i++)
         {
             if (databaseRepository.GetLevelTime(i-1) > 0)
             {
@@ -93,7 +99,7 @@ public class UILogicScript : MonoBehaviour
             LevelSelectorUIScript script = container.GetComponent<LevelSelectorUIScript>();
             int levelID = it.Index + levelOffset + 1;
             container.SetActive(true);
-            if (levelID > LevelFactory.NumLevels(PlayerPrefs.GetInt("IsDemo") == 1))
+            if (levelID > LevelFactory.NumLevels())
             {
                 container.SetActive(false);
                 continue;
@@ -121,7 +127,7 @@ public class UILogicScript : MonoBehaviour
         {
             leftActive = false;
         }
-        if (levelOffset + 3 >= LevelFactory.NumLevels(PlayerPrefs.GetInt("IsDemo") == 1))
+        if (levelOffset + 3 >= LevelFactory.NumLevels())
         {
             rightActive = false;
         }
@@ -177,9 +183,17 @@ public class UILogicScript : MonoBehaviour
         leaderboard.GetComponent<LeaderboardScript>().SetUser();
     }
 
-    public void HidePopup()
+    public void HideOfflinePopup()
     {
         offlinePopup.SetActive(false);
+    }
+    public void HideDemoPopup()
+    {
+        demoPopup.SetActive(false);
+    }
+    public void HideCorruptPopup()
+    {
+        corruptPopup.SetActive(false);
     }
 
     public void QuitGame()

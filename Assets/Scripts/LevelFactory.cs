@@ -59,13 +59,11 @@ public class LevelFactory
         }
     }
 
-    public static int NumLevels(bool demo)
+    public static int NumLevels()
     {
-        if (demo)
-        {
-            return 3;
-        }
-        return 10;
+        // Demo return 3
+        return 3;
+        //return 10;
     }
 }
 

@@ -10,6 +10,7 @@ public class DummyDatabase
 {
     string path;
     _Database _database;
+    public bool dataBinCorrupt = false;
 
 #if UNITY_WEBGL
     [DllImport("__Internal")]
@@ -17,6 +18,9 @@ public class DummyDatabase
 
     [DllImport("__Internal")]
     private static extern byte[] LoadFromLocalStorage();
+
+    [DllImport("__Internal")]
+    private static extern int DataExistsInLocalStorage();
 #endif
 
     [Serializable]
@@ -40,11 +44,15 @@ public class DummyDatabase
     public DummyDatabase(string path)
     {
         this.path = path;
+        dataBinCorrupt = false;
         _database = Empty();
 
 #if UNITY_WEBGL
         var bytes = LoadFromLocalStorage();
-        _database = Deserialize(new MemoryStream(bytes));
+        if (DataExistsInLocalStorage() == 1)
+        {
+            _database = Deserialize(new MemoryStream(bytes));
+        }
 #else
         if (File.Exists(path))
         {
@@ -59,7 +67,7 @@ public class DummyDatabase
         ret._scoresDict = new Dictionary<int, int>();
         ret._lockedDict = new Dictionary<int, bool>();
         ret._leaderboardDict = new Dictionary<int, List<_Leaderboard>>();
-        for (int i = 1; i <= LevelFactory.NumLevels(false); i++)
+        for (int i = 1; i <= LevelFactory.NumLevels(); i++)
         {
             ret._leaderboardDict[i] = new List<_Leaderboard>();
         }
@@ -101,20 +109,16 @@ public class DummyDatabase
         catch (IOException e)
         {
             Debug.Log(e);
+            dataBinCorrupt = true;
             return Empty();
         }
         catch (SerializationException e)
         {
             Debug.Log(e);
+            dataBinCorrupt = true;
             return Empty();
         }
         return ret;
-    }
-
-    // function to create instance of T
-    public static Object CreateInstance<Object>() where Object : new()
-    {
-        return (Object)Activator.CreateInstance(typeof(Object));
     }
 
     public void Commit()
