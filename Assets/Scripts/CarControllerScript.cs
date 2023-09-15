@@ -170,8 +170,8 @@ public class CarControllerScript : MonoBehaviour
     {
         float motor = torque * Input.GetAxis("Vertical");
         float brakePower = brakeTorque;
-        bool isMovingForward = axleInfo.leftWheel.rotationSpeed > 50;
-        bool isMovingBackwards = axleInfo.leftWheel.rotationSpeed < -50;
+        bool isMovingForward = axleInfo.leftWheel.rotationSpeed > 1000;
+        bool isMovingBackwards = axleInfo.leftWheel.rotationSpeed < -1000;
         bool reverse = motor < 0;
         if (motor == 0)
         {
@@ -194,9 +194,9 @@ public class CarControllerScript : MonoBehaviour
             else
             {
                 float speed = rigidBody.velocity.magnitude;
-                if (speed > 4)
+                if (speed > 3)
                 {
-                    rigidBody.drag = speed * speed * .03f;
+                    rigidBody.drag = speed * speed * .05f;
                     float currAngle = Mathf.Abs(angle * Input.GetAxis("Horizontal"));
                     if (currAngle > 0)
                     {
@@ -216,8 +216,8 @@ public class CarControllerScript : MonoBehaviour
                 {
                     bottomGlow.enabled = true;
                     bottomGlow.color = Color.red;
-                    axleInfo.leftWheel.motorTorque = motor * .7f;
-                    axleInfo.leftWheel.motorTorque = motor * .7f;
+                    axleInfo.leftWheel.motorTorque = motor;
+                    axleInfo.leftWheel.motorTorque = motor;
                 }
                 else
                 {

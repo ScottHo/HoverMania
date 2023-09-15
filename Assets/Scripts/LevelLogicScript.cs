@@ -71,12 +71,10 @@ public class LevelLogicScript : MonoBehaviour
     {
         gameOverContainer.SetActive(false);
         quitButton.onClick.AddListener(GameOver);
-
-        int idToLoad = PlayerPrefs.GetInt("SelectedLevel");
-        if (idToLoad == -1)
+        int idToLoad = defaultId;
+        if (defaultId == 0)
         {
-            idToLoad = defaultId;
-
+            idToLoad = PlayerPrefs.GetInt("SelectedLevel");
         }
         Debug.Log("Loading level " + idToLoad);
         foreach (GameObject levelContainer in levelContainers.levels)
