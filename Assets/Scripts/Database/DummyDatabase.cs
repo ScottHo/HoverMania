@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Runtime.InteropServices;
 using System.Runtime.Serialization;
 using System.Runtime.Serialization.Formatters.Binary;
 using UnityEngine;
@@ -9,6 +10,14 @@ public class DummyDatabase
 {
     string path;
     _Database _database;
+
+#if UNITY_WEBGL
+    [DllImport("__Internal")]
+    private static extern void SaveToLocalStorage(byte[] data);
+
+    [DllImport("__Internal")]
+    private static extern byte[] LoadFromLocalStorage();
+#endif
 
     [Serializable]
     struct _Database
@@ -32,14 +41,16 @@ public class DummyDatabase
     {
         this.path = path;
         _database = Empty();
-        if (path != "")
-        {
-            if (File.Exists(path))
-            {
-                _database = Deserialize(File.Open(path, FileMode.Open));
 
-            }
+#if UNITY_WEBGL
+        var bytes = LoadFromLocalStorage();
+        _database = Deserialize(new MemoryStream(bytes));
+#else
+        if (File.Exists(path))
+        {
+            _database = Deserialize(File.Open(path, FileMode.Open));
         }
+#endif
     }
 
     _Database Empty()
@@ -108,9 +119,13 @@ public class DummyDatabase
 
     public void Commit()
     {
-        if (path == "")
-            return;
+#if UNITY_WEBGL
+        MemoryStream stream = new MemoryStream();
+        Serialize(_database, stream);
+        SaveToLocalStorage(stream.ToArray());
+#else
         Serialize(_database, File.Open(path, FileMode.Create));
+#endif
     }
 
     public void SetUser(int user_id, string username)
