@@ -59,6 +59,7 @@ public class DummyDatabase
             _database = Deserialize(File.Open(path, FileMode.Open));
         }
 #endif
+        InitDatabase();
     }
 
     _Database Empty()
@@ -74,6 +75,17 @@ public class DummyDatabase
         ret.username = "";
         ret.userID = -1;
         return ret;
+    }
+
+    void InitDatabase()
+    {
+        for (int i = 1; i <= LevelFactory.NumLevels(); i++)
+        {
+            if (!_database._leaderboardDict.ContainsKey(i))
+            {
+                _database._leaderboardDict[i] = new List<_Leaderboard>();
+            }
+        }
     }
 
     void Serialize<Object>(Object obj, Stream stream)
