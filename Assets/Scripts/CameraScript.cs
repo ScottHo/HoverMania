@@ -16,7 +16,7 @@ public class CameraScript : MonoBehaviour
         if (Physics.Raycast(transform.position, target.position - transform.position, out hit, 10f))
         {
             int terrainLayer = 6;
-            if (hit.collider.gameObject.layer == terrainLayer)
+            if (hit.collider.gameObject.layer == terrainLayer && !hit.collider.isTrigger)
             {
                 if (obstrution != null && obstrution != hit.transform)
                 {
