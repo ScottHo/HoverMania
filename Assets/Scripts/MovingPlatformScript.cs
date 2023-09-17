@@ -9,6 +9,7 @@ public class MovingPlatformScript : MonoBehaviour
     bool arrived = false;
     float stallTimeStart = 0;
     float stallTime = .5f;
+    bool entered = false;
 
     void FixedUpdate()
     {
@@ -23,13 +24,37 @@ public class MovingPlatformScript : MonoBehaviour
             return;
         }
         float step = speed * Time.deltaTime;
-        transform.position = Vector3.MoveTowards(transform.position, points[currentIdx], step);
+        transform.parent.position = Vector3.MoveTowards(transform.parent.position, points[currentIdx], step);
 
-        if (Vector3.Distance(transform.position, points[currentIdx]) < 0.001f)
+        if (Vector3.Distance(transform.parent.position, points[currentIdx]) < 0.001f)
         {
             currentIdx += 1;
             if (currentIdx >= points.Count) { currentIdx = 0; }
             arrived = true;
+        }
+    }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if (entered)
+            return;
+        if (other.gameObject.CompareTag("Player"))
+        {
+            entered = true;
+            other.gameObject.transform.parent = transform.parent;
+        }
+    }
+
+    private void OnTriggerExit(Collider other)
+    {
+        if (!entered)
+        {
+            return;
+        }
+        if (other.gameObject.CompareTag("Player"))
+        {
+            entered = false;
+            other.gameObject.transform.parent = null;
         }
     }
 }
