@@ -2,7 +2,8 @@ using UnityEngine;
 using TMPro;
 using System.Text.RegularExpressions;
 using UnityEngine.UI;
-using System.Net.Http;
+using UnityEngine.Networking;
+using System.Collections;
 
 public class UsernameLogicScript : MonoBehaviour
 {
@@ -85,61 +86,90 @@ public class UsernameLogicScript : MonoBehaviour
         return true;
     }
 
-    public async void ChangeUsername()
+    public void ChangeUsername()
     {
         if (!ValidateUsername())
         {
             return;
         }
+        changeUsernameButton.enabled = false;
+        cancelButton.enabled = false;
+        errorText.text = "Syncing...";
+        errorText.color = Color.white;
+        StartCoroutine(DoChangeUsername());
+    }
+
+    IEnumerator DoChangeUsername()
+    {
+        UnityWebRequest request = null;
         try
         {
-            changeUsernameButton.enabled = false;
-            cancelButton.enabled = false;
-            errorText.text = "Syncing...";
-            errorText.color = Color.white;
-            var status = await CloudSync.ChangeUsername(inputField.text);
-            if (status == UserCreatedStatus.UsernameExists)
+            request = CloudSync.ChangeUsernameRequest(inputField.text);
+        } catch (WebRequestException e)
+        {
+            errorText.text = e.Message;
+        }
+        if (request != null)
+        {
+            yield return request.SendWebRequest();
+            var status = CloudSync.ParseChangeUsernameRequest(request);
+            if (status == UserCreatedStatus.Success)
+            {
+                databaseRepository.SetUser(databaseRepository.GetUserID(), inputField.text);
+                databaseRepository.Commit();
+                var otherRequest = CloudSync.GetHiScoresRequest();
+                yield return otherRequest.SendWebRequest();
+                CloudSync.ParseGetHiScoresRequest(otherRequest);
+                leaderboard.GetComponent<LeaderboardScript>().SetUser();
+                changeUsernameButton.enabled = true;
+                cancelButton.enabled = true;
+                Hide();
+            }
+
+            else if (status == UserCreatedStatus.UsernameExists)
             {
                 errorText.text = "Username already exists";
                 errorText.color = Color.red;
                 changeUsernameButton.enabled = true;
                 cancelButton.enabled = true;
             }
-            await CloudSync.GetHiScores();
-            leaderboard.GetComponent<LeaderboardScript>().SetUser();
-            changeUsernameButton.enabled = true;
-            cancelButton.enabled = true;
-            Hide();
-        }
-        catch (HttpRequestException e)
-        {
-            Debug.LogException(e);
-            PlayerPrefs.SetInt("LeaderboardConnected", 0);
-            GoOffline();
+            else
+            {
+                GoOffline();
+            }
         }
     }
 
-    public async void NewUser()
+    public void NewUser()
     {
         if (!ValidateUsername())
         {
             return;
         }
-        try
+        StartCoroutine(DoNewUser());
+        
+    }
+    
+    IEnumerator DoNewUser()
+    {
+        var request = CloudSync.NewUserRequest(inputField.text);
+        yield return request.SendWebRequest();
+        var response = CloudSync.ParseNewUserRequest(request);
+        var status = response.Item2;
+        var user_id = response.Item1;
+        if (status == UserCreatedStatus.UsernameExists)
         {
-            var status = await CloudSync.NewUser(inputField.text);
-            if (status == UserCreatedStatus.UsernameExists)
-            {
-                errorText.text = "Username already exists";
-                return;
-            }
+            errorText.text = "Username already exists";
+        }
+        else if (status == UserCreatedStatus.Success)
+        {
+            databaseRepository.SetUser(user_id, inputField.text);
+            databaseRepository.Commit();
             leaderboard.GetComponent<LeaderboardScript>().SetUser();
             Hide();
         }
-        catch (HttpRequestException e)
+        else
         {
-            Debug.LogException(e);
-            PlayerPrefs.SetInt("LeaderboardConnected", 0);
             GoOffline();
         }
     }

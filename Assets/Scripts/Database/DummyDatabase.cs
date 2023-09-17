@@ -14,10 +14,10 @@ public class DummyDatabase
 
 #if UNITY_WEBGL
     [DllImport("__Internal")]
-    private static extern void SaveToLocalStorage(byte[] data);
+    private static extern void SaveToLocalStorage(string data);
 
     [DllImport("__Internal")]
-    private static extern byte[] LoadFromLocalStorage();
+    private static extern string LoadFromLocalStorage();
 
     [DllImport("__Internal")]
     private static extern int DataExistsInLocalStorage();
@@ -48,11 +48,18 @@ public class DummyDatabase
         _database = Empty();
 
 #if UNITY_WEBGL
-        var bytes = LoadFromLocalStorage();
         if (DataExistsInLocalStorage() == 1)
         {
-            _database = Deserialize(new MemoryStream(bytes));
+            var s = LoadFromLocalStorage();
+            if (s != null)
+            {
+                var bytes = Convert.FromBase64String(s);
+                {
+                    _database = Deserialize(new MemoryStream(bytes));
+                }
+            }
         }
+            
 #else
         if (File.Exists(path))
         {
@@ -88,14 +95,15 @@ public class DummyDatabase
         }
     }
 
-    void Serialize<Object>(Object obj, Stream stream)
+    byte[] Serialize<Object>(Object obj, Stream stream)
     {
         try // try to serialize the collection to a file
         {
-            using (stream)
+            BinaryFormatter bin = new BinaryFormatter();
+            bin.Serialize(stream, obj);
+            if (stream is MemoryStream memStream)
             {
-                BinaryFormatter bin = new BinaryFormatter();
-                bin.Serialize(stream, obj);
+                return memStream.ToArray();
             }
         }
         catch (IOException e)
@@ -106,6 +114,7 @@ public class DummyDatabase
         {
             Debug.Log(e);
         }
+        return new byte[0];
     }
     _Database Deserialize(Stream stream)
     {
@@ -137,8 +146,8 @@ public class DummyDatabase
     {
 #if UNITY_WEBGL
         MemoryStream stream = new MemoryStream();
-        Serialize(_database, stream);
-        SaveToLocalStorage(stream.ToArray());
+        var bytes = Serialize(_database, stream);
+        SaveToLocalStorage(Convert.ToBase64String(bytes));
 #else
         Serialize(_database, File.Open(path, FileMode.Create));
 #endif

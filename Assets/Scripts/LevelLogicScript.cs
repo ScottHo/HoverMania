@@ -265,10 +265,24 @@ public class LevelLogicScript : MonoBehaviour
         databaseRepository.Commit();
     }
 
-    async void UploadScore(int timeCentiseconds)
+    void UploadScore(int timeCentiseconds)
+    {
+        StartCoroutine(DoUploadScore(timeCentiseconds));
+    }
+
+    IEnumerator DoUploadScore(int timeCentiseconds)
     {
         syncInProgress = true;
-        await CloudSync.UploadHiScore(loadedId, timeCentiseconds);
+        var request = CloudSync.AddHiScoreRequest(loadedId, timeCentiseconds);
+        yield return request.SendWebRequest();
+
+        var otherRequest = CloudSync.GetHiScoresRequest();
+        yield return otherRequest.SendWebRequest();
+        CloudSync.ParseGetHiScoresRequest(otherRequest);
+
+        var otherRequest2 = CloudSync.GetUserRankRequest();
+        yield return otherRequest2.SendWebRequest();
+        CloudSync.ParseGetUserRankRequest(otherRequest2);
         syncInProgress = false;
     }
 
