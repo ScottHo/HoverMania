@@ -91,7 +91,7 @@ public class CarControllerScript : MonoBehaviour
         rigidBody.angularVelocity = angularVelocity;
         float maxSpeed = 15;
         float speed = rigidBody.velocity.magnitude;
-        if (speed <= maxSpeed)
+        if (speed <= maxSpeed || Mathf.Abs(drift) > .2f)
         {
             float forwardDrift = Input.GetAxis("Vertical");
             rigidBody.AddForce(rigidBody.transform.forward * forwardDrift * 1500);
