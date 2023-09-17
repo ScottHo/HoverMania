@@ -18,6 +18,8 @@ public class LevelLogicScript : MonoBehaviour
     public Button gameOverButton;
     public Button retryButton;
     public Slider batterySlider;
+    public TextMesh wall1;
+    public TextMesh wall2;
     public LevelContainers levelContainers;
     public Image fader;
     public AudioSource audioSource;
@@ -90,6 +92,8 @@ public class LevelLogicScript : MonoBehaviour
             }
         }
         loadedId = idToLoad;
+        wall1.text = "LEVEL " + loadedId.ToString();
+        wall2.text = "LEVEL " + loadedId.ToString();
         ShowSamplesCollected();
         UpdateBatteryLifeUI();
     }

@@ -91,7 +91,7 @@ public class UILogicScript : MonoBehaviour
     {
         if (selectedLevelID > 0)
         {
-            levelOffset = (selectedLevelID / 3);
+            levelOffset = ((selectedLevelID-1) / 3) * 3;
         }
         foreach (var it in levelSelectContainers.containers.Select((Value, Index) => new { Value, Index }))
         {

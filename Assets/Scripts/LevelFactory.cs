@@ -27,11 +27,11 @@ public class LevelFactory
         }
         if (id == 4)
         {
-            return new LevelInfo(id, "Level1Thumbnail");
+            return new LevelInfo(id, "Level4Thumbnail");
         }
         if (id == 5)
         {
-            return new LevelInfo(id, "Level1Thumbnail");
+            return new LevelInfo(id, "Level5Thumbnail");
         }
         if (id == 6)
         {
@@ -61,8 +61,8 @@ public class LevelFactory
 
     public static int NumLevels()
     {
-        // Demo return 3
-        return 3;
+        // Demo return 5
+        return 5;
         //return 10;
     }
 }
