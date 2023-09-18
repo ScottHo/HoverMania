@@ -17,6 +17,7 @@ public class LevelLogicScript : MonoBehaviour
     public TextMeshProUGUI gameOverText;
     public Button gameOverButton;
     public Button retryButton;
+    public Button resetButton;
     public Slider batterySlider;
     public TextMesh wall1;
     public TextMesh wall2;
@@ -73,6 +74,7 @@ public class LevelLogicScript : MonoBehaviour
     {
         gameOverContainer.SetActive(false);
         quitButton.onClick.AddListener(GameOver);
+        resetButton.onClick.AddListener(RetryMission);
         int idToLoad = defaultId;
         if (defaultId == 0)
         {
@@ -210,6 +212,7 @@ public class LevelLogicScript : MonoBehaviour
         if (!gameIsOver)
         {
             quitButton.enabled = false;
+            resetButton.enabled = false;
             gameIsOver = true;
             gameOverContainer.SetActive(true);
             if (currentSamples == totalSamples)
@@ -306,7 +309,7 @@ public class LevelLogicScript : MonoBehaviour
             StartCoroutine(LoadLevelAfterDelay(.5f));
         };
         SetupFader(false, a);
-      }
+    }
     IEnumerator LoadLevelAfterDelay(float delay)
     {
         // Loading in feels to fast, wait a second
