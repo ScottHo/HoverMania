@@ -19,7 +19,7 @@ public class InitScript : MonoBehaviour
         SetFloats(keys);
         if (!PlayerPrefs.HasKey("Graphics"))
         {
-            PlayerPrefs.SetInt("Graphics", 1);
+            PlayerPrefs.SetInt("Graphics", 3);
         }
     }
     void SetFloats(List<string> keys)
