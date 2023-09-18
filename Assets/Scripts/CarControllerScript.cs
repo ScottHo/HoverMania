@@ -39,6 +39,7 @@ public class CarControllerScript : MonoBehaviour
         Drive();
         ApplyFloatState();
         LimitAngularVelocity();
+        ShowSpeed();
         AudioManager.PlayEffect(audioAction, ref audioSource);
     }
 
@@ -273,6 +274,11 @@ public class CarControllerScript : MonoBehaviour
         }
         visualWheel.transform.position = position;
         visualWheel.transform.rotation = rotation;
+    }
+
+    void ShowSpeed()
+    {
+        logic.UpdateSpeed(rigidBody.velocity.magnitude);
     }
 }
 

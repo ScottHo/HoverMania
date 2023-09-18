@@ -12,6 +12,7 @@ public class LevelLogicScript : MonoBehaviour
     public TextMeshProUGUI timerText;
     public TextMeshProUGUI currentSampleText;
     public TextMeshProUGUI batteryText;
+    public TextMeshProUGUI speedText;
     public Button quitButton;
     public GameObject gameOverContainer;
     public TextMeshProUGUI gameOverText;
@@ -210,6 +211,11 @@ public class LevelLogicScript : MonoBehaviour
     {
         TimeSpan time = TimeSpan.FromSeconds(elapsedTime);
         timerText.text = time.ToString(@"mm\:ss\.ff");
+    }
+
+    public void UpdateSpeed(float speed)
+    {
+        speedText.text = speed.ToString("0.0");
     }
 
     public void GameOver()
