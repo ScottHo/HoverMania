@@ -110,9 +110,8 @@ public class CloudSync
             { "username", username }
         };
         var s = JsonConvert.SerializeObject(values);
-        UnityWebRequest request = UnityWebRequest.Post(baseUrl + "/user/changeUsername", s, "application/json");
+        UnityWebRequest request = UnityWebRequest.Put(baseUrl + "/user/changeUsername", s);
         request.SetRequestHeader("x-api-key", S.A());
-
         return request;
     }
 
