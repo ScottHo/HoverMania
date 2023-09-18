@@ -56,6 +56,11 @@ public class LevelLogicScript : MonoBehaviour
         }
         if (gameIsOver)
             return;
+        if (Input.GetKey(KeyCode.R))
+        {
+            RetryMission();
+            return;
+        }
         elapsedTime += Time.deltaTime;
         if (batteryDraining)
         {
@@ -304,6 +309,8 @@ public class LevelLogicScript : MonoBehaviour
 
     public void RetryMission()
     {
+        quitButton.enabled = false;
+        resetButton.enabled = false;
         gameOverContainer.SetActive(false);
         Action a = () => {
             StartCoroutine(LoadLevelAfterDelay(.5f));
