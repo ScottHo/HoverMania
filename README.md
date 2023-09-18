@@ -12,6 +12,7 @@ Demo is available here! https://scottho.itch.io/hovermania
 Using:
 Unity3D
 C#
+AWS
 Blender
 Gimp
 Audacity
