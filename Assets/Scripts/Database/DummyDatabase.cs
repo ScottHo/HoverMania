@@ -67,7 +67,7 @@ public class DummyDatabase
             {
                 _database = Deserialize(File.Open(path, FileMode.Open));
             }
-            catch (Exceptioon e)
+            catch (Exception e)
             {
                 Debug.Log(e);
                 _database = Empty();
