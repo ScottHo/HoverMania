@@ -13,45 +13,10 @@ public class LevelFactory
 {
     public static LevelInfo GetLevelInfo(int id)
     {
-        if (id == 1)
+        if (id <= NumLevels())
         {
-            return new LevelInfo(id, "Level1Thumbnail");
-        }
-        if (id == 2)
-        {
-            return new LevelInfo(id, "Level2Thumbnail");
-        }
-        if (id == 3)
-        {
-            return new LevelInfo(id, "Level3Thumbnail");
-        }
-        if (id == 4)
-        {
-            return new LevelInfo(id, "Level4Thumbnail");
-        }
-        if (id == 5)
-        {
-            return new LevelInfo(id, "Level5Thumbnail");
-        }
-        if (id == 6)
-        {
-            return new LevelInfo(id, "Level1Thumbnail");
-        }
-        if (id == 7)
-        {
-            return new LevelInfo(id, "Level1Thumbnail");
-        }
-        if (id == 8)
-        {
-            return new LevelInfo(id, "Level1Thumbnail");
-        }
-        if (id == 9)
-        {
-            return new LevelInfo(id, "Level1Thumbnail");
-        }
-        if (id == 10)
-        {
-            return new LevelInfo(id, "Level1Thumbnail");
+            return new LevelInfo(id, "Thumb" + id);
+
         }
         else
         {
@@ -61,9 +26,7 @@ public class LevelFactory
 
     public static int NumLevels()
     {
-        // Demo return 5
-        return 5;
-        //return 10;
+        return 12;
     }
 }
 
