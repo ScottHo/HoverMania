@@ -6,11 +6,13 @@ Early Stages of Development.
 
 Demo is available here! https://scottho.itch.io/hovermania
 
-![image](https://github.com/ScottHo/RoverMission/assets/9061433/473b9ddb-5c12-4f03-83e5-c95e0c2e1d75)
+
+![ss2](https://github.com/ScottHo/HoverMania/assets/9061433/5cc8dc28-703b-42bf-a9bf-0745932a2be5)
 
 Using:
 Unity3D
 C#
+AWS
 Blender
 Gimp
 Audacity
