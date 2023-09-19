@@ -120,6 +120,9 @@ public class UsernameLogicScript : MonoBehaviour
                 var otherRequest = CloudSync.GetHiScoresRequest();
                 yield return otherRequest.SendWebRequest();
                 CloudSync.ParseGetHiScoresRequest(otherRequest);
+                var thirdRequest = CloudSync.GetUserRankRequest();
+                yield return thirdRequest.SendWebRequest();
+                CloudSync.ParseGetUserRankRequest(thirdRequest);
                 leaderboard.GetComponent<LeaderboardScript>().SetUser();
                 changeUsernameButton.enabled = true;
                 cancelButton.enabled = true;
