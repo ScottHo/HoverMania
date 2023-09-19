@@ -63,7 +63,15 @@ public class DummyDatabase
 #else
         if (File.Exists(path))
         {
-            _database = Deserialize(File.Open(path, FileMode.Open));
+            try
+            {
+                _database = Deserialize(File.Open(path, FileMode.Open));
+            }
+            catch (Exceptioon e)
+            {
+                Debug.Log(e);
+                _database = Empty();
+            }
         }
 #endif
         InitDatabase();
@@ -127,13 +135,7 @@ public class DummyDatabase
                 ret = (_Database) bin.Deserialize(stream);
             }
         }
-        catch (IOException e)
-        {
-            Debug.Log(e);
-            dataBinCorrupt = true;
-            return Empty();
-        }
-        catch (SerializationException e)
+        catch (Exception e)
         {
             Debug.Log(e);
             dataBinCorrupt = true;

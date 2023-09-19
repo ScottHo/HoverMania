@@ -3222,7 +3222,7 @@ MonoBehaviour:
     - {fileID: 0}
   fader: {fileID: 227920900}
   audioSource: {fileID: 741896867}
-  defaultId: -1
+  defaultId: 0
   gameIsOver: 0
   fading: 0
 --- !u!4 &814153938
