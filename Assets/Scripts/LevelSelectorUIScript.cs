@@ -48,7 +48,6 @@ public class LevelSelectorUIScript : MonoBehaviour
             bestTime.text = "LOCKED";
             bestTime.color = Color.red;
             levelButton.interactable = false;
-            SetImageSprite("UnknownThumbnail");
         }
         else
         {
