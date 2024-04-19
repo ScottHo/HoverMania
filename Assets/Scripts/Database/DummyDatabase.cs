@@ -1,7 +1,6 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Runtime.InteropServices;
 using System.Runtime.Serialization;
 using System.Runtime.Serialization.Formatters.Binary;
 using UnityEngine;
@@ -132,7 +131,7 @@ public class DummyDatabase
             using (stream)
             {
                 BinaryFormatter bin = new BinaryFormatter();
-                ret = (_Database) bin.Deserialize(stream);
+                ret = (_Database)bin.Deserialize(stream);
             }
         }
         catch (Exception e)
@@ -246,5 +245,21 @@ public class DummyDatabase
             }
         }
         return new Tuple<string, int>("", -1);
+    }
+
+    public int totalTime()
+    {
+        int t = 0;
+        foreach (var k in _database._scoresDict.Keys)
+        {
+            int _t = GetLevelTime(k);
+            t += _t;
+        }
+        return t;
+    }
+
+    public bool allLevelsComplete()
+    {
+        return _database._scoresDict.Keys.Count == LevelFactory.NumLevels();
     }
 }

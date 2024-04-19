@@ -1,9 +1,7 @@
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
-using System.Net.Http;
 using System.Collections;
-using UnityEngine.Networking;
 
 public class SplashScript : MonoBehaviour
 {
@@ -26,8 +24,7 @@ public class SplashScript : MonoBehaviour
         {
             PlayerPrefs.SetInt("IsDemo", 0);
         }
-
-        StartCoroutine(SyncAndWait());
+        UpdateDatabase();
     }
 
     void FixedUpdate()
@@ -46,7 +43,7 @@ public class SplashScript : MonoBehaviour
         }
     }
 
-    IEnumerator SyncAndWait()
+    void UpdateDatabase()
     {
         DummyDatabase database = DatabaseManager.Instance.database;
         PlayerPrefs.SetInt("DataFileCorruptPopup", 0);
@@ -60,55 +57,6 @@ public class SplashScript : MonoBehaviour
             PlayerPrefs.SetInt("ShowDemoPopup", 1);
         }
         PlayerPrefs.SetInt("ShowDemoPopup", 0);
-
-        var request = CloudSync.GetHiScoresRequest();
-        yield return request.SendWebRequest();
-        bool finishWithError = false;
-
-        try
-        {
-            CloudSync.ParseGetHiScoresRequest(request);
-        } catch (WebRequestException e) {
-            Debug.LogException(e);
-            finishWithError = true;
-        }
-        if (!finishWithError)
-        {
-            int newUserFlag = 0;
-            if (database.GetUserID() == -1)
-            {
-                newUserFlag = 1;
-            }
-            PlayerPrefs.SetInt("ShowNewUserPopup", newUserFlag);
-
-            if (newUserFlag == 0)
-            {
-                var otherRequest = CloudSync.GetUserRankRequest();
-                yield return otherRequest.SendWebRequest();
-                try
-                {
-                    CloudSync.ParseGetUserRankRequest(otherRequest);
-                }
-                catch (WebRequestException e)
-                {
-                    Debug.LogException(e);
-                    finishWithError = true;
-                }
-            }
-        }
-
-        if (!finishWithError)
-        {
-            PlayerPrefs.SetInt("LeaderboardConnected", 1);
-            PlayerPrefs.SetInt("ShowOfflinePopup", 0);
-        }
-        else
-        {
-            PlayerPrefs.SetInt("LeaderboardConnected", 0);
-            PlayerPrefs.SetInt("ShowNewUserPopup", 0);
-            PlayerPrefs.SetInt("ShowOfflinePopup", 1);
-
-        }
         startupFinished = true;
     }
 

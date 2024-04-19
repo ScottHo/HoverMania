@@ -268,36 +268,10 @@ public class LevelLogicScript : MonoBehaviour
             text += "\nNew Time: " + newTime;
         }
         
-
-        if (PlayerPrefs.GetInt("LeaderboardConnected") == 1)
-        {
-            UploadScore(timeCentiseconds);
-        }
         gameOverText.text = text;
 
         databaseRepository.SetLevelTime(loadedId, timeCentiseconds);
         databaseRepository.Commit();
-    }
-
-    void UploadScore(int timeCentiseconds)
-    {
-        StartCoroutine(DoUploadScore(timeCentiseconds));
-    }
-
-    IEnumerator DoUploadScore(int timeCentiseconds)
-    {
-        syncInProgress = true;
-        var request = CloudSync.AddHiScoreRequest(loadedId, timeCentiseconds);
-        yield return request.SendWebRequest();
-
-        var otherRequest = CloudSync.GetHiScoresRequest();
-        yield return otherRequest.SendWebRequest();
-        CloudSync.ParseGetHiScoresRequest(otherRequest);
-
-        var otherRequest2 = CloudSync.GetUserRankRequest();
-        yield return otherRequest2.SendWebRequest();
-        CloudSync.ParseGetUserRankRequest(otherRequest2);
-        syncInProgress = false;
     }
 
     void Lose()

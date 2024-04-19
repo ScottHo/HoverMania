@@ -1,3 +1,4 @@
+using Steamworks;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -8,9 +9,6 @@ using UnityEngine.UI;
 public class UILogicScript : MonoBehaviour
 {
     public LevelSelectContainers levelSelectContainers;
-    public GameObject leaderboard;
-    public GameObject createUserPopup;
-    public GameObject offlinePopup;
     public GameObject demoPopup;
     public GameObject corruptPopup;
     public Button playButton;
@@ -28,7 +26,7 @@ public class UILogicScript : MonoBehaviour
         UpdateLevelsLocked();
         FillLevelSelectContainers();
         ShowPopups();
-        SetUser();
+        UpdateSteam();
     }
 
     void ShowPopups()
@@ -42,18 +40,6 @@ public class UILogicScript : MonoBehaviour
         {
             demoPopup.SetActive(true);
             PlayerPrefs.SetInt("ShowDemoPopup", 0);
-            return;
-        }
-        if (PlayerPrefs.GetInt("ShowOfflinePopup") == 1)
-        {
-            offlinePopup.SetActive(true);
-            PlayerPrefs.SetInt("ShowOfflinePopup", 0);
-            return;
-        }
-        if (PlayerPrefs.GetInt("ShowNewUserPopup") == 1)
-        {
-            createUserPopup.SetActive(true);
-            PlayerPrefs.SetInt("ShowNewUserPopup", 0);
             return;
         }
     }
@@ -140,8 +126,6 @@ public class UILogicScript : MonoBehaviour
         EventSystem.current.SetSelectedGameObject(null);
         selectedLevelID = -1;
         PlayerPrefs.SetInt("SelectedLevel", selectedLevelID);
-        LeaderboardScript lScript = leaderboard.GetComponent<LeaderboardScript>();
-        lScript.ClearLeaderboard();
     }
 
     void ShiftLevelsLeft()
@@ -170,23 +154,7 @@ public class UILogicScript : MonoBehaviour
     {
         LevelSelectorUIScript script = container.GetComponent<LevelSelectorUIScript>();
         selectedLevelID = script.GetId();
-        if (selectedLevelID > 0)
-        {
-            LeaderboardScript lScript = leaderboard.GetComponent<LeaderboardScript>();
-            lScript.ShowLevel(selectedLevelID);
-        }
         PlayerPrefs.SetInt("SelectedLevel", selectedLevelID);
-    }
-
-    public void SetUser()
-    {
-        leaderboard.GetComponent<LeaderboardScript>().SetUser();
-    }
-
-    public void HideOfflinePopup()
-    {
-        offlinePopup.SetActive(false);
-        leaderboard.GetComponent<LeaderboardScript>().GoOffline();
     }
     public void HideDemoPopup()
     {
@@ -201,7 +169,22 @@ public class UILogicScript : MonoBehaviour
     {
         Application.Quit();
     }
-}
+
+    public void UpdateSteam()
+    {
+        if (!SteamManager.Initialized) { return; }
+        if (databaseRepository.GetLevelTime(1) > 0)
+            SteamUserStats.SetAchievement("COMPLETE_1_LEVEL");
+        if (databaseRepository.allLevelsComplete())
+        {
+            SteamUserStats.SetAchievement("COMPLETE_ALL_LEVELS");
+            float totalTime = databaseRepository.totalTime();
+            if (totalTime <= 60000)
+                SteamUserStats.SetAchievement("SPEEDRUN_10");
+        }
+        SteamUserStats.StoreStats();
+    }
+ }
 
 [System.Serializable]
 public class LevelSelectContainers

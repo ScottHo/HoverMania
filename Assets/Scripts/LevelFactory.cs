@@ -26,7 +26,7 @@ public class LevelFactory
 
     public static int NumLevels()
     {
-        return 12;
+        return 5;
     }
 }
 

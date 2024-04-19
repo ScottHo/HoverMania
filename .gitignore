@@ -93,3 +93,4 @@ crashlytics-build.properties
 /[Aa]ssets/Scripts/X*
 /[Aa]ssets/Scenes/Level/*
 /[Aa]ssets/Scenes/Level.meta
+/[Aa]ssets/com.*

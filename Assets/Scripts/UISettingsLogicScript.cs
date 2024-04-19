@@ -9,9 +9,6 @@ public class UISettingsLogicScript : MonoBehaviour
     public Slider ambienceSlider;
     public TMP_Dropdown graphicsDropdown;
     public GameObject container;
-    public GameObject offlineContainer;
-    public GameObject changeUserContainer;
-    public Button changeUsernameButton;
 
     // Start is called before the first frame update
     void Start()
@@ -26,20 +23,11 @@ public class UISettingsLogicScript : MonoBehaviour
     public void Show()
     {
         container.SetActive(true);
-        if (PlayerPrefs.GetInt("LeaderboardConnected") == 0)
-        {
-            changeUsernameButton.gameObject.SetActive(false);
-        }
     }
 
     public void Hide()
     {
         container.SetActive(false);
-    }
-
-    public void ChangeUser()
-    {
-        changeUserContainer.SetActive(true);
     }
 
     public void UpdateMusicSlider()
